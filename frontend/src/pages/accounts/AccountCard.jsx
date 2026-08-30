@@ -1,4 +1,3 @@
-import React from "react";
 export default function AccountCard({ account }) {
     return (
         <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-sm">

@@ -1,11 +1,9 @@
 import React from "react";
-import { useAccounts } from '../../hooks/useAccounts'
+import Button from '../../components/ui/Button';
+
+
 
 export default function Accounts() {
-    const { data: accounts, isLoading, isError } = useAccounts();
-
-
-    
     return (
         <div className="account-page">
         </div>
