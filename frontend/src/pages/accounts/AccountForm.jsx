@@ -129,5 +129,5 @@ export default function AccountForm({ account, onSuccess }) {
                 </Button>
             </div>
         </form>
-        );
-    }
+    );
+}
