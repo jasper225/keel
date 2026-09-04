@@ -40,7 +40,8 @@ exports.getTransactionById = async(req, res) => {
 
 exports.getTransactionsByUserId = async(req, res) => {
     try {
-        const transactions = await Transaction.listByUserId(req.params.userId);
+        const { from, to, accountId, categoryId, tagId, type } = req.query;
+        const transactions = await Transaction.listByUserId(req.userId, { from, to, accountId, categoryId, tagId, type });
         if (!transactions) return res.status(404).json({ error: 'No transactions found' });
         res.json(transactions);
     } catch (err) {

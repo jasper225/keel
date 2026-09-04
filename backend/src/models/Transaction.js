@@ -23,7 +23,36 @@ const Transaction = {
         return res.rows[0];
     },
 
-    async listByUserId(userId) {
+    async listByUserId(userId, filters={}) {
+        const conditions = ['t.user_id = $1'];
+        const params = [userId];
+
+        if (filters.from) {
+            params.push(filters.from);
+            conditions.push(`t.occured_at >= $${params.length}`);
+        }
+        if (filters.to) {
+            params.push(filters.to);
+            conditions.push(`t.occured_at <= $${params.length}`);
+        }
+        if (filters.accountId) {
+            params.push(filters.accountId);
+            conditions.push(`t.account_id = $${params.length} OR t.transfer_account_id = $${params.length}`);
+        }
+        if (filters.categoryId) {
+            params.push(filters.categoryId);
+            conditions.push(`t.category_id = $${params.length}`);
+        }
+        if (filters.tagId) {
+            params.push(filters.tagId);
+            conditions.push(`t.id IN (SELECT transaction_id from transaction_tags WHERE tag_id = $${params.length})`);
+        }
+        if (filters.type) {
+            params.push(filters.type);
+            conditions.push(`t.type = $${params.length}`);
+        }
+
+
         const res = await pool.query(
             `SELECT * FROM transactions
              WHERE user_id = $1
