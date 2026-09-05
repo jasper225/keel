@@ -2,10 +2,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as transaction from '../api/transactions';
 import { queryKeys } from '../api/queryKeys';
 
-export function useTransactions(includeArchived = false) {
+export function useTransactions(filters = {}) {
     return useQuery({
-            queryKey: queryKeys.transactions.all,
-            queryFn: () => transaction.getUserTransactions(includeArchived),
+            queryKey: queryKeys.transactions.getUserTransactions(filters),
+            queryFn: () => transaction.getUserTransactions(filters),
         });
 }
 

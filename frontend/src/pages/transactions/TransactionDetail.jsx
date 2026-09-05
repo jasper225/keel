@@ -11,6 +11,7 @@ export default function TransactionDetail() {
                 <h1 className='text-xl font-semibold text-gray-900'>Transaction Details</h1>
                 <h2 className='font-semibold text-gray-900'>Account: {transaction.account}</h2>
                 <h2 className='font-semibold text-gray-900'>Category: {transaction.category}</h2>
+                <h2 className='font-semibold text-gray-900'>Type: {transaction.type}</h2>
                 <h2 className='font-semibold text-gray-900'>Amount: {transaction.amount}
                 </h2>
             </div>

@@ -6,10 +6,17 @@ import { useCreateTransaction, useUpdateTransaction } from "../../hooks/useTrans
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
 
+const TXN_TYPE_OPTIONS = [
+    { value: 'income',  label: 'Income' },
+    { value: 'expense',  label: 'Expense' },
+    { value: 'transfer',  label: 'Transfer' },
+];
+
 const emptyForm = {
-    account: 'checkingAccount',
-    category: 'groceries',
-    amount: '10.00',
+    account: '',
+    category: '',
+    type: '',
+    amount: '',
 
 };
 
@@ -20,15 +27,26 @@ export default function TransactionForm({ transaction, onSuccess}) {
        
     const createTransaction = useCreateTransaction();
     const updateTransaction = useUpdateTransaction();
-    const accounts = useAccounts();
-    const categories = useCategories();
+    const { data: accounts } = useAccounts();
+    const { data: categories } = useCategories();
     const isSubmitting = createTransaction.isPending || updateTransaction.isPending;
+
+    const accountOptions = [
+        { value: '', label: 'All accounts' },
+    ...(accounts ?? []).map((a) => ({ value: a.id, label: a.name })),
+     ];
+
+    const categoryOptions = [
+        { value: '', label: 'All categories' },
+    ...(categories ?? []).map((a) => ({ value: a.id, label: a.name })),
+     ];
 
     useEffect(() => {
         if (transaction) {
             setForm({
                 account: transaction.account,
                 category: transaction.category,
+                type: transaction.type,
                 amount: transaction.amount
             });
         }  else {
@@ -54,12 +72,13 @@ export default function TransactionForm({ transaction, onSuccess}) {
         const payload = {
             account: form.account,
             category: form.category,
+            type: form.type,
             amount: Number(form.amount) || 0,
         };
 
         const mutation = isEditing
             ? updateTransaction.mutateAsync({ id: transaction.id, data: payload })
-            : updateTransaction.mutateAsync(payload);
+            : createTransaction.mutateAsync(payload);
         
             mutation
             .then(() => onSuccess?.())
@@ -77,7 +96,7 @@ export default function TransactionForm({ transaction, onSuccess}) {
                     placeholder="Account"
                     value={form.account}
                     onChange={handleChange('account')}
-                    options={accounts}
+                    options={accountOptions}
                     className="w-full"
                 />
                 </div>
@@ -87,7 +106,17 @@ export default function TransactionForm({ transaction, onSuccess}) {
                     placeholder="Category"
                     value={form.category}
                     onChange={handleChange}
-                    options={categories}
+                    options={categoryOptions}
+                    className="w-full"
+                />
+                </div>
+                <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <Select
+                    placeholder="Type"
+                    value={form.type}
+                    onChange={handleChange}
+                    options={TXN_TYPE_OPTIONS}
                     className="w-full"
                 />
                 </div>

@@ -16,8 +16,8 @@ const ACCOUNT_TYPE_OPTIONS = [
 
 const emptyForm = {
     name: '',
-    type: 'checking',
-    currency: 'USD',
+    type: '',
+    currency: '',
     opening_balance: '0',
 };
 
@@ -69,7 +69,7 @@ export default function AccountForm({ account, onSuccess }) {
 
         const mutation = isEditing
             ? updateAccount.mutateAsync({ id: account.id, data: payload })
-            : updateAccount.mutateAsync(payload);
+            : createAccount.mutateAsync(payload);
         
             mutation
             .then(() => onSuccess?.())
