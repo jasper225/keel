@@ -7,7 +7,9 @@ export default function Dashboard() {
     
     return (
         <div className='dashboard-page'>
-            
+            <NetWorthCard />
+            <RecentTransactions />
+            <UpcomingRecurring />
         </div>
     )
 }

@@ -29,7 +29,7 @@ export default function TransactionForm({ transaction, onSuccess}) {
     const updateTransaction = useUpdateTransaction();
     const { data: accounts } = useAccounts();
     const { data: categories } = useCategories();
-    const isSubmitting = createTransaction.isPending || updateTransaction.isPending;
+    const isSubmitting = createTransaction.isPending || updateTransaction.isPending;    
 
     const accountOptions = [
         { value: '', label: 'All accounts' },
