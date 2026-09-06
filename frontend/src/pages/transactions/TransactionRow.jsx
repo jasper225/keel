@@ -4,7 +4,7 @@ import { useTransaction } from "../../hooks/useTransactions";
 
 export default function TransactionRow({ transaction, onEdit }) {
     const { transactionId } = useParams();
-    const { data: transaction, isLoading } = useTransaction(transactionId);
+    const { data: transaction } = useTransaction(transactionId);
 
     return (
         <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3">

@@ -1,36 +1,32 @@
-import React from "react";
+import Modal from '../../components/ui/Modal';
+import CategoryForm from '../categories/CategoryForm';
+import CategoryTree from '../categories/CategoryTree';
+import { useCategories } from '../../hooks/useCategories';
 
 export default function Categories() {
-    const [loading, setLoading] = React.useState(null);
-    const [error, setError] = React.useState(true);
-    const [categories, setCategories] = React.useState([]);
-    
-        useEffect(() => {
-                setLoading(true);
-        
-                fetch("/api/categories")
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to fetch categories");
-                        }
-                        return response.json();
-                    })
-                    .then((data) => {
-                        setCategories(data);
-                        setLoading(false);
-                    })
-                    .catch((error) => {
-                        setError(error.message);
-                        setLoading(false);
-                    });
-            }, []);
-                
-            if (loading) return <div style={{ padding: '2rem' }}> Loading</div>
-            if (error) return <div style={{ padding: '2rem', color: 'red' }}>{error}</div>
+    const [modalState, setModalState] = useState({ open: false, category: null });
+    const categories = useCategories();
     
     return (
         <div className="category-page">
-
+            <div className="flex items-center justify-between mb-6">
+                <h1 className='text-xl font-semibold text-gray-900'>Categories</h1>            
+            </div>
+            <Modal
+                isOpen={modalState.open}
+                onClose={() => setModalState({ open: false, category : null })}
+                title={modalState.category ? "Edit category " : "Add category "}>
+                    <CategoryForm
+                        category={modalState.category}
+                        parentId={modalState.parentId}
+                        onSuccess={() => setModalState({ open: false, category: null, parentId: null })}
+                    />
+            </Modal>
+            <CategoryTree
+                categories={categories}
+                onEdit={(cat) => setModalState({ open: false, category: cat, parentId: null })}
+                onAddChild={(parentNode) => setModalState({ open: false, category: null, parentId: parentNode.parentId })}
+            />
         </div>
     );
 }

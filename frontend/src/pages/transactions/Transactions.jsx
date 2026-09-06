@@ -9,6 +9,9 @@ export default function Transactions() {
     const [filters, setFilters] = useState({})
     return (
         <div className="transactions-page">
+          <div className="flex items-center justify-between mb-6">
+              <h1 className='text-xl font-semibold text-gray-900'>Transactions</h1>            
+            </div>
           <Modal
             isOpen={modalState.open}
             onClose={() => setModalState({ open: false, transaction: null })}
@@ -18,9 +21,6 @@ export default function Transactions() {
                     onSuccess={() => setModalState({ open: false, transaction: null })}
                 />
           </Modal>
-            <div className="flex items-center justify-between mb-6">
-              <h1 className='text-xl font-semibold text-gray-900'>Transactions</h1>            
-            </div>
             <div>
               <TransactionFilters filters={filters} onChange={setFilters}/>
             </div>
