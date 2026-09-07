@@ -16,7 +16,6 @@ exports.createTag = async(req, res) => {
 }
 
 exports.getTagsByUserId = async(req, res) => {
-    const userId = req.body;
     try {
         const tags = await Tag.listByUserId(req.params.userId);
         if (!tags) return res.status(404).json({ error: 'No tags found' });

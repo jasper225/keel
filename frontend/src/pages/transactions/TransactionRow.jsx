@@ -14,7 +14,7 @@ export default function TransactionRow({ transaction, onEdit }) {
                 <p className="font-medium text-gray-500"> {transaction.amount}</p>
             </div>
             <div className="flex items-center gap-4">
-                <Button onClick={() => onEdit(account)}>Edit</Button>
+                <Button onClick={() => onEdit(transaction)}>Edit</Button>
             </div>
         </div>
     )

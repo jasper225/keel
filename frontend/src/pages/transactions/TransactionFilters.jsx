@@ -22,7 +22,7 @@ export default function TransactionFilters({filters, onChange}) {
 
     const categoryOptions = [
         { value: '', label: 'All categories' },
-    ...(categories ?? []).map((a) => ({ value: a.id, label: a.name })),
+    ...(categories ?? []).map((c) => ({ value: c.id, label: c.name })),
      ];
 
     const handleFieldChange = (field) => (e) => {

@@ -1,7 +1,8 @@
 import axios from "./axios";
 
-export const createBudget = (data) => axios.post('/accounts/create', data);
-export const getUserBudgets = () => axios.get('/budgets');
+export const createBudget = (data) => axios.post('/budgets/create', data);
+export const getBudget = (id) => axios.get(`/budgets/${id}`);
+export const getUserBudgets = (filters = {}) => axios.get('/budgets', { params: filters });
 export const getBudgetsByCategory = (id) => axios.get(`/budgets/${id}`);
 export const updateBudget = (id, data) => axios.put(`/budgets/${id}`, data);
 export const deleteBudget = (id) => axios.delete(`/budgets/${id}`);

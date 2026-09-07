@@ -2,8 +2,8 @@ import TransactionRow from "./TransactionRow";
 import { useTransactions } from '../../hooks/useTransactions';
 
 
-export default function TransactionList() {
-    const { data: transactions, isLoading, error } = useTransactions();
+export default function TransactionList({ filters, onEdit}) {
+    const { data: transactions, isLoading, error } = useTransactions(filters);
     if (isLoading) return <p>Loading transactions...</p>;
     if (error) return <p className='text-red-600'>Error loading transactions</p>;
 
@@ -17,7 +17,7 @@ export default function TransactionList() {
               <TransactionRow
                 key={transaction.id}
                 transaction={transaction}
-                onEdit={(txn) => setModalState({ open: true, transaction: txn})}
+                onEdit={onEdit}
               />
               ))}
                </div>

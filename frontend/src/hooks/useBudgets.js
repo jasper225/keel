@@ -2,11 +2,19 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as budget from '../api/budgets';
 import { queryKeys } from '../api/queryKeys';
 
-export function useBudgets(includeArchived = false) {
+export function useBudgets(filters = {}) {
     return useQuery({
-        queryKey: queryKeys.budgets.all,
-        queryFn: () => budget.getUserBudgets(includeArchived),
+        queryKey: queryKeys.budgets.getUserBudgets(filters),
+        queryFn: () => budget.getUserBudgets(filters),
     });
+}
+
+export function useBudget(id) {
+    return useQuery({
+            queryKey: queryKeys.budgets.all,
+            queryFn: () => budget.getBudget(id),
+            enabled: !!id,
+        });
 }
 
 export function useBudgetsByCategory(id) {

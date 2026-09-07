@@ -8,14 +8,41 @@ const Budget = {
              RETURNING *`,
              [userId, categoryId, amountLimit, period, startDate, endDate]
         );
+        return res.rows[0];
     },
-    async listByUserId(userId) {
+    async findById(budgetId) {
         const res = await pool.query(
             `SELECT * FROM budgets
+             WHERE id = $1`,
+             [budgetId]
+        );
+        return res.rows;
+    },
+    async listByUserId(userId, filters={}) {
+        const conditions = ['b.user_id = $1'];
+        const params = [userId];
+
+        if (filters.startDate) {
+            params.push(filters.startDate);
+            conditions.push(`b.start_date = $${params.length}`);
+        }
+        if (filters.endDate) {
+            params.push(filters.endDate);
+            conditions.push(`b.end_date = $${params.length}`);
+        }
+        if (filters.categoryId) {
+            params.push(filters.categoryId);
+            conditions.push(`b.category_id = $${params.length}`);
+        }
+
+
+        const res = await pool.query(
+            `SELECT * FROM transactions
              WHERE user_id = $1
-             ORDER BY created_at DESC`,
+             ORDER BY occured_at DESC`,
              [userId]
         );
+        return res.rows;
     },
     async listByCategoryId(categoryId) {
         const res = await pool.query(
@@ -24,6 +51,7 @@ const Budget = {
              ORDER BY created_at DESC`,
              [categoryId]
         );
+        return res.rows;
     },
     async update(budgetId, { categoryId, amountLimit, period, startDate, endDate }) {
         const res = await pool.query(
@@ -36,9 +64,11 @@ const Budget = {
              RETURNING *`,
              [categoryId, amountLimit, period, startDate, endDate, budgetId] 
         );
+        return res.rows[0];
     },
     async delete(budgetId) {
-        await pool.query('DELETE FROM budgets WHERE id = $1', [budgetId]);
+        const res = await pool.query('DELETE FROM budgets WHERE id = $1', [budgetId]);
+        return res.rows > 0;
     }
 }
 

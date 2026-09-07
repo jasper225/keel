@@ -5,7 +5,7 @@ import TransactionList from './TransactionList';
 import TransactionFilters from './TransactionFilters';
 
 export default function Transactions() {
-    const [modalState, setModalState] = useState({ open: false, account: null });
+    const [modalState, setModalState] = useState({ open: false, transaction: null });
     const [filters, setFilters] = useState({})
     return (
         <div className="transactions-page">
@@ -25,7 +25,7 @@ export default function Transactions() {
               <TransactionFilters filters={filters} onChange={setFilters}/>
             </div>
             <div>
-              <TransactionList />
+              <TransactionList filters={filters} onEdit={(txn) => setModalState({ open: false, transaction: txn})} />
             </div>
         </div>
     );

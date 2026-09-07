@@ -15,10 +15,21 @@ exports.setBudget = async(req, res) => {
     }
 }
 
-exports.getBudgetsByUser = async(req, res) => {
-    const userId = req.body;
+exports.getBudgetById = async(req, res) => {
     try {
-        const budgets = await Budget.listByUserId(req.params.userId);
+        const budget = await Budget.findById(req.params.budgetId);
+        if (!budget) return res.status(404).json({ error: 'Budget not found' });
+        res.json(budget);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error'});
+    }
+}
+
+exports.getBudgetsByUser = async(req, res) => {
+    try {
+        const { startDate, endDate, categoryId } = req.query;
+        const budgets = await Budget.listByUserId(req.userId, { startDate, endDate, categoryId });
         if (!budgets) return res.status(404).json({ error: 'No budgets found' });
         res.json(budgets);
     } catch (err) {
