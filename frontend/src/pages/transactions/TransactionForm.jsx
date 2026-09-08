@@ -17,6 +17,7 @@ const emptyForm = {
     category: '',
     type: '',
     amount: '',
+    date: '',
 
 };
 
@@ -47,7 +48,8 @@ export default function TransactionForm({ transaction, onSuccess}) {
                 account: transaction.account,
                 category: transaction.category,
                 type: transaction.type,
-                amount: transaction.amount
+                amount: transaction.amount,
+                date: transaction.date,
             });
         }  else {
             setForm(emptyForm);
@@ -74,6 +76,7 @@ export default function TransactionForm({ transaction, onSuccess}) {
             category: form.category,
             type: form.type,
             amount: Number(form.amount) || 0,
+            date: form.date,
         };
 
         const mutation = isEditing
@@ -128,6 +131,18 @@ export default function TransactionForm({ transaction, onSuccess}) {
                     type="number"
                     placeholder="Amount"
                     value={form.amount}
+                    onChange={handleChange}
+                    className="w-full"
+                />
+                </div>
+                <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Date
+                </label>
+                <Input
+                    type="date"
+                    placeholder="Date"
+                    value={form.date}
                     onChange={handleChange}
                     className="w-full"
                 />

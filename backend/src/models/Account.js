@@ -44,6 +44,7 @@ const Account = {
              RETURNING *`,
              [name, type, currency, accountId]  
         );
+        return res.rows[0];
     },
     async delete(accountId) {
         const res = await pool.query('DELETE FROM accounts WHERE id = $1', [accountId]);

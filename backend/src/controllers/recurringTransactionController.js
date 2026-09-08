@@ -2,9 +2,8 @@ const RecurringTransaction = require('../models/RecurringTransaction');
 const { RecurringTransactionService } = require('../services/recurringTxnService');
 
 exports.createRecurringTxn = async(req, res) => {
-    const { userId, categoryId, type, amount, period, intervalUnit, intervalCt, nextOccurence, endDate } = req.body;
     try {
-        const recurringTxn = await RecurringTransaction.create({ userId, categoryId, type, amount, period, intervalUnit, intervalCt, nextOccurence, endDate });
+        const recurringTxn = await RecurringTransaction.create({ userId: req.user.id, ...req});
         res.status(201).json(recurringTxn);   
     } catch (err) {
         console.error(err);
@@ -12,19 +11,21 @@ exports.createRecurringTxn = async(req, res) => {
     }
 }
 
-exports.findTxnById = async(req, res) => {
-    
+exports.getRecurringTxnById = async(req, res) => {
     try {
         const recurringTxn = await RecurringTransaction.findById(req.params.id);
+        if (!recurringTxn) return res.status(404).json({ error: 'Recurring transaction not found' });
+        res.json(recurringTxn);
     } catch (err) {
        console.error(err);
        res.status(500).json({ error: 'Server error'}); 
     }
 }
 
-exports.findTxnByUserId = async(req, res) => {
+exports.getRecurringTxnByUserId = async(req, res) => {
     try {
-        const recurringTxns = await RecurringTransaction.findById(req.params.id);
+        const recurringTxns = await RecurringTransaction.findById(req.user.id);
+        res.json(recurringTxns);
     } catch (err) {
        console.error(err);
        res.status(500).json({ error: 'Server error'}); 
@@ -33,8 +34,8 @@ exports.findTxnByUserId = async(req, res) => {
 
 exports.runRecurringTxn = async(req, res) => {
      try { 
-        const runningTxn = await RecurringTransactionService.runDue();
-        res.json({ created: created.length });
+        const runningTxn = await RecurringTransactionService.runDue(req.params.id);
+        res.json(runningTxn);
      } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error'}); 

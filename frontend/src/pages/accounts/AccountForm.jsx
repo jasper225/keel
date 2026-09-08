@@ -21,8 +21,6 @@ const emptyForm = {
     opening_balance: '0',
 };
 
-
-
 export default function AccountForm({ account, onSuccess }) {
    const isEditing = !!account;
    const [form, setForm] = useState(emptyForm);

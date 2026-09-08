@@ -1,14 +1,8 @@
 const Account = require('../models/Account');
 
 exports.createAccount = async(req, res) => {
-    const { userId, name, type, currency, openingBalance } = req.body;
-
-    if (!userId || !name || !type || !currency || !openingBalance) {
-        return res.status(400).json({ error: 'One or more fields are empty' });
-    }
-
     try {
-        const account = await Account.create({ userId, name, type, currency, openingBalance });
+        const account = await Account.create({ userId: req.user.id, ...req.body});
         res.status(201).json(account);
     } catch (err) {
         console.error(err);
@@ -18,10 +12,8 @@ exports.createAccount = async(req, res) => {
 }
 
 exports.getAccountById = async(req, res) => {
-    const accountId = req.body;
-    
     try {
-        const account = await Account.getById(req.params.accountId);
+        const account = await Account.getById(req.params.id);
         if (!account) return res.status(404).json({ error: 'Account not found' });
         res.json(account);
     } catch (err) {
@@ -31,10 +23,8 @@ exports.getAccountById = async(req, res) => {
 }
 
 exports.getAccountsByUserId = async(req, res) => {
-    const userId = req.body;
-    
     try {
-        const user = await Account.getByUserId(req.params.userId);
+        const user = await Account.getByUserId(req.user.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.json(user);
     } catch (err) {
@@ -44,8 +34,6 @@ exports.getAccountsByUserId = async(req, res) => {
 }
 
 exports.getBalance = async(req, res) => {
-    const accountId = req.body;
-
     try {
         const account = await Account.getBalance(req.params.accountId);
         if (!account) return res.status(404).json({ error: 'Account not found' });
@@ -64,7 +52,7 @@ exports.updateAccount = async(req, res) => {
     }
 
     try {
-        const updatedAccount = await Account.update({ name, type, currency });
+        const updatedAccount = await Account.update(req.params.id, { name, type, currency });
         res.status(201).json(updatedAccount);
     } catch (err) {
         console.error(err);

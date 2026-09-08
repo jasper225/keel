@@ -34,6 +34,7 @@ const RecurringTransaction = {
              AND (end_date IS NULL OR end_date >= next_occurence)`,
              [asOfDate]
         );
+        return res.rows;
     },
     async setActive(recurringTxnId, isActive) {
         const res = await pool.query(
@@ -41,6 +42,7 @@ const RecurringTransaction = {
              WHERE id = $2`,
              [isActive, recurringTxnId]
         );
+        return res.rows[0];
     },
     async delete(recurringTxnId) {
         await pool.query(`DELETE FROM recurring_transactions WHERE id = $1`, [recurringTxnId]);

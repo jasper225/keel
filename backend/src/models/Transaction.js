@@ -14,7 +14,7 @@ const Transaction = {
         return res.rows[0];
     },
 
-    async findById(transactionId) {
+    async getById(transactionId) {
         const res = await pool.query(
             `SELECT * FROM transactions
              WHERE id = $1`,
@@ -23,7 +23,7 @@ const Transaction = {
         return res.rows[0];
     },
 
-    async listByUserId(userId, filters={}) {
+    async getByUserId(userId, filters={}) {
         const conditions = ['t.user_id = $1'];
         const params = [userId];
 
@@ -56,15 +56,6 @@ const Transaction = {
         const res = await pool.query(
             `SELECT * FROM transactions
              WHERE user_id = $1
-             ORDER BY occured_at DESC`,
-             [userId]
-        );
-        return res.rows;
-    },
-    async listByAccountId(userId) {
-        const res = await pool.query(
-            `SELECT * FROM transactions
-             WHERE account_id = $1
              ORDER BY occured_at DESC`,
              [userId]
         );

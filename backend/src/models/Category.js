@@ -25,6 +25,7 @@ const Category = {
              WHERE user_id = $1`,
              [userId]
         );
+        return res.rows;
     },
 
     async findChildren(parentId) {
@@ -34,6 +35,7 @@ const Category = {
              ORDER BY name ASC`,
              [parentId]
         );
+        return res.rows;
     },
 
     async update(categoryId, { parentId, name, type}) {

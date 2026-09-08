@@ -1,40 +1,32 @@
-import React, { useEffect } from "react";
-import * as recurringTransaction from '../../api/recurringTransactions';
+import { useState } from 'react';
+import Modal from '../../components/ui/Modal';
+import RecurringForm from './RecurringForm';
+import RecurringList from './RecurringList';
+import RecurringFilters from './RecurringFilters';
 
 export default function RecurringTransactions() {
-    const [loading, setLoading] = React.useState(null);
-    const [error, setError] = React.useState(true);
-    const [recurringTransactions, setRecurringTransactions] = React.useState([]);
-
-    useEffect(() => {
-                setLoading(true);
-        
-                fetch("/api/recurringTransactions")
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to fetch recurring transactions");
-                        }
-                        return response.json();
-                    })
-                    .then((data) => {
-                        setRecurringTransactions(data);
-                        setLoading(false);
-                    })
-                    .catch((error) => {
-                        setError(error.message);
-                        setLoading(false);
-                    });
-            }, []);
-
-
-    
-    if (loading) return <div style={{ padding: '2rem' }}> Loading</div>
-    if (error) return <div style={{ padding: '2rem', color: 'red' }}>{error}</div>
-    
-    
+    const [modalState, setModalState] = useState({ open: false, recurringTxn: null });
+    const [filters, setFilters] = useState({})
     return (
         <div className="recurring-transactions-page">
-
+          <div className="flex items-center justify-between mb-6">
+              <h1 className='text-xl font-semibold text-gray-900'>Recurring Transactions</h1>            
+            </div>
+          <Modal
+            isOpen={modalState.open}
+            onClose={() => setModalState({ open: false, recurringTxn: null })}
+            title={modalState.recurringTxn ? "Edit recurring transaction" : "Add recurring transaction"}>
+                <RecurringForm
+                    transaction={modalState.recurringTxn}
+                    onSuccess={() => setModalState({ open: false, recurringTxn: null })}
+                />
+          </Modal>
+            <div>
+              <RecurringFilters filters={filters} onChange={setFilters}/>
+            </div>
+            <div>
+              <RecurringList filters={filters} onEdit={(txn) => setModalState({ open: false, recurringTxn: txn})} />
+            </div>
         </div>
     );
 }

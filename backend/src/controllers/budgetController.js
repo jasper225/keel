@@ -38,26 +38,14 @@ exports.getBudgetsByUser = async(req, res) => {
     }
 }
 
-exports.getBudgetsByCategory = async(req, res) => {
-    const categoryId = req.body;
-    try {
-        const budgets = await Budget.listByCategoryId(req.params.categoryId);
-        if (!budgets) return res.status(404).json({ error: 'No budgets found' });
-        res.json(budgets);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
-
 exports.editBudget = async(req, res) => {
     const { categoryId, amountLimit, period, startDate, endDate } = req.body;
     if (!categoryId || !amountLimit || !period || !startDate || !endDate) {
         return res.status(400).json({ error: 'At least one field is required' });
     }
     try {
-        const updatedBudget = await Budget.update({ parentId, name, type });
-        res.status(201).json(updatedCategory);
+        const updatedBudget = await Budget.update({ categoryId, amountLimit, period, startDate, endDate });
+        res.status(201).json(updatedBudget);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error'});
