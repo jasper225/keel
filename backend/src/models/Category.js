@@ -8,13 +8,14 @@ const Category = {
             RETURNING *`,
             [userId, parentId, name, type]
         );
+        return res.rows[0];
     },
 
-    async findById(categoryId) {
+    async findById(id) {
         const res = await pool.query(
             `SELECT * FROM categories
              WHERE id = $1`,
-             [categoryId]
+             [id]
         );
         return res.rows[0];
     },
@@ -47,10 +48,11 @@ const Category = {
              RETURNING *`,
              [parentId, name, type, categoryId]  
         );
+        return res.rows[0];
     },
 
-    async delete(categoryId) {
-        const res = await pool.query('DELETE FROM categories WHERE id = $1', [categoryId]);
+    async delete(id) {
+        const res = await pool.query('DELETE FROM categories WHERE id = $1', [id]);
         return res.rowCount > 0;
     }
 

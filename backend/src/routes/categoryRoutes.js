@@ -4,10 +4,10 @@ const { protect } = require('../middleware/auth');
 const { createCategory, getCategoryById, getCategoriesByUserId, getChildrenCategories, updateCategory, deleteCategory } = require('../controllers/categoryController');
 
 router.post("/categories", protect, createCategory);
-router.get("/categories", protect, getCategoryById);
-router.get("/categories:userId", protect, getCategoriesByUserId);
-router.get("/categories", protect, getChildrenCategories);
-router.put("/categories", protect, updateCategory);
-router.delete("/categories", protect, deleteCategory);
+router.get("/categories/:id", protect, getCategoryById);
+router.get("/categories", protect, getCategoriesByUserId);
+router.get("/categories/:id/children", protect, getChildrenCategories);
+router.put("/categories/:id/update", protect, updateCategory);
+router.delete("/categories/:id/delete", protect, deleteCategory);
 
 module.exports = router;

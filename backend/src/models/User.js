@@ -1,11 +1,11 @@
 const  { pool } = require('../config/db');
 
 const User = {
-     async findById(userId, options = {}) {
+     async findById(id, options = {}) {
         const fields = ['id', 'email'];
         if (options.includePasssword) fields.push('password');
         
-        const res = await pool.query(`SELECT ${fields.join(', ')} FROM users WHERE id = $1`, [userId]);
+        const res = await pool.query(`SELECT ${fields.join(', ')} FROM users WHERE id = $1`, [id]);
         return res.rows[0];
     },
 
@@ -18,7 +18,7 @@ const User = {
     },
 
     async findOne(criteria = {}) {
-         if (criteria.userId) return this.findById(criteria.userId);
+         if (criteria.id) return this.findById(criteria.id);
          if (criteria.email) return this.findByEmail(criteria.email);
          return null;
     },
@@ -33,18 +33,18 @@ const User = {
         return res.rows[0];
     },
 
-    async updateProfile(userID, { email }) {
+    async updateProfile(id, { email }) {
         const res = await pool.query(
         `UPDATE users 
          email = COALESCE($1, email) WHERE id = $2 
          RETURNING id, email`,
-        [email, userID]
+        [email, id]
         );
         return res.rows[0];
     },
     
-    async deleteProfile(userID) {
-        const res = await pool.query('DELETE FROM users WHERE user_id = $1', [userID]);
+    async deleteProfile(id) {
+        const res = await pool.query('DELETE FROM users WHERE id = $1', [id]);
         return res.rowCount > 0;
     }
 }

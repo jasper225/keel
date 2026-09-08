@@ -35,7 +35,7 @@ exports.getAccountsByUserId = async(req, res) => {
 
 exports.getBalance = async(req, res) => {
     try {
-        const account = await Account.getBalance(req.params.accountId);
+        const account = await Account.getBalance(req.params.id);
         if (!account) return res.status(404).json({ error: 'Account not found' });
         res.json(account);
     } catch (err) {
@@ -62,7 +62,7 @@ exports.updateAccount = async(req, res) => {
 
 exports.deleteAccount= async (req, res) => {
     try {
-        await Account.delete(req.params.accountId, req.params.userId);
+        await Account.delete(req.params.id);
         res.json({ message: 'Account deleted' });
     }
     catch (err) {

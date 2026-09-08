@@ -10,11 +10,11 @@ const Budget = {
         );
         return res.rows[0];
     },
-    async findById(budgetId) {
+    async findById(id) {
         const res = await pool.query(
             `SELECT * FROM budgets
              WHERE id = $1`,
-             [budgetId]
+             [id]
         );
         return res.rows;
     },
@@ -44,7 +44,7 @@ const Budget = {
         );
         return res.rows;
     },
-    async update(budgetId, { categoryId, amountLimit, period, startDate, endDate }) {
+    async update(id, { categoryId, amountLimit, period, startDate, endDate }) {
         const res = await pool.query(
              `UPDATE budgets SET category_id = COALESCE($1, category_id),
              amount_limit = COALESCE($2, amount_limit),
@@ -53,12 +53,12 @@ const Budget = {
              end_date = COALESCE($5, end_date),
              WHERE id = $6
              RETURNING *`,
-             [categoryId, amountLimit, period, startDate, endDate, budgetId] 
+             [categoryId, amountLimit, period, startDate, endDate, id] 
         );
         return res.rows[0];
     },
-    async delete(budgetId) {
-        const res = await pool.query('DELETE FROM budgets WHERE id = $1', [budgetId]);
+    async delete(id) {
+        const res = await pool.query('DELETE FROM budgets WHERE id = $1', [id]);
         return res.rows > 0;
     }
 }

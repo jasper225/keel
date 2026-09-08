@@ -43,10 +43,8 @@ exports.getCategoriesByUserId = async(req, res) => {
 }
 
 exports.getChildrenCategories = async(req, res) => {
-    const categoryId = req.body;
-    
     try {
-        const categories = await Category.getChildrenCategories(req.params.categoryId);
+        const categories = await Category.getChildrenCategories(req.params.id);
         if (!categories) return res.status(404).json({ error: 'No categories found' });
         res.json(categories);
     } catch (err) {

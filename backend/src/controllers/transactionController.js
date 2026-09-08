@@ -50,17 +50,6 @@ exports.getTransactionsByUserId = async(req, res) => {
     }
 }
 
-exports.getTransactionsByAccountId = async(req, res) => {
-    try {
-        const transactions = await Transaction.listByAccountId(req.params.accountId);
-        if (!transactions) return res.status(404).json({ error: 'Account not found' });
-        res.json(transactions);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
-
 exports.updateTransaction = async(req, res) => {
     const { accountId,
         categoryId, type,

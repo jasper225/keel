@@ -6,9 +6,8 @@ const { createTransaction, getTransactionById, getTransactionsByUserId, getTrans
 router.post("/transactions", protect, createTransaction);
 router.get("/transactions/:id", protect, getTransactionById);
 router.get("/transactions", protect, getTransactionsByUserId);
-router.get("/transactions:accountId", protect, getTransactionsByAccountId);
-router.put("/transactions/:id", protect, updateTransaction)
-router.delete('/transactions/:id', protect, deleteTransaction);
+router.put("/transactions/:id/update", protect, updateTransaction)
+router.delete('/transactions/:id/delete', protect, deleteTransaction);
 
 
 module.exports = router;
