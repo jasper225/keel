@@ -1,7 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { protect } = require('../middleware/auth');
-const { createAccount, getAccountById, getAccountsByUserId, getBalance, updateAccount, deleteAccount } = require('../controllers/accountController');
+const { protect } = require("../middleware/auth");
+const {
+  createAccount,
+  getAccountById,
+  getAccountsByUserId,
+  getBalance,
+  updateAccount,
+  deleteAccount,
+} = require("../controllers/accountController");
 
 router.post("/accounts", protect, createAccount);
 router.get("/accounts:id", protect, getAccountById);

@@ -40,11 +40,9 @@ exports.renameTag = async(req, res) => {
     }
 }
 
-exports.deleteTag = async(req, res) => {
-    const tagId = req.body;
-    
+exports.deleteTag = async(req, res) => {    
     try {
-        await Tag.delete(req.params.tagId);
+        await Tag.delete(req.params.id);
         res.json({ message: 'Tag deleted' });
     }
     catch (err) {
@@ -66,11 +64,9 @@ exports.attachTag = async(req, res) => {
     }
 }
 
-exports.detachTag = async(req, res) => {
-    const { tagId, transactionId } = req.body;
-    
+exports.detachTag = async(req, res) => {    
     try {
-        await TransactionTag.detach(req.params.tagId, req.params.transactionId);
+        await TransactionTag.detach(req.params.id);
         res.json({ message: 'Tag from transaction removed' });
     }
     catch (err) {
@@ -80,26 +76,10 @@ exports.detachTag = async(req, res) => {
 }
 
 exports.getTransactionTags = async(req, res) => {
-    const transactionId = req.body;
-
     try {
       const tags = await TransactionTag.getTagsForTransaction(req.params.transactionId);
       if (!tags) return res.status(404).json({ error: 'No tags found' });
       res.json(tags);
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
-
-exports.getTagTransactions = async(req, res) => {
-    const tagId = req.body;
-
-    try {
-      const transactions = await TransactionTag.getTransactionsForTag(req.params.tagId);
-      if (!transactions) return res.status(404).json({ error: 'No tags found' });
-      res.json(transactions);
 
     } catch (err) {
         console.error(err);

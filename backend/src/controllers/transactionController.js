@@ -1,80 +1,116 @@
-const Transaction = require('../models/Transaction');
+const Transaction = require("../models/Transaction");
+const TransactionTag = require("../models/TransactionTag");
 
-exports.createTransaction = async(req, res) => {
-    const {
-        userId, accountId,
-        categoryId, type,
-        amount, transferAccountId,
-        occuredAt
-    } = req.body;
+exports.createTransaction = async (req, res) => {
+  const {
+    userId,
+    accountId,
+    categoryId,
+    type,
+    amount,
+    transferAccountId,
+    occuredAt,
+  } = req.body;
 
-    if (!userId || !accountId || !categoryId || !type ||
-        !amount || !transferAccountId || !occuredAt
-    ) {
-        return res.status(400).json({ error: 'One or more fields are empty' });
-    }
-    
-    try {
-        const transaction = await Transaction.createTransaction({ userId,
-        accountId, categoryId,
-        type, amount,
-        transferAccountId,
-        occuredAt });
-        res.status(201).json(transaction);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+  if (
+    !userId ||
+    !accountId ||
+    !categoryId ||
+    !type ||
+    !amount ||
+    !transferAccountId ||
+    !occuredAt
+  ) {
+    return res.status(400).json({ error: "One or more fields are empty" });
+  }
 
-exports.getTransactionById = async(req, res) => {
-    try {
-        const transaction = await Transaction.findById(req.params.transactionId);
-        if (!transaction) return res.status(404).json({ error: 'Transaction not found' });
-        res.json(transaction);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+  try {
+    const transaction = await Transaction.createTransaction({
+      userId,
+      accountId,
+      categoryId,
+      type,
+      amount,
+      transferAccountId,
+      occuredAt,
+    });
+    res.status(201).json(transaction);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-exports.getTransactionsByUserId = async(req, res) => {
-    try {
-        const { from, to, accountId, categoryId, tagId, type } = req.query;
-        const transactions = await Transaction.listByUserId(req.userId, { from, to, accountId, categoryId, tagId, type });
-        if (!transactions) return res.status(404).json({ error: 'No transactions found' });
-        res.json(transactions);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+exports.getTransactionById = async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(req.params.transactionId);
+    if (!transaction)
+      return res.status(404).json({ error: "Transaction not found" });
+    res.json(transaction);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-exports.updateTransaction = async(req, res) => {
-    const { accountId,
-        categoryId, type,
-        amount, transferAccountId,
-        occuredAt } = req.body;
+exports.getTransactionsByUserId = async (req, res) => {
+  try {
+    const { from, to, accountId, categoryId, tagId, type } = req.query;
+    const transactions = await Transaction.listByUserId(req.userId, {
+      from,
+      to,
+      accountId,
+      categoryId,
+      tagId,
+      type,
+    });
+    if (!transactions)
+      return res.status(404).json({ error: "No transactions found" });
+    res.json(transactions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-    try {
-        const updatedCategory = await Transaction.update({ accountId,
-        categoryId, type,
-        amount, transferAccountId,
-        occuredAt });
-        res.status(201).json(updatedCategory);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+exports.getTransactionTags = async (req, res) => {
+  try {
+    const tags = await TransactionTag.getTagsForTransaction(req.params.id);
+    if (!tags)
+      return res.status(404).json({ error: "No tags for transaction found" });
+    res.json(tags);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-exports.deleteTransaction= async (req, res) => {
-    try {
-        await Transaction.delete(req.params.categoryId, req.params.userId);
-        res.json({ message: 'Transaction deleted' });
-    }
-    catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
+exports.updateTransaction = async (req, res) => {
+  const { accountId, categoryId, type, amount, transferAccountId, occuredAt } =
+    req.body;
+
+  try {
+    const updatedCategory = await Transaction.update({
+      accountId,
+      categoryId,
+      type,
+      amount,
+      transferAccountId,
+      occuredAt,
+    });
+    res.status(201).json(updatedCategory);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.deleteTransaction = async (req, res) => {
+  try {
+    await Transaction.delete(req.params.categoryId, req.params.userId);
+    res.json({ message: "Transaction deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

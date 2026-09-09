@@ -38,7 +38,7 @@ const RecurringTransaction = {
     );
     return res.rows[0];
   },
-  async getByUserId(userId, /*activeOnly = true*/ filters = {}) {
+  async getByUserId(userId, filters = {}) {
     const conditions = ["rt.user_id = $1"];
     const params = [userId];
 
@@ -60,7 +60,7 @@ const RecurringTransaction = {
     }
     const res = await pool.query(
       `SELECT * FROM recurring_transactions
-             WHERE user_id = $1  /* AND ($2 = false OR is_active = true) */
+             WHERE user_id = $1 AND is_active = true
              ORDER BY next_occurence`,
       [userId],
     );
