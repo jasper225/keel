@@ -10,7 +10,7 @@ const TransactionTag = {
         );
         return res.rows[0];
     },
-    async detach({ tagId, transactionId }) {
+    async detach(tagId, transactionId) {
         const res = await pool.query(
             `DELETE FROM transaction_tags
              WHERE tag_id = $1 AND transaction_id = $2`,

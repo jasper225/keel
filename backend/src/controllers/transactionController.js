@@ -25,7 +25,7 @@ exports.createTransaction = async (req, res) => {
   }
 
   try {
-    const transaction = await Transaction.createTransaction({
+    const transaction = await Transaction.create({
       userId,
       accountId,
       categoryId,
@@ -43,7 +43,7 @@ exports.createTransaction = async (req, res) => {
 
 exports.getTransactionById = async (req, res) => {
   try {
-    const transaction = await Transaction.findById(req.params.transactionId);
+    const transaction = await Transaction.getById(req.params.id);
     if (!transaction)
       return res.status(404).json({ error: "Transaction not found" });
     res.json(transaction);
@@ -55,8 +55,9 @@ exports.getTransactionById = async (req, res) => {
 
 exports.getTransactionsByUserId = async (req, res) => {
   try {
+    const { userId } = req.body;
     const { from, to, accountId, categoryId, tagId, type } = req.query;
-    const transactions = await Transaction.listByUserId(req.userId, {
+    const transactions = await Transaction.getByUserId(userId, {
       from,
       to,
       accountId,
@@ -107,7 +108,7 @@ exports.updateTransaction = async (req, res) => {
 
 exports.deleteTransaction = async (req, res) => {
   try {
-    await Transaction.delete(req.params.categoryId, req.params.userId);
+    await Transaction.delete(req.params.id);
     res.json({ message: "Transaction deleted" });
   } catch (err) {
     console.error(err);

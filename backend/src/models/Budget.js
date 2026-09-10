@@ -57,7 +57,7 @@ const Budget = {
              period = COALESCE($3, period),
              start_date = COALESCE($4, start_date),
              end_date = COALESCE($5, end_date),
-             WHERE id = $6
+             WHERE id = $1
              RETURNING *`,
       [categoryId, amountLimit, period, startDate, endDate, id],
     );

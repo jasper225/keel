@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as tag from '../api/tags';
 import { queryKeys } from '../api/queryKeys';
 
+
 export function useTags() {
     return useQuery({
             queryKey: queryKeys.tags.all,
@@ -31,27 +32,16 @@ export function useRenameTag() {
     })
 }
 
-export function useAttachTag() {
+export function useDeleteTag() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: tag.attachTag,
+        mutationFn: tag.deleteTag,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: queryKeys.tags.all });
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
-        },
+        }
     });
 }
 
-export function useDetachTag() {
-    const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: tag.detachTag,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.tags.all });
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
-        },
-    });
-}
 

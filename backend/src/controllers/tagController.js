@@ -16,8 +16,9 @@ exports.createTag = async(req, res) => {
 }
 
 exports.getTagsByUserId = async(req, res) => {
+    const { userId } = req.body;
     try {
-        const tags = await Tag.listByUserId(req.params.userId);
+        const tags = await Tag.getByUserId(userId);
         if (!tags) return res.status(404).json({ error: 'No tags found' });
         res.json(tags);
     } catch (err) {
@@ -27,12 +28,13 @@ exports.getTagsByUserId = async(req, res) => {
 }
 
 exports.renameTag = async(req, res) => {
-    const { tagId, name } = req.body;
+    const { id } = req.params;
+    const { name } = req.body;
 
-    if (!tagId || !name) return res.status(400).json({ error: 'Tag ID and name are required' });
+    if (!id || !name) return res.status(400).json({ error: 'Tag ID and name are required' });
 
     try {
-        const renamedTag = await Tag.renameTag({ tagId, name });
+        const renamedTag = await Tag.renameTag({ id, name });
         res.status(201).json(renamedTag);
     } catch (err) {
        console.error(err);
@@ -53,24 +55,25 @@ exports.deleteTag = async(req, res) => {
 }
 
 exports.attachTag = async(req, res) => {
-    const { transactionId } = req.params;
+    const { id } = req.params;
     const { tagId } = req.body;
-    if (!tagId || !transactionId) return res.status(400).json({ error: 'Tag ID and transaction ID are required' });
+    if (!tagId || !id) return res.status(400).json({ error: 'Tag ID and transaction ID are required' });
 
     try {
-        await TransactionTag.attach({ tagId, transactionId });
+        await TransactionTag.attach({ tagId, id });
         res.status(204).end();
-    } catch (err) {
+    } 
+    catch (err) {
        console.error(err);
        res.status(500).json({ message: 'Server error' }); 
     }
 }
 
 exports.detachTag = async(req, res) => {    
-    const { transactionId, tagId } = req.params;
+    const { id, tagId } = req.params;
 
     try {
-        await TransactionTag.detach(transactionId, tagId);
+        await TransactionTag.detach(id, tagId);
         res.status(204).end();
     }
     catch (err) {

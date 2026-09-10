@@ -4,7 +4,7 @@ import { queryKeys } from '../api/queryKeys';
 
 export function useRecurringTransactions(filters={}) {
     return useQuery({
-            queryKey: queryKeys.recurring.getRecurringTxnByUser(filters),
+            queryKey: queryKeys.recurring.all,
             queryFn: () => recurring.getRecurringTxnByUser(filters),
         });
 }

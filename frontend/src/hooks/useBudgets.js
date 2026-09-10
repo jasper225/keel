@@ -4,7 +4,7 @@ import { queryKeys } from '../api/queryKeys';
 
 export function useBudgets(filters = {}) {
     return useQuery({
-        queryKey: queryKeys.budgets.getUserBudgets(filters),
+        queryKey: queryKeys.budgets.all,
         queryFn: () => budget.getUserBudgets(filters),
     });
 }
@@ -15,14 +15,6 @@ export function useBudget(id) {
             queryFn: () => budget.getBudget(id),
             enabled: !!id,
         });
-}
-
-export function useBudgetsByCategory(id) {
-    return useQuery({
-        queryKey: queryKeys.budgets.byCategory(id),
-        queryFn: () => budget.getBudgetsByCategory(id),
-        enabled: !!id,
-    });
 }
 
 export function useCreateBudget() {

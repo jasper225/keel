@@ -9,13 +9,12 @@ export const queryKeys = {
     },
     transactions: {
         all: ['transactions'],
-        byAccount: (accountId) => ['transactions', 'account', accountId],
         detail: (id) => ['transactions', id],
+        tagsForTransaction: (id) => ['transactions', id, 'tags'],
     },
     budgets: {
         all: ['budgets'],
-        detail: (id) => ['budgets', id],
-        byCategory: (id) => ['budgets', id, 'category']
+        detail: (id) => ['budgets', id]
     },
     categories: {
         all: ['categories'],
@@ -24,8 +23,6 @@ export const queryKeys = {
     },
     tags: {
         all: ['tags'],
-        forTransaction: (txnId) => ['tags', 'transaction', txnId],
-        transactionsForTag: (tagId) => ['tags', tagId, 'transaction',],
     },
     recurring: {
         all: ['recurring'],

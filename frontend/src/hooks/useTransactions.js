@@ -4,7 +4,7 @@ import { queryKeys } from '../api/queryKeys';
 
 export function useTransactions(filters = {}) {
     return useQuery({
-            queryKey: queryKeys.transactions.getUserTransactions(filters),
+            queryKey: queryKeys.transactions.all,
             queryFn: () => transaction.getUserTransactions(filters),
         });
 }
@@ -17,12 +17,34 @@ export function useTransaction(id) {
         });
 }
 
-export function useAccountTransactions(id) {
+export function useTransactionTags(id) {
     return useQuery({
-        queryKey: queryKeys.transactions.byAccount(id),
-        queryFn: () => transaction.getAccountTransactions(id),
+        queryKey: queryKeys.transactions.tagsForTransaction(id),
+        queryFn: () => transaction.getTransactionTags(id),
         enabled: !!id,
-    });
+    })
+}
+
+export function useAttachTag(id) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: transaction.attachTag,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.tagsForTransaction(id) });
+        }
+    })
+}
+
+export function useDetachTag(id) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: transaction.detachTag,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.tagsForTransaction(id) });
+        }
+    })
 }
 
 export function useCreateTransaction() {
