@@ -32,7 +32,7 @@ exports.createBudget = async (req, res) => {
 
 exports.getBudgetById = async (req, res) => {
   try {
-    const budget = await Budget.findById(req.params.budgetId);
+    const budget = await Budget.getById(req.params.id);
     if (!budget) return res.status(404).json({ error: "Budget not found" });
     res.json(budget);
   } catch (err) {
@@ -44,7 +44,7 @@ exports.getBudgetById = async (req, res) => {
 exports.getBudgetsByUser = async (req, res) => {
   try {
     const { startDate, endDate, categoryId } = req.query;
-    const budgets = await Budget.listByUserId(req.userId, {
+    const budgets = await Budget.getByUserId(req.userId, {
       startDate,
       endDate,
       categoryId,
@@ -63,7 +63,7 @@ exports.updateBudget = async (req, res) => {
     return res.status(400).json({ error: "At least one field is required" });
   }
   try {
-    const updatedBudget = await Budget.update({
+    const updatedBudget = await Budget.update(req.id, {
       categoryId,
       amountLimit,
       period,
@@ -79,7 +79,7 @@ exports.updateBudget = async (req, res) => {
 
 exports.deleteBudget = async (req, res) => {
   try {
-    Budget.delete(req.params.budgetId, req.params.userId);
+    Budget.delete(req.params.id);
     res.json({ message: "Budget deleted" });
   } catch (err) {
     console.error(err);

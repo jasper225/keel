@@ -1,20 +1,20 @@
 const { pool } = require('../config/db');
 
 const TransactionTag = {
-    async attach({ tagId, transactionId }) {
+    async attach({ tagId, id }) {
         const res = await pool.query(
             `INSERT into transaction_tags (tag_id, transaction_id)
              VALUES ($1, $2)
              ON CONFLICT DO NOTHING`,
-             [tagId, transactionId]
+             [tagId, id]
         );
         return res.rows[0];
     },
-    async detach(tagId, transactionId) {
+    async detach(tagId, id) {
         const res = await pool.query(
             `DELETE FROM transaction_tags
              WHERE tag_id = $1 AND transaction_id = $2`,
-             [tagId, transactionId]
+             [tagId, id]
         );
         return res.rowCount > 0;
     },

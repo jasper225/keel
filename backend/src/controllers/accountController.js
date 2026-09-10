@@ -22,8 +22,9 @@ exports.getAccountById = async (req, res) => {
 };
 
 exports.getAccountsByUserId = async (req, res) => {
+  const { userId } = req.body;
   try {
-    const user = await Account.getByUserId(req.user.id);
+    const user = await Account.getByUserId(userId);
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (err) {

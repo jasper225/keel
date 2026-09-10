@@ -18,7 +18,7 @@ exports.createCategory = async (req, res) => {
 
 exports.getCategoryById = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.categoryId);
+    const category = await Category.getById(req.params.id);
     if (!category) return res.status(404).json({ error: "Category not found" });
     res.json(category);
   } catch (err) {
@@ -31,7 +31,7 @@ exports.getCategoriesByUserId = async (req, res) => {
   const userId = req.body;
 
   try {
-    const categories = await Category.getByUserId(req.params.userId);
+    const categories = await Category.getByUserId(userId);
     if (!categories)
       return res.status(404).json({ error: "No categories found" });
     res.json(categories);
@@ -43,7 +43,7 @@ exports.getCategoriesByUserId = async (req, res) => {
 
 exports.getChildrenCategories = async (req, res) => {
   try {
-    const categories = await Category.getChildrenCategories(req.params.id);
+    const categories = await Category.getChildren(req.params.id);
     if (!categories)
       return res.status(404).json({ error: "No categories found" });
     res.json(categories);
@@ -54,6 +54,7 @@ exports.getChildrenCategories = async (req, res) => {
 };
 
 exports.updateCategory = async (req, res) => {
+  const { id } = req.params;
   const { parentId, name, type } = req.body;
 
   if (!parentId || !name || !type) {
@@ -63,7 +64,7 @@ exports.updateCategory = async (req, res) => {
   }
 
   try {
-    const updatedCategory = await Category.update({ parentId, name, type });
+    const updatedCategory = await Category.update(id, { parentId, name, type });
     res.status(201).json(updatedCategory);
   } catch (err) {
     console.error(err);
@@ -73,8 +74,8 @@ exports.updateCategory = async (req, res) => {
 
 exports.deleteCategory = async (req, res) => {
   try {
-    await Category.delete(req.params.categoryId, req.params.userId);
-    res.json({ message: "Category deleted" });
+    await Category.delete(req.params.id);
+    res.status(204).end();
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

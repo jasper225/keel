@@ -1,94 +1,99 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import * as transaction from '../api/transactions';
-import { queryKeys } from '../api/queryKeys';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import * as transaction from "../api/transactions";
+import { queryKeys } from "../api/queryKeys";
 
 export function useTransactions(filters = {}) {
-    return useQuery({
-            queryKey: queryKeys.transactions.all,
-            queryFn: () => transaction.getUserTransactions(filters),
-        });
+  return useQuery({
+    queryKey: queryKeys.transactions.all,
+    queryFn: () => transaction.getUserTransactions(filters),
+  });
 }
 
 export function useTransaction(id) {
-    return useQuery({
-            queryKey: queryKeys.transactions.all,
-            queryFn: () => transaction.getTransaction(id),
-            enabled: !!id,
-        });
+  return useQuery({
+    queryKey: queryKeys.transactions.all,
+    queryFn: () => transaction.getTransaction(id),
+    enabled: !!id,
+  });
 }
 
 export function useTransactionTags(id) {
-    return useQuery({
-        queryKey: queryKeys.transactions.tagsForTransaction(id),
-        queryFn: () => transaction.getTransactionTags(id),
-        enabled: !!id,
-    })
+  return useQuery({
+    queryKey: queryKeys.transactions.tagsForTransaction(id),
+    queryFn: () => transaction.getTransactionTags(id),
+    enabled: !!id,
+  });
 }
 
 export function useAttachTag(id) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: transaction.attachTag,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.tagsForTransaction(id) });
-        }
-    })
+  return useMutation({
+    mutationFn: (data) => transaction.attachTag(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.transactions.tagsForTransaction(id),
+      });
+    },
+  });
 }
 
 export function useDetachTag(id) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: transaction.detachTag,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.tagsForTransaction(id) });
-        }
-    })
+  return useMutation({
+    mutationFn: (id, tagId) => transaction.detachTag(id, tagId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.transactions.tagsForTransaction(id),
+      });
+    },
+  });
 }
 
 export function useCreateTransaction() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: transaction.createTransaction,
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
-            queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all });
-            if (data.account_id) {
-                queryClient.invalidateQueries({ queryKey: queryKeys.accounts.balance(data.account_id) })
-            }
-            if (data.transfer_account_id) {
-                queryClient.invalidateQueries({ queryKey: queryKeys.accounts.balance(data.transfer_account_id) })
-            }
-        },
-    });
+  return useMutation({
+    mutationFn: transaction.createTransaction,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all });
+      if (data.account_id) {
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.accounts.balance(data.account_id),
+        });
+      }
+      if (data.transfer_account_id) {
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.accounts.balance(data.transfer_account_id),
+        });
+      }
+    },
+  });
 }
 
 export function useUpdateTransaction() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: ({ id, data }) => transaction.updateTransaction(id, data),
-        onSuccess: (_data, { id }) => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.detail(id) });
-            queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all });
-        }
-    })
+  return useMutation({
+    mutationFn: ({ id, data }) => transaction.updateTransaction(id, data),
+    onSuccess: (_data, { id }) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.transactions.detail(id), });
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all });
+    },
+  });
 }
 
 export function useDeleteTransaction() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: transaction.deleteTransaction,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
-            queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all });
-        }
-    });
+  return useMutation({
+    mutationFn: transaction.deleteTransaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all });
+    },
+  });
 }
-
-
-

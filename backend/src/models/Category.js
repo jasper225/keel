@@ -39,14 +39,14 @@ const Category = {
     return res.rows;
   },
 
-  async update(categoryId, { parentId, name, type }) {
+  async update(id, { parentId, name, type }) {
     const res = await pool.query(
       `UPDATE categories SET parent_id = COALESCE($1, parent_id),
              name = COALESCE($2, name),
              type = COALESCE($3, type)
              WHERE id = $4
              RETURNING *`,
-      [parentId, name, type, categoryId],
+      [parentId, name, type, id],
     );
     return res.rows[0];
   },

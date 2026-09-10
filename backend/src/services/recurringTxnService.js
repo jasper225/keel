@@ -12,7 +12,7 @@ function nextDate(current, unit, count) {
 
 const RecurringTransactionService = {
   async runDue(asOfDate) {
-    const due = await RecurringTransactionModel.listDue(asOfDate);
+    const due = await RecurringTransaction.listDue(asOfDate);
     const created = [];
 
     for (const rule of due) {

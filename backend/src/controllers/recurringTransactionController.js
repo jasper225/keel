@@ -7,7 +7,7 @@ exports.createRecurringTxn = async (req, res) => {
   try {
     const recurringTxn = await RecurringTransaction.create({
       userId: req.user.id,
-      ...req,
+      ...req.body,
     });
     res.status(201).json(recurringTxn);
   } catch (err) {
@@ -18,7 +18,7 @@ exports.createRecurringTxn = async (req, res) => {
 
 exports.getRecurringTxnById = async (req, res) => {
   try {
-    const recurringTxn = await RecurringTransaction.findById(req.params.id);
+    const recurringTxn = await RecurringTransaction.getById(req.params.id);
     if (!recurringTxn)
       return res.status(404).json({ error: "Recurring transaction not found" });
     res.json(recurringTxn);
@@ -31,7 +31,7 @@ exports.getRecurringTxnById = async (req, res) => {
 exports.getRecurringTxnByUserId = async (req, res) => {
   try {
     const { before, after, accountId, categoryId } = req.body;
-    const recurringTxns = await RecurringTransaction.findById(req.userId, {
+    const recurringTxns = await RecurringTransaction.getByUserId(req.user.id, {
       before,
       after,
       accountId,
