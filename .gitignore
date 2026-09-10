@@ -3,6 +3,7 @@ backend/node_modules/
 dist/
 build/
 .idea/
+.vscode/
 frontend/.env
 backend/.env
 keel.session.sql
