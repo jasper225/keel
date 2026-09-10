@@ -11,7 +11,7 @@ const Category = {
     return res.rows[0];
   },
 
-  async findById(id) {
+  async getById(id) {
     const res = await pool.query(
       `SELECT * FROM categories
              WHERE id = $1`,
@@ -20,7 +20,7 @@ const Category = {
     return res.rows[0];
   },
 
-  async findByUserId(userId) {
+  async getByUserId(userId) {
     const res = await pool.query(
       `SELECT * FROM categories
              WHERE user_id = $1`,
@@ -29,7 +29,7 @@ const Category = {
     return res.rows;
   },
 
-  async findChildren(parentId) {
+  async getChildren(parentId) {
     const res = await pool.query(
       `SELECT * FROM categories
              WHERE parent_category_id = $1

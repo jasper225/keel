@@ -11,7 +11,7 @@ const Tag = {
     );
     return res.rows[0];
   },
-  async listByUserId(userId) {
+  async getByUserId(userId) {
     const res = await pool.query(
       `SELECT * FROM tags
              WHERE user_id = $1

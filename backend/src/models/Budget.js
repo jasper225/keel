@@ -17,15 +17,15 @@ const Budget = {
     );
     return res.rows[0];
   },
-  async findById(id) {
+  async getById(id) {
     const res = await pool.query(
       `SELECT * FROM budgets
              WHERE id = $1`,
       [id],
     );
-    return res.rows;
+    return res.rows[0];
   },
-  async listByUserId(userId, filters = {}) {
+  async getByUserId(userId, filters = {}) {
     const conditions = ["b.user_id = $1"];
     const params = [userId];
 

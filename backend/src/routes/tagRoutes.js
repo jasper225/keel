@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
-const { createTag, getTagsByUserId, renameTag, deleteTag, attachTag, detachTag, getTransactionTags } = require('../controllers/tagController');
+const { createTag, getTagsByUserId, renameTag, deleteTag, attachTag, detachTag } = require('../controllers/tagController');
 
 router.post("/tags", protect, createTag);
 router.get("/tags", protect, getTagsByUserId);

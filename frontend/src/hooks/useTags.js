@@ -55,16 +55,3 @@ export function useDetachTag() {
     });
 }
 
-export function useGetTagsByTransaction() {
-   return useQuery({
-            queryKey: queryKeys.tags.forTransaction,
-            queryFn: () => tag.getTransactionTags,
-        });
-}
-
-export function useGetTransactionsByTag() {
-    return useQuery({
-            queryKey: queryKeys.tags.transactionsForTag,
-            queryFn: () => tag.getTagTransactions,
-        });
-}

@@ -26,13 +26,12 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password required" });
   }
 
   try {
-    const user = await User.findByEmail(email, { includePassword: true });
+    const user = await User.getByEmail(email, { includePassword: true });
     if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
     const match = await bcrypt.compare(password, user.password_hash);
@@ -61,7 +60,7 @@ exports.logout = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId);
+    const user = await User.getById(req.userId);
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (err) {

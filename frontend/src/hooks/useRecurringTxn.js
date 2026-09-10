@@ -2,10 +2,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as recurring from '../api/recurringTransactions';
 import { queryKeys } from '../api/queryKeys';
 
-export function useRecurringTransactions(activeOnly = true) {
+export function useRecurringTransactions(filters={}) {
     return useQuery({
-            queryKey: queryKeys.tags.all,
-            queryFn: () => recurring.getRecurringTxnByUser(activeOnly),
+            queryKey: queryKeys.recurring.getRecurringTxnByUser(filters),
+            queryFn: () => recurring.getRecurringTxnByUser(filters),
         });
 }
 

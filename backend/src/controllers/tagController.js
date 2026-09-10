@@ -41,9 +41,10 @@ exports.renameTag = async(req, res) => {
 }
 
 exports.deleteTag = async(req, res) => {    
+    const { id } = req.params;
     try {
-        await Tag.delete(req.params.id);
-        res.json({ message: 'Tag deleted' });
+        await Tag.delete(id);
+        res.status(204).end();
     }
     catch (err) {
         console.error(err);
@@ -52,12 +53,13 @@ exports.deleteTag = async(req, res) => {
 }
 
 exports.attachTag = async(req, res) => {
-    const { tagId, transactionId } = req.body;
+    const { transactionId } = req.params;
+    const { tagId } = req.body;
     if (!tagId || !transactionId) return res.status(400).json({ error: 'Tag ID and transaction ID are required' });
 
     try {
-        const attachedTag = await TransactionTag.attach({ tagId, transactionId });
-        res.status(201).json(attachedTag);
+        await TransactionTag.attach({ tagId, transactionId });
+        res.status(204).end();
     } catch (err) {
        console.error(err);
        res.status(500).json({ message: 'Server error' }); 
@@ -65,23 +67,13 @@ exports.attachTag = async(req, res) => {
 }
 
 exports.detachTag = async(req, res) => {    
+    const { transactionId, tagId } = req.params;
+
     try {
-        await TransactionTag.detach(req.params.id);
-        res.json({ message: 'Tag from transaction removed' });
+        await TransactionTag.detach(transactionId, tagId);
+        res.status(204).end();
     }
     catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
-
-exports.getTransactionTags = async(req, res) => {
-    try {
-      const tags = await TransactionTag.getTagsForTransaction(req.params.transactionId);
-      if (!tags) return res.status(404).json({ error: 'No tags found' });
-      res.json(tags);
-
-    } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
     }
