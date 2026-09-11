@@ -86,11 +86,7 @@ const RecurringTransaction = {
   async update(
     id,
     {
-      accountId,
-      categoryId,
-      type,
       amount,
-      period,
       intervalUnit,
       intervalCt,
       nextOccurence,
@@ -99,23 +95,15 @@ const RecurringTransaction = {
     },
   ) {
     const res = await pool.query(
-      `UPDATE transactions SET account_id = COALESCE($1, account_id),
-             category_id = COALESCE($2, category_id),
-             type = COALESCE($3, type)
-             amount = COALESCE($4, amount)
-             period = COALESCE($5, period)
-             interval_unit = COALESCE($6, interval_unit)
-             interval_count = COALESCE($7, interval_count)
-             next_occurence = COALESCE($8, next_occurence)
-             end_date = COALESCE($9, end_date)
-             WHERE id = $10
+      `UPDATE recurring_transactions SET amount = COALESCE($1, amount),
+             interval_unit = COALESCE($2, interval_unit)
+             interval_count = COALESCE($3, interval_count)
+             next_occurence = COALESCE($4, next_occurence)
+             end_date = COALESCE($5, end_date)
+             WHERE id = $6
              RETURNING *`,
       [
-        accountId,
-        categoryId,
-        type,
         amount,
-        period,
         intervalUnit,
         intervalCt,
         nextOccurence,

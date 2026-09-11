@@ -78,8 +78,6 @@ exports.pauseTransaction = async (req, res) => {
 
 exports.updateRecurringTxn = async (req, res) => {
   const {
-    accountId,
-    categoryId,
     type,
     amount,
     period,
@@ -90,12 +88,8 @@ exports.updateRecurringTxn = async (req, res) => {
   } = req.body;
 
   try {
-    const updatedRecurringTxn = await RecurringTransaction.update({
-      accountId,
-      categoryId,
-      type,
+    const updatedRecurringTxn = await RecurringTransaction.update(req.params.id, {
       amount,
-      period,
       intervalUnit,
       intervalCt,
       nextOccurence,
