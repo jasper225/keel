@@ -15,6 +15,17 @@ exports.createTag = async(req, res) => {
     }
 }
 
+exports.getTagById = async(req, res) => {
+    try {
+    const tag = await Tag.getById(req.params.id);
+    if (!tag) return res.status(404).json({ error: "Tag not found" });
+    res.json(tag);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error'});
+    }
+}
+
 exports.getTagsByUserId = async(req, res) => {
     const { userId } = req.body;
     try {

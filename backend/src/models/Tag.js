@@ -11,11 +11,19 @@ const Tag = {
     );
     return res.rows[0];
   },
+  async getById(id) {
+    const res = await pool.query(
+      `SELECT * FROM tags
+       WHERE id = $1`,
+       [id],
+    );
+    return res.rows[0];
+  },
   async getByUserId(userId) {
     const res = await pool.query(
       `SELECT * FROM tags
-             WHERE user_id = $1
-             ORDER BY name ASC`,
+       WHERE user_id = $1
+       ORDER BY name ASC`,
       [userId],
     );
     return res.rows;

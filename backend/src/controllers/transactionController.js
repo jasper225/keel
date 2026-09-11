@@ -1,38 +1,12 @@
 const Transaction = require("../models/Transaction");
 const TransactionTag = require("../models/TransactionTag");
+const { DashboardService } = require('../services/dashboardService');
 
 exports.createTransaction = async (req, res) => {
-  const {
-    userId,
-    accountId,
-    categoryId,
-    type,
-    amount,
-    transferAccountId,
-    occuredAt,
-  } = req.body;
-
-  if (
-    !userId ||
-    !accountId ||
-    !categoryId ||
-    !type ||
-    !amount ||
-    !transferAccountId ||
-    !occuredAt
-  ) {
-    return res.status(400).json({ error: "One or more fields are empty" });
-  }
 
   try {
     const transaction = await Transaction.create({
-      userId,
-      accountId,
-      categoryId,
-      type,
-      amount,
-      transferAccountId,
-      occuredAt,
+      userId: req.user.id, ...req.body,
     });
     res.status(201).json(transaction);
   } catch (err) {
@@ -86,12 +60,21 @@ exports.getTransactionTags = async (req, res) => {
   }
 };
 
+exports.getRecentTransactions = async(req, res) => {
+  try {
+    const recentTransactions = await DashboardService.getRecentTransactions(req.user.id);
+    res.json(recentTransactions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
 exports.updateTransaction = async (req, res) => {
-  const { accountId, categoryId, type, amount, transferAccountId, occuredAt } =
-    req.body;
+  const { accountId, categoryId, type, amount, transferAccountId, occuredAt } = req.body;
 
   try {
-    const updatedCategory = await Transaction.update({
+    const updatedCategory = await Transaction.update(req.params.id, {
       accountId,
       categoryId,
       type,

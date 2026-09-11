@@ -23,6 +23,7 @@ export const queryKeys = {
     },
     tags: {
         all: ['tags'],
+        detail: (id) => ['tags', id]
     },
     recurring: {
         all: ['recurring'],

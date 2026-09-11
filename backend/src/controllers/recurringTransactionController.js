@@ -1,7 +1,6 @@
 const RecurringTransaction = require("../models/RecurringTransaction");
-const {
-  RecurringTransactionService,
-} = require("../services/recurringTxnService");
+const { RecurringTransactionService } = require("../services/recurringTxnService");
+const { DashboardService } = require("../services/dashboardService");
 
 exports.createRecurringTxn = async (req, res) => {
   try {
@@ -46,6 +45,16 @@ exports.getRecurringTxnByUserId = async (req, res) => {
   }
 };
 
+exports.getUpcomingRecurringTxn = async (req, res) => {
+  try {
+    const upcomingRecurringTxn = await DashboardService.getUpcomingRecurringTxn(req.user.id);
+    res.json(upcomingRecurringTxn);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 exports.runRecurringTxn = async (req, res) => {
   try {
     const runningTxn = await RecurringTransactionService.runDue(req.params.id);
@@ -78,9 +87,7 @@ exports.pauseTransaction = async (req, res) => {
 
 exports.updateRecurringTxn = async (req, res) => {
   const {
-    type,
     amount,
-    period,
     intervalUnit,
     intervalCt,
     nextOccurence,

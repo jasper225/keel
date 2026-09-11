@@ -51,6 +51,10 @@ const Transaction = {
       params.push(filters.to);
       conditions.push(`t.occured_at <= $${params.length}`);
     }
+    if (filters.type) {
+      params.push(filters.type);
+      conditions.push(`t.type = $${params.length}`);
+    }
     if (filters.accountId) {
       params.push(filters.accountId);
       conditions.push(
@@ -67,10 +71,6 @@ const Transaction = {
         `t.id IN (SELECT transaction_id from transaction_tags WHERE tag_id = $${params.length})`,
       );
     }
-    if (filters.type) {
-      params.push(filters.type);
-      conditions.push(`t.type = $${params.length}`);
-    }
 
     const res = await pool.query(
       `SELECT * FROM transactions
@@ -81,7 +81,7 @@ const Transaction = {
     return res.rows;
   },
   async update(
-    transactionId,
+    id,
     { accountId, categoryId, type, amount, transferAccountId, occuredAt },
   ) {
     const res = await pool.query(
@@ -100,7 +100,7 @@ const Transaction = {
         amount,
         transferAccountId,
         occuredAt,
-        transactionId,
+        id,
       ],
     );
     return res.rows[0];

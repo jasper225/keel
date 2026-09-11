@@ -12,7 +12,14 @@ export function useRecurringTransactions(filters = {}) {
 export function useRecurringTransaction(id) {
   return useQuery({
     queryKey: queryKeys.tags.detail(id),
-    queryFn: () => recurring.getRecurringTxnByUser(),
+    queryFn: () => recurring.getRecurringTxnById(),
+  });
+}
+
+export function useUpcomingRecurringTransactions() {
+  return useQuery({
+    queryKey: queryKeys.recurring.all,
+    queryFn: () => recurring.getUpcomingRecurringTxn(),
   });
 }
 

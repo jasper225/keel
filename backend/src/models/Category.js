@@ -29,12 +29,12 @@ const Category = {
     return res.rows;
   },
 
-  async getChildren(parentId) {
+  async getChildren(id) {
     const res = await pool.query(
       `SELECT * FROM categories
              WHERE parent_category_id = $1
              ORDER BY name ASC`,
-      [parentId],
+      [id],
     );
     return res.rows;
   },

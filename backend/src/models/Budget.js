@@ -50,16 +50,15 @@ const Budget = {
     );
     return res.rows;
   },
-  async update(id, { categoryId, amountLimit, period, startDate, endDate }) {
+  async update(id, { amountLimit, period, startDate, endDate }) {
     const res = await pool.query(
-      `UPDATE budgets SET category_id = COALESCE($1, category_id),
-             amount_limit = COALESCE($2, amount_limit),
-             period = COALESCE($3, period),
-             start_date = COALESCE($4, start_date),
-             end_date = COALESCE($5, end_date),
-             WHERE id = $1
+      `UPDATE budgets SET amount_limit = COALESCE($1, amount_limit),
+             period = COALESCE($2, period),
+             start_date = COALESCE($3, start_date),
+             end_date = COALESCE($4, end_date),
+             WHERE id = $5
              RETURNING *`,
-      [categoryId, amountLimit, period, startDate, endDate, id],
+      [amountLimit, period, startDate, endDate, id],
     );
     return res.rows[0];
   },

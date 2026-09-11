@@ -86,6 +86,10 @@ export default function RecurringForm({ recurringTxn, onSuccess }) {
       category: form.category,
       type: form.type,
       amount: Number(form.amount) || 0,
+      interval_unit: form.interval_unit,
+      interval_count: form.interval_count,
+      next_occurence: form.next_occurence,
+      end_date: form.end_date,
     };
 
     const mutation = isEditing
@@ -106,7 +110,7 @@ export default function RecurringForm({ recurringTxn, onSuccess }) {
       )}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Transaction Account:
+          Account
         </label>
         <Select
           placeholder="Account"
@@ -130,7 +134,7 @@ export default function RecurringForm({ recurringTxn, onSuccess }) {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Category
+          Type
         </label>
         <Select
           placeholder="Type"
@@ -148,6 +152,54 @@ export default function RecurringForm({ recurringTxn, onSuccess }) {
           type="number"
           placeholder="Amount"
           value={form.amount}
+          onChange={handleChange}
+          className="w-full"
+        />
+      </div>
+       <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Interval Unit
+        </label>
+         <Select
+          placeholder="Interval Unit"
+          value={form.interval_unit}
+          onChange={handleChange}
+          options={INTERVAL_UNIT_OPTIONS}
+          className="w-full"
+        />
+      </div>
+       <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Interval Count
+        </label>
+        <Input
+          type="number"
+          placeholder="Interval Count"
+          value={form.interval_count}
+          onChange={handleChange}
+          className="w-full"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Next Occurence
+        </label>
+        <Input
+          type="date"
+          placeholder="Next Occurence"
+          value={form.next_occurence}
+          onChange={handleChange}
+          className="w-full"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          End Date
+        </label>
+        <Input
+          type="number"
+          placeholder="End Date"
+          value={form.end_date}
           onChange={handleChange}
           className="w-full"
         />

@@ -1,4 +1,5 @@
 const Account = require("../models/Account");
+const { DashboardService } = require("../services/dashboardService");
 
 exports.createAccount = async (req, res) => {
   try {
@@ -43,6 +44,17 @@ exports.getBalance = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.getNetWorth = async (req, res) => {
+  try {
+    const netWorth = await DashboardService.getNetWorth(req.user.id);
+    res.json(netWorth);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 
 exports.updateAccount = async (req, res) => {
   const { name, type, currency } = req.body;

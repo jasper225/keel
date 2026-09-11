@@ -25,6 +25,13 @@ export function useAccountBalance(id) {
   });
 }
 
+export function useNetWorth() {
+   return useQuery({
+    queryKey: queryKeys.accounts.all,
+    queryFn: () => account.getNetWorth(),
+  });
+}
+
 export function useCreateAccount() {
   const queryClient = useQueryClient();
 

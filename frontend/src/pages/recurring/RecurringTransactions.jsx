@@ -17,7 +17,7 @@ export default function RecurringTransactions() {
             onClose={() => setModalState({ open: false, recurringTxn: null })}
             title={modalState.recurringTxn ? "Edit recurring transaction" : "Add recurring transaction"}>
                 <RecurringForm
-                    transaction={modalState.recurringTxn}
+                    recurringTxn={modalState.recurringTxn}
                     onSuccess={() => setModalState({ open: false, recurringTxn: null })}
                 />
           </Modal>

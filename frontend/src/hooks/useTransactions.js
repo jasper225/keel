@@ -17,6 +17,13 @@ export function useTransaction(id) {
   });
 }
 
+export function useRecentTransactions() {
+  return useQuery({
+    queryKey: queryKeys.transactions.all,
+    queryFn: () => transaction.getRecentTransactions(),
+  });
+}
+
 export function useTransactionTags(id) {
   return useQuery({
     queryKey: queryKeys.transactions.tagsForTransaction(id),

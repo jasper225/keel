@@ -1,14 +1,9 @@
 const Category = require("../models/Category");
 
 exports.createCategory = async (req, res) => {
-  const { userId, parentId, name, type } = req.body;
-
-  if (!userId || !parentId || !name || !type) {
-    return res.status(400).json({ error: "One or more fields are empty" });
-  }
 
   try {
-    const category = await Category.create({ userId, parentId, name, type });
+    const category = await Category.create({ userId: req.user.id, ...req.body, });
     res.status(201).json(category);
   } catch (err) {
     console.error(err);
@@ -54,7 +49,6 @@ exports.getChildrenCategories = async (req, res) => {
 };
 
 exports.updateCategory = async (req, res) => {
-  const { id } = req.params;
   const { parentId, name, type } = req.body;
 
   if (!parentId || !name || !type) {
@@ -64,7 +58,7 @@ exports.updateCategory = async (req, res) => {
   }
 
   try {
-    const updatedCategory = await Category.update(id, { parentId, name, type });
+    const updatedCategory = await Category.update(req.params.id, { parentId, name, type });
     res.status(201).json(updatedCategory);
   } catch (err) {
     console.error(err);

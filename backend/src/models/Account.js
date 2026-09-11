@@ -27,11 +27,11 @@ const Account = {
     );
     return res.rows;
   },
-  async getBalance(accountId) {
+  async getBalance(id) {
     const res = await pool.query(
       `SELECT current_balance FROM account_balances
              WHERE account_id = $1`,
-      [accountId],
+      [id],
     );
     return res.rows;
   },

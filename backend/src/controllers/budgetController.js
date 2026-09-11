@@ -1,27 +1,10 @@
 const Budget = require("../models/Budget");
 
 exports.createBudget = async (req, res) => {
-  const { userId, categoryId, amountLimit, period, startDate, endDate } =
-    req.body;
-  if (
-    !userId ||
-    !categoryId ||
-    !amountLimit ||
-    !period ||
-    !startDate ||
-    !endDate
-  ) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
 
   try {
     const budget = await Budget.create({
-      userId,
-      categoryId,
-      amountLimit,
-      period,
-      startDate,
-      endDate,
+      userId: req.user.id, ...req.body,
     });
     res.status(201).json(budget);
   } catch (err) {
@@ -42,9 +25,10 @@ exports.getBudgetById = async (req, res) => {
 };
 
 exports.getBudgetsByUser = async (req, res) => {
+  const { userId } = req.body;
   try {
     const { startDate, endDate, categoryId } = req.query;
-    const budgets = await Budget.getByUserId(req.userId, {
+    const budgets = await Budget.getByUserId(userId, {
       startDate,
       endDate,
       categoryId,
@@ -58,13 +42,12 @@ exports.getBudgetsByUser = async (req, res) => {
 };
 
 exports.updateBudget = async (req, res) => {
-  const { categoryId, amountLimit, period, startDate, endDate } = req.body;
-  if (!categoryId || !amountLimit || !period || !startDate || !endDate) {
+  const { amountLimit, period, startDate, endDate } = req.body;
+  if (!amountLimit || !period || !startDate || !endDate) {
     return res.status(400).json({ error: "At least one field is required" });
   }
   try {
-    const updatedBudget = await Budget.update(req.id, {
-      categoryId,
+    const updatedBudget = await Budget.update(req.params.id, {
       amountLimit,
       period,
       startDate,

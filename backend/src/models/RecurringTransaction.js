@@ -50,6 +50,10 @@ const RecurringTransaction = {
       params.push(filters.after);
       conditions.push(`rt.next_occurence >= $${params.length}`);
     }
+    if (filters.type) {
+      params.push(filters.type);
+      conditions.push(`rt.type = $${params.length}`);
+    }
     if (filters.accountId) {
       params.push(filters.accountId);
       conditions.push(`rt.account_id = $${params.length}`);
