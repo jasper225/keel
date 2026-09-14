@@ -9,6 +9,8 @@ const {
   deleteTransaction,
   updateTransaction,
   getRecentTransactions,
+  getSpendingByCategory,
+  getIncomeVsExpense,
 } = require("../controllers/transactionController");
 
 const { attachTag, detachTag } = require('../controllers/tagController');
@@ -16,8 +18,10 @@ const { attachTag, detachTag } = require('../controllers/tagController');
 router.post("/transactions", protect, createTransaction);
 router.get("/transactions/:id", protect, getTransactionById);
 router.get("/transactions", protect, getTransactionsByUserId);
-router.get("/transactions", protect, getRecentTransactions);
+router.get("/transactions/recent", protect, getRecentTransactions);
 router.get("/transactions/:id/tags", protect, getTransactionTags);
+router.get("/transactions/spendingByCategory", protect, getSpendingByCategory);
+router.get("/transactions/incomeVsExpense", protect, getIncomeVsExpense);
 router.post("/transactions/:id/tags", protect, attachTag);
 router.delete("/transactions/:id/tags/:tagId", protect, detachTag);
 router.put("/transactions/:id/update", protect, updateTransaction);

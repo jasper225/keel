@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -12,11 +11,13 @@ import Reports from "./pages/reports/Reports";
 import Accounts from "./pages/accounts/Accounts";
 import AccountDetail from "./pages/accounts/AccountDetail";
 import Budgets from "./pages/budgets/Budgets";
-import BudgetDetail from "./pages/accounts/BudgetDetail";
+import BudgetDetail from "./pages/budgets/BudgetDetail";
 import Categories from "./pages/categories/Categories";
+import CategoryDetail from "./pages/categories/CategoryDetail";
 import RecurringTransactions from "./pages/recurring/RecurringTransactions";
+import RecurringDetail from "./pages/recurring/RecurringDetail";
 import Transactions from "./pages/transactions/Transactions";
-import TransactionDetail from "./pages/accounts/TransactionDetail";
+import TransactionDetail from "./pages/transactions/TransactionDetail";
 import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
@@ -35,8 +36,10 @@ export default function App() {
                         <Route path="/budgets" element={<Budgets />} />
                         <Route path="/budgets:budgetId" element={<BudgetDetail />} />
                         <Route path="/categories" element={<Categories />} />
+                        <Route path="/categories:categoryId" element={<CategoryDetail />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/recurringTransactions" element={<RecurringTransactions />} />
+                        <Route path="/recurringTransactions:recurringId" element={<RecurringDetail />} />
                         <Route path="/reports" element={<Reports />} />
                         <Route path="/tags" element={<Tags />} />
                         <Route path="/transactions" element={<Transactions />} />

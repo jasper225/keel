@@ -19,8 +19,22 @@ export function useTransaction(id) {
 
 export function useRecentTransactions() {
   return useQuery({
-    queryKey: queryKeys.transactions.all,
+    queryKey: queryKeys.transactions.recent(),
     queryFn: () => transaction.getRecentTransactions(),
+  });
+}
+
+export function useIncomeVsExpenses() {
+  return useQuery({
+    queryKey: queryKeys.transactions.incomeVsExpense(),
+    queryFn: () => transaction.getIncomeVsExpense(),
+  });
+}
+
+export function useSpendingByCategory() {
+  return useQuery({
+    queryKey: queryKeys.transactions.spendingByCategory(),
+    queryFn: () => transaction.getSpendingByCategory(),
   });
 }
 

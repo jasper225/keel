@@ -16,7 +16,7 @@ const {
 router.post("recurringTransactions", protect, createRecurringTxn);
 router.get("recurringTransactions/:id", protect, getRecurringTxnById);
 router.get("recurringTransactions", protect, getRecurringTxnByUserId);
-router.get("recurringTransactions", protect, getUpcomingRecurringTxn);
+router.get("recurringTransactions/upcoming", protect, getUpcomingRecurringTxn);
 router.post("recurringTransactions/run-due", protect, runRecurringTxn);
 router.post("recurringTransactions/:id/resume", protect, resumeTransaction);
 router.post("recurringTransactions/:id/pause", protect, pauseTransaction);

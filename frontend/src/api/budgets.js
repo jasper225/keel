@@ -1,8 +1,10 @@
-import axios from "./axios";
+import api from "./axios";
 
-export const createBudget = (data) => axios.post('/budgets/create', data);
-export const getBudget = (id) => axios.get(`/budgets/${id}`);
-export const getUserBudgets = (filters = {}) => axios.get('/budgets', { params: filters });
-export const updateBudget = (id, data) => axios.put(`/budgets/${id}`, data);
-export const deleteBudget = (id) => axios.delete(`/budgets/${id}`);
+export const createBudget = (data) => api.post('/budgets/create', data);
+export const getBudget = (id) => api.get(`/budgets/${id}`);
+export const getUserBudgets = (filters = {}) => api.get('/budgets', { params: filters });
+export const getBudgetProgress = (id) => api.get(`/budgets/${id}/progress`);
+export const getUserBudgetProgress = () => api.get(`/budgets/progress`);
+export const updateBudget = (id, data) => api.put(`/budgets/${id}`, data);
+export const deleteBudget = (id) => api.delete(`/budgets/${id}`);
 

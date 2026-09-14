@@ -5,19 +5,7 @@ import Button from "../../components/ui/Button";
 import { useCreateRecurringTransaction } from "../../hooks/useRecurringTxn";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
-
-const TXN_TYPE_OPTIONS = [
-  { value: "income", label: "Income" },
-  { value: "expense", label: "Expense" },
-  { value: "transfer", label: "Transfer" },
-];
-
-const INTERVAL_UNIT_OPTIONS = [
-  { value: "day", label: "Day" },
-  { value: "week", label: "Week" },
-  { value: "month", label: "Month" },
-  { value: "year", label: "Year" },
-];
+const { TXN_TYPE_OPTIONS, INTERVAL_UNIT_OPTIONS } = require("../../utils/constants");
 
 const emptyForm = {
   account: "",

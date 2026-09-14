@@ -1,4 +1,8 @@
 export function formatDate() {
-    return new Intl.DateTimeFormat('en-US', { style: 'occured_at' }).format();
+    if (!date) return '';
+
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+    
+    return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(parsedDate);
 }
 

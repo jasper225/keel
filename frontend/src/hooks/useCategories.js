@@ -2,10 +2,17 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as category from "../api/categories";
 import { queryKeys } from "../api/queryKeys";
 
-export function useCategories(includeArchived = false) {
+export function useCategory(id) {
   return useQuery({
-    queryKey: queryKeys.budgets.all,
-    queryFn: () => budget.getUserBudgets(includeArchived),
+    queryKey: queryKeys.categories.details(id),
+    queryFn: () => category.getCategoryById(id),
+  });
+}
+
+export function useCategories() {
+  return useQuery({
+    queryKey: queryKeys.categories.all,
+    queryFn: () => category.getUserCategories(),
   });
 }
 
@@ -36,7 +43,7 @@ export function useUpdateCategory() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
       queryClient.invalidateQueries({
-        queryKey: queryKeys.categories.detail(id),
+        queryKey: queryKeys.categories.details(id),
       });
     },
   });

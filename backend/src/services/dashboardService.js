@@ -3,8 +3,10 @@ const { pool } = require("../config/db");
 const DashboardService = {
   async getNetWorth(userId) {
     const res = await pool.query(
-      `(SELECT SUM(opening_balance) FROM accounts) +
-             COALESCE(SUM(
+      `
+      SELECT
+      (SELECT COALESCE(SUM(opening_balance), 0) FROM accounts WHERE user_id = $1) 
+      + COALESCE(SUM(
                 CASE
                     WHEN type = 'income' THEN amount
                     WHEN type = 'expense' THEN -amount
@@ -21,9 +23,9 @@ const DashboardService = {
   async getRecentTransactions(userId) {
     const res = await pool.query(
       `SELECT * FROM transactions
-             ORDER BY occured_at DESC
-             LIMIT 3
-             WHERE user_id = $1`,
+       WHERE user_id = $1 
+       ORDER BY occured_at DESC
+       LIMIT 3`,
       [userId],
     );
     return res.rows;
@@ -32,9 +34,9 @@ const DashboardService = {
   async getUpcomingRecurringTxn(userId) {
     const res = await pool.query(
       `SELECT * FROM recurring_transactions
-             ORDER BY next_occurence ASC
-             LIMIT 3
-             WHERE user_id = $1`,
+       WHERE user_id = $1
+       ORDER BY next_occurence ASC
+       LIMIT 3`,
       [userId],
     );
     return res.rows;

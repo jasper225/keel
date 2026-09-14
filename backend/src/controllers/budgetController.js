@@ -1,4 +1,5 @@
 const Budget = require("../models/Budget");
+const { BudgetService } = require("../services/budgetService");
 
 exports.createBudget = async (req, res) => {
 
@@ -40,6 +41,27 @@ exports.getBudgetsByUser = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.getBudgetProgressById = async(req, res) => {
+    try {
+    const progress = await BudgetService.getProgress(req.params.id);
+    if (!progress) return res.status(404).json({ error: "Budget progress not found" });
+    res.json(progress);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
+exports.getBudgetProgressByUserId = async(req, res) => {
+    try {
+    const progress = await BudgetService.getAllProgress(req.userId);
+    res.json(progress);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
 
 exports.updateBudget = async (req, res) => {
   const { amountLimit, period, startDate, endDate } = req.body;

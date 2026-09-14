@@ -4,15 +4,7 @@ import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useCreateAccount, useUpdateAccount } from "../../hooks/useAccounts";
 
-const ACCOUNT_TYPE_OPTIONS = [
-    { value: 'checking',  label: 'Checking' },
-    { value: 'savings',  label: 'Savings' },
-    { value: 'credit_card',  label: 'Credit Card' },
-    { value: 'cash',  label: 'cash' },
-    { value: 'investment',  label: 'Investment' },
-    { value: 'loan', label: 'Loan' },
-    { value: 'other', label: 'Other' }
-];
+const { ACCOUNT_TYPE_OPTIONS } = require('../../utils/constants');
 
 const emptyForm = {
     name: '',

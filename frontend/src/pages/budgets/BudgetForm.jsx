@@ -4,12 +4,8 @@ import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useCreateBudget, useUpdateBudget } from "../../hooks/useBudgets";
 import { useCategories } from "../../hooks/useCategories";
+const { BUDGET_PERIOD_OPTIONS } = require("../../utils/constants");
 
-const BUDGET_PERIOD_OPTIONS = [
-  { value: "weekly", label: "Weekly" },
-  { value: "monthly", label: "Monthly" },
-  { value: "yearly", label: "Yearly" },
-];
 
 const emptyForm = {
   category: "",
@@ -113,7 +109,7 @@ export default function BudgetForm({ budget, onSuccess }) {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Category
+          Period
         </label>
         <Select
           placeholder="Period"

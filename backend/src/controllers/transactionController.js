@@ -1,12 +1,13 @@
 const Transaction = require("../models/Transaction");
 const TransactionTag = require("../models/TransactionTag");
-const { DashboardService } = require('../services/dashboardService');
+const { DashboardService } = require("../services/dashboardService");
+const { ReportService } = require("../services/reportService");
 
 exports.createTransaction = async (req, res) => {
-
   try {
     const transaction = await Transaction.create({
-      userId: req.user.id, ...req.body,
+      userId: req.user.id,
+      ...req.body,
     });
     res.status(201).json(transaction);
   } catch (err) {
@@ -60,18 +61,43 @@ exports.getTransactionTags = async (req, res) => {
   }
 };
 
-exports.getRecentTransactions = async(req, res) => {
+exports.getRecentTransactions = async (req, res) => {
   try {
-    const recentTransactions = await DashboardService.getRecentTransactions(req.user.id);
+    const recentTransactions = await DashboardService.getRecentTransactions(
+      req.user.id,
+    );
     res.json(recentTransactions);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
-}
+};
+
+exports.getIncomeVsExpense = async (req, res) => {
+  try {
+    const incomeVsExpense = await ReportService.getIncomeVsExpense(req.user.id);
+    res.json(incomeVsExpense);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.getSpendingByCategory = async (req, res) => {
+  try {
+    const spendingByCategory = await ReportService.getSpendingByCategory(
+      req.user.id,
+    );
+    res.json(spendingByCategory);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 exports.updateTransaction = async (req, res) => {
-  const { accountId, categoryId, type, amount, transferAccountId, occuredAt } = req.body;
+  const { accountId, categoryId, type, amount, transferAccountId, occuredAt } =
+    req.body;
 
   try {
     const updatedCategory = await Transaction.update(req.params.id, {

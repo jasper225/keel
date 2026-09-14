@@ -27,7 +27,7 @@ export function useAccountBalance(id) {
 
 export function useNetWorth() {
    return useQuery({
-    queryKey: queryKeys.accounts.all,
+    queryKey: queryKeys.accounts.netWorth(),
     queryFn: () => account.getNetWorth(),
   });
 }

@@ -1,9 +1,9 @@
-import axios from "./axios";
+import api from "./axios";
 
-export const createAccount = (data) => axios.post('/accounts/create', data);
-export const getAccountById = (id) => axios.get(`/accounts/${id}`);
-export const getUserAccounts = () => axios.get('/accounts');
-export const getNetWorth = () => axios.get('/accounts');
-export const getAccountBalance = (id) => axios.get(`/accounts/${id}/balance`);
-export const updateAccount = (id, data) => axios.put(`/accounts/${id}`, data);
-export const deleteAccount = (id) => axios.delete(`/accounts/${id}`);
+export const createAccount = (data) => api.post('/accounts/create', data);
+export const getAccountById = (id) => api.get(`/accounts/${id}`);
+export const getUserAccounts = () => api.get('/accounts');
+export const getNetWorth = () => api.get('/accounts/netWorth');
+export const getAccountBalance = (id) => api.get(`/accounts/${id}/balance`);
+export const updateAccount = (id, data) => api.put(`/accounts/${id}`, data);
+export const deleteAccount = (id) => api.delete(`/accounts/${id}`);

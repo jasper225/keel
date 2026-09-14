@@ -11,8 +11,24 @@ export function useBudgets(filters = {}) {
 
 export function useBudget(id) {
   return useQuery({
-    queryKey: queryKeys.budgets.all,
+    queryKey: queryKeys.budgets.detail(id),
     queryFn: () => budget.getBudget(id),
+    enabled: !!id,
+  });
+}
+
+export function useBudgetProgress(id) {
+    return useQuery({
+    queryKey: queryKeys.budgets.progress(id),
+    queryFn: () => budget.getBudgetProgress(id),
+    enabled: !!id,
+  });
+}
+
+export function useUserBudgetProgress() {
+    return useQuery({
+    queryKey: queryKeys.budgets.userProgress(),
+    queryFn: () => budget.getUserBudgetProgress(),
     enabled: !!id,
   });
 }

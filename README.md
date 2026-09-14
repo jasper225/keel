@@ -33,61 +33,61 @@ docker-compose.yml
 
 1. Create the database and apply the schema:
 
-	```bash
-	createdb keel
-	psql -d keel -f backend/src/db/schema.sql
-	```
+   ```bash
+   createdb keel
+   psql -d keel -f backend/src/db/schema.sql
+   ```
 
 2. Create `backend/.env`:
 
-	```dotenv
-	PORT=5000
-	CLIENT_URL=http://localhost:3000
+   ```dotenv
+   PORT=5000
+   CLIENT_URL=http://localhost:3000
 
-	DB_HOST=localhost
-	DB_PORT=5432
-	DB_NAME=keel
-	DB_USER=postgres
-	DB_PASSWORD=your-postgres-password
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=keel
+   DB_USER=postgres
+   DB_PASSWORD=your-postgres-password
 
-	JWT_SECRET=replace-with-a-long-random-secret
+   JWT_SECRET=replace-with-a-long-random-secret
 
-	# Required only for Google OAuth
-	GOOGLE_CLIENT_ID=your-google-client-id
-	GOOGLE_CLIENT_SECRET=your-google-client-secret
-	GOOGLE_CALLBACK_URL=http://localhost:5000/api/auth/google/callback
-	```
+   # Required only for Google OAuth
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   GOOGLE_CALLBACK_URL=http://localhost:5000/api/auth/google/callback
+   ```
 
 3. Install dependencies:
 
-	```bash
-	cd backend
-	npm install
-	cd ../frontend
-	npm install
-	```
+   ```bash
+   cd backend
+   npm install
+   cd ../frontend
+   npm install
+   ```
 
 4. Optionally create `frontend/.env` when the API is not running at its default URL:
 
-	```dotenv
-	VITE_API_BASE_URL=http://localhost:5000/api
-	```
+   ```dotenv
+   VITE_API_BASE_URL=http://localhost:5000/api
+   ```
 
 5. Start the backend and frontend in separate terminals:
 
-	```bash
-	# Terminal 1
-	cd backend
-	npx nodemon src/index.js
-	```
+   ```bash
+   # Terminal 1
+   cd backend
+   npx nodemon src/index.js
+   ```
 
-	```bash
-	# Terminal 2
-	cd frontend
-	npm run dev
-	```
+   ```bash
+   # Terminal 2
+   cd frontend
+   npm run dev
+   ```
 
-	Open [http://localhost:3000](http://localhost:3000) in a browser.
+   Open [http://localhost:3000](http://localhost:3000) in a browser.
 
 ## Docker Compose
 
@@ -101,14 +101,14 @@ docker compose up --build
 
 The API is served under `/api`:
 
-| Resource | Base path |
-| --- | --- |
-| Authentication | `/api/auth` |
-| Accounts | `/api/accounts` |
-| Categories | `/api/categories` |
-| Transactions | `/api/transactions` |
-| Tags | `/api/tags` |
-| Budgets | `/api/budgets` |
+| Resource               | Base path                    |
+| ---------------------- | ---------------------------- |
+| Authentication         | `/api/auth`                  |
+| Accounts               | `/api/accounts`              |
+| Categories             | `/api/categories`            |
+| Transactions           | `/api/transactions`          |
+| Tags                   | `/api/tags`                  |
+| Budgets                | `/api/budgets`               |
 | Recurring transactions | `/api/recurringTransactions` |
 
 Most resource endpoints require authentication. The frontend stores the bearer token in local storage and sends it with API requests; cookies are also enabled for authentication flows.

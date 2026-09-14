@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const axios = axios.create({
+const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
     withCredentials: true,
 });
 
-axios.interceptors.request.use(
+api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -18,7 +18,7 @@ axios.interceptors.request.use(
     }
 );
 
-axios.interceptors.response.use(
+api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
@@ -29,4 +29,4 @@ axios.interceptors.response.use(
     }
 );
 
-export default axios;
+export default api;

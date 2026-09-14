@@ -8,12 +8,7 @@ import {
 } from "../../hooks/useTransactions";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
-
-const TXN_TYPE_OPTIONS = [
-  { value: "income", label: "Income" },
-  { value: "expense", label: "Expense" },
-  { value: "transfer", label: "Transfer" },
-];
+const { TXN_TYPE_OPTIONS } = require("../../utils/constants");
 
 const emptyForm = {
   account: "",

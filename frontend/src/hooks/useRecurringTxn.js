@@ -18,7 +18,7 @@ export function useRecurringTransaction(id) {
 
 export function useUpcomingRecurringTransactions() {
   return useQuery({
-    queryKey: queryKeys.recurring.all,
+    queryKey: queryKeys.recurring.upcoming(),
     queryFn: () => recurring.getUpcomingRecurringTxn(),
   });
 }
