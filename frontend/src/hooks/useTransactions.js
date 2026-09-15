@@ -24,7 +24,7 @@ export function useRecentTransactions() {
   });
 }
 
-export function useIncomeVsExpenses() {
+export function useIncomeVsExpense() {
   return useQuery({
     queryKey: queryKeys.transactions.incomeVsExpense(),
     queryFn: () => transaction.getIncomeVsExpense(),

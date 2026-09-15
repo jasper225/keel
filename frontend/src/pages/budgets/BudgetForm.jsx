@@ -16,7 +16,7 @@ const emptyForm = {
 };
 
 export default function BudgetForm({ budget, onSuccess }) {
-  const isEditing = !!transaction;
+  const isEditing = !!budget;
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState(false);
 
@@ -25,7 +25,7 @@ export default function BudgetForm({ budget, onSuccess }) {
   const { data: categories } = useCategories();
 
   const isSubmitting =
-    createTransaction.isPending || updateTransaction.isPending;
+    createBudget.isPending || updateBudget.isPending;
 
   const categoryOptions = [
     { value: "", label: "All categories" },

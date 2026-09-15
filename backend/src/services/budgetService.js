@@ -51,7 +51,7 @@ const BudgetService = {
       spent,
       remaining: Number(budget.amount_limit) - spent,
       percentUsed:
-        budget.amount_limit > 0 ? (spent / budget.amount_limit) * 100 : 0,
+      budget.amount_limit > 0 ? (spent / budget.amount_limit) * 100 : 0,
       periodStart: start,
       periodEnd: end,
     };
