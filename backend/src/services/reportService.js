@@ -19,17 +19,19 @@ const ReportService = {
   },
   async getSpendingByCategory(userId, startDate, endDate) {
     const res = await pool.query(
-      `SELECT category_id, SUM(amount) AS total_spent
-             FROM transactions
-             WHERE user_id = $1 
-             AND type = 'expense'
-             AND occured_at >= $2
-             AND occured_at <= $3
-             GROUP BY category_id`,
+      `SELECT c.name AS category_name, SUM(t.amount) AS total_spent, 
+             FROM transactions t
+             JOIN categories c
+             ON c.id = t.category_id
+             WHERE t.user_id = $1 
+             AND t.type = 'expense'
+             AND t.occured_at >= $2
+             AND t.occured_at <= $3
+             GROUP BY c.name`,
       [userId, startDate, endDate],
     );
     return res.rows.map((row) => ({
-      categoryId: row.category_id,
+      categoryName: row.category_name,
       total_spent: Number(row.total_spent),
     }));
   },
