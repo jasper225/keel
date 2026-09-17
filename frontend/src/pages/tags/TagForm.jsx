@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
-import {
-  useCreateTag,
-  useRenameTag,
-} from "../../hooks/useTags";
+import { useCreateTag, useRenameTag } from "../../hooks/useTags";
 
 const emptyForm = {
   name: "",
@@ -18,7 +15,6 @@ export default function TagForm({ tag, onSuccess }) {
   const createTag = useCreateTag();
   const renameTag = useRenameTag();
   const isSubmitting = createTag.isPending || renameTag.isPending;
-
 
   useEffect(() => {
     if (tag) {
@@ -76,11 +72,7 @@ export default function TagForm({ tag, onSuccess }) {
       </div>
       <div className="flex justify-end gap-2 pt-2">
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting
-            ? "Saving"
-            : isEditing
-              ? "Save changes"
-              : "Create Tag"}
+          {isSubmitting ? "Saving" : isEditing ? "Save changes" : "Create Tag"}
         </Button>
       </div>
     </form>
