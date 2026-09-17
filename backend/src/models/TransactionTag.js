@@ -28,6 +28,17 @@ const TransactionTag = {
              [transactionId]
         );
         return res.rows;
+    },
+    async getTagTransactions(tagId) {
+        const res = await pool.query(
+            `SELECT tt.* FROM transactions t
+             JOIN transaction_tags tt
+             ON tt.transaction_id = t.id
+             WHERE tt.tag_id = $1
+             ORDER BY t.occured_at DESC`,
+             [tagId]
+        );
+        return res.rows;
     }
 };
 

@@ -32,18 +32,19 @@ export default function App() {
                     <Route element={<AppLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/accounts" element={<Accounts />} />
-                        <Route path="/accounts:accountId" element={<AccountDetail />} />
+                        <Route path="/accounts:id" element={<AccountDetail />} />
                         <Route path="/budgets" element={<Budgets />} />
-                        <Route path="/budgets:budgetId" element={<BudgetDetail />} />
+                        <Route path="/budgets:id" element={<BudgetDetail />} />
                         <Route path="/categories" element={<Categories />} />
-                        <Route path="/categories:categoryId" element={<CategoryDetail />} />
+                        <Route path="/categories:id" element={<CategoryDetail />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/recurringTransactions" element={<RecurringTransactions />} />
-                        <Route path="/recurringTransactions:recurringId" element={<RecurringDetail />} />
+                        <Route path="/recurringTransactions:id" element={<RecurringDetail />} />
                         <Route path="/reports" element={<Reports />} />
                         <Route path="/tags" element={<Tags />} />
+                        <Route path="/tags:id" element={<TagDetail />} />
                         <Route path="/transactions" element={<Transactions />} />
-                        <Route path="/transactions:transactionId" element={<TransactionDetail />} />
+                        <Route path="/transactions:id" element={<TransactionDetail />} />
                     </Route>
                 </Route>
                 <Route path="*" element={<NotFound />} />

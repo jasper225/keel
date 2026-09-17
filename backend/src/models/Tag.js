@@ -15,7 +15,7 @@ const Tag = {
     const res = await pool.query(
       `SELECT * FROM tags
        WHERE id = $1`,
-       [id],
+      [id],
     );
     return res.rows[0];
   },
@@ -25,6 +25,13 @@ const Tag = {
        WHERE user_id = $1
        ORDER BY name ASC`,
       [userId],
+    );
+    return res.rows;
+  },
+  async search(query) {
+    const res = await pool.query(
+      "SELECT * FROM tags WHERE name ILIKE $1 ORDER BY name",
+      [`%${query}%`],
     );
     return res.rows;
   },

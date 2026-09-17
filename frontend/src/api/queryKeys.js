@@ -29,7 +29,9 @@ export const queryKeys = {
     },
     tags: {
         all: ['tags'],
-        detail: (id) => ['tags', id]
+        detail: (id) => ['tags', id],
+        search: () => ['tags', 'search'],
+        tagTransactions: (id) => ['tags', id, 'transactions'],
     },
     recurring: {
         all: ['recurring'],

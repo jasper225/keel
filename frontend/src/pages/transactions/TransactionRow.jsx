@@ -1,5 +1,6 @@
 import Button from "../../components/ui/Button";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTransaction } from "../../hooks/useTransactions";
 
 export default function TransactionRow({ transaction, onEdit }) {
@@ -14,6 +15,8 @@ export default function TransactionRow({ transaction, onEdit }) {
                 <p className="font-medium text-gray-500"> {transaction.amount}</p>
                 <p className="font-medium text-gray-500"> {transaction.type}</p>
                 <p className="font-medium text-gray-500"> {transaction.date}</p>
+                <p className="font-medium text-gray-500"> <Link to="/transactions/:id">Details</Link> </p>
+
 
             </div>
             <div className="flex items-center gap-4">

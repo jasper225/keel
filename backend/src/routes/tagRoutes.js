@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
-const { createTag, getTagsByUserId, renameTag, deleteTag, getTagById } = require('../controllers/tagController');
+const { createTag, getTagsByUserId, renameTag, deleteTag, getTagById, searchTags, getTagTransactions } = require('../controllers/tagController');
 
 router.post("/tags", protect, createTag);
 router.get("/tags/:id", protect, getTagById);
 router.get("/tags", protect, getTagsByUserId);
+router.get("/tags/search", protect, searchTags);
+router.put("/tags/:id/transactions", protect, getTagTransactions);
 router.put("/tags/:id/rename", protect, renameTag);
 router.delete("/tags/:id/delete", protect, deleteTag);
 

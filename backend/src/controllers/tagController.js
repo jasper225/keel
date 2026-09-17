@@ -38,6 +38,29 @@ exports.getTagsByUserId = async(req, res) => {
     }
 }
 
+exports.searchTags = async (req, res) => {
+    try {
+        const tag = await Tag.search(req.query.q);
+        if (!tag) return res.status(404).json({ message: 'Tag not found'});
+        res.json(tag);
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+exports.getTagTransactions = async (req, res) => {
+    try {
+        const transactions = await TransactionTag.getTagTransactions(req.query.id);
+        if (!transactions) return res.status(404).json({ message: 'No transactions for tag found'});
+        res.json(transactions);
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
 exports.renameTag = async(req, res) => {
     const { id } = req.params;
     const { name } = req.body;

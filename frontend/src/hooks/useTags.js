@@ -4,9 +4,9 @@ import { queryKeys } from "../api/queryKeys";
 
 export function useTag(id) {
   return useQuery({
-      queryKey: queryKeys.tags.all,
-      queryFn: () => tag.getTag(id),
-      enabled: !!id,
+    queryKey: queryKeys.tags.all,
+    queryFn: () => tag.getTag(id),
+    enabled: !!id,
   });
 }
 
@@ -14,6 +14,20 @@ export function useTags() {
   return useQuery({
     queryKey: queryKeys.tags.all,
     queryFn: () => tag.getUserTags(),
+  });
+}
+
+export function useSearchTags(query) {
+  return useQuery({
+    queryKey: queryKeys.tags.search,
+    queryFn: () => tag.searchTags(query),
+  });
+}
+
+export function useTagTransactions(id) {
+  return useQuery({
+    queryKey: queryKeys.tags.tagTransactions,
+    queryFn: () => tag.getTagTransactions(id),
   });
 }
 
