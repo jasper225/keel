@@ -80,7 +80,7 @@ export default function TagForm({ tag, onSuccess }) {
             ? "Saving"
             : isEditing
               ? "Save changes"
-              : "Create Transaction"}
+              : "Create Tag"}
         </Button>
       </div>
     </form>

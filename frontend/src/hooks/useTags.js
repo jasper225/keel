@@ -17,13 +17,6 @@ export function useTags() {
   });
 }
 
-export function useSearchTags(query) {
-  return useQuery({
-    queryKey: queryKeys.tags.search,
-    queryFn: () => tag.searchTags(query),
-  });
-}
-
 export function useTagTransactions(id) {
   return useQuery({
     queryKey: queryKeys.tags.tagTransactions,

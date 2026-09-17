@@ -1,5 +1,6 @@
 import Button from "../../components/ui/Button";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRecurringTransaction } from "../../hooks/useRecurringTxn";
 
 export default function RecurringRow({ recurringTxn, onEdit }) {
@@ -15,6 +16,8 @@ export default function RecurringRow({ recurringTxn, onEdit }) {
                 <p className="font-medium text-gray-500"> {recurringTxn.type}</p>
                 <p className="font-medium text-gray-500"> {recurringTxn.interval_unit}</p>
                 <p className="font-medium text-gray-500"> {recurringTxn.next_occurence}</p>
+                <p className="font-medium text-gray-500"> <Link to="/recurringTransactions:id">Details</Link> </p>
+
             </div>
             <div className="flex items-center gap-4">
                 <Button onClick={() => onEdit(recurringTxn)}>Edit</Button>

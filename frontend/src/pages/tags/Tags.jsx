@@ -8,7 +8,6 @@ export default function Tags() {
         open: false,
         tag: null,
       });
-      const [query, setQuery] = useState('');
       return (
         <div className="tags-page">
           <div className="flex items-center justify-between mb-6">
@@ -25,12 +24,8 @@ export default function Tags() {
             />
           </Modal>
           <div>
-            <TagSearch query={query} onChange={setQuery} />
-          </div>
-          <div>
             <TagList
-              query={query}
-              onEdit={(txn) => setModalState({ open: false, transaction: txn })}
+              onEdit={(tag) => setModalState({ open: true, tag })}
             />
           </div>
         </div>

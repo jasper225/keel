@@ -3,19 +3,11 @@ import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
-import { useTags } from "../../hooks/useTags";
-
-const TXN_TYPE_OPTIONS = [
-  { value: "", label: "All Types" },
-  { value: "income", label: "Income" },
-  { value: "expense", label: "Expense" },
-  { value: "transfer", label: "Transfer" },
-];
+const { TXN_TYPE_OPTIONS } = require("../../utils/constants");
 
 export default function TransactionFilters({ filters, onChange }) {
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
-  const { data: tags } = useTags();
 
   const accountOptions = [
     { value: "", label: "All accounts" },
@@ -25,11 +17,6 @@ export default function TransactionFilters({ filters, onChange }) {
   const categoryOptions = [
     { value: "", label: "All categories" },
     ...(categories ?? []).map((c) => ({ value: c.id, label: c.name })),
-  ];
-
-  const tagOptions = [
-    { value: "", label: "All tags" },
-    ...(tags ?? []).map((t) => ({ value: t.id, label: t.name })),
   ];
 
   const handleFieldChange = (field) => (e) => {
@@ -84,17 +71,6 @@ export default function TransactionFilters({ filters, onChange }) {
           value={filters.categoryId || ""}
           options={categoryOptions}
           onChange={handleFieldChange("categoryId")}
-          className="w-full"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Tag
-        </label>
-        <Select
-          value={filters.tagId || ""}
-          options={tagOptions}
-          onChange={handleFieldChange("tagId")}
           className="w-full"
         />
       </div>

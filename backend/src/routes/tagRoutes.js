@@ -6,7 +6,6 @@ const { createTag, getTagsByUserId, renameTag, deleteTag, getTagById, searchTags
 router.post("/tags", protect, createTag);
 router.get("/tags/:id", protect, getTagById);
 router.get("/tags", protect, getTagsByUserId);
-router.get("/tags/search", protect, searchTags);
 router.put("/tags/:id/transactions", protect, getTagTransactions);
 router.put("/tags/:id/rename", protect, renameTag);
 router.delete("/tags/:id/delete", protect, deleteTag);

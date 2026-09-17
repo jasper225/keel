@@ -3,6 +3,7 @@ import Modal from "../../components/ui/Modal";
 import TransactionForm from "./TransactionForm";
 import TransactionList from "./TransactionList";
 import TransactionFilters from "./TransactionFilters";
+import TagSearch from "../tags/TagSearch";
 
 export default function Transactions() {
   const [modalState, setModalState] = useState({
@@ -10,6 +11,15 @@ export default function Transactions() {
     transaction: null,
   });
   const [filters, setFilters] = useState({});
+  const [tagIds, setTagIds] = useState([]);
+
+  const handleToggleTag = (tagId) => {
+    setTagIds((prev) => {
+      prev.includes(tagId)
+        ? prev.filter((id) => id !== tagId)
+        : [...prev, tagId];
+    });
+  };
   return (
     <div className="transactions-page">
       <div className="flex items-center justify-between mb-6">
@@ -25,8 +35,9 @@ export default function Transactions() {
           onSuccess={() => setModalState({ open: false, transaction: null })}
         />
       </Modal>
-      <div>
+      <div className="flex flex-wrap items-end gap-3 mb-4">
         <TransactionFilters filters={filters} onChange={setFilters} />
+        <TagSearch selectedTagIds={tagIds} onToggleIds={handleToggleTag} />
       </div>
       <div>
         <TransactionList

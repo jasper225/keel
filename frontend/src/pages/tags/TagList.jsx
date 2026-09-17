@@ -4,8 +4,8 @@ import { useTags } from '../../hooks/useTags';
 
 export default function TagList({ onEdit }) {
     const { data: tags, isLoading, error } = useTags();
-    if (isLoading) return <p>Loading transactions...</p>;
-    if (error) return <p className='text-red-600'>Error loading transactions</p>;
+    if (isLoading) return <p>Loading tags...</p>;
+    if (error) return <p className='text-red-600'>Error loading tags</p>;
 
     return (
       <div className="flex flex-col space-y-2">

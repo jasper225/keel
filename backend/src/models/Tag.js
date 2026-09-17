@@ -28,13 +28,6 @@ const Tag = {
     );
     return res.rows;
   },
-  async search(query) {
-    const res = await pool.query(
-      "SELECT * FROM tags WHERE name ILIKE $1 ORDER BY name",
-      [`%${query}%`],
-    );
-    return res.rows;
-  },
   async renameTag({ id, newName }) {
     const res = await pool.query(
       `UPDATE tags SET name = $1
