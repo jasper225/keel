@@ -28,10 +28,10 @@ export default function BudgetDetail() {
         End Date: {formatDate(budget.end_date)}
       </h2>
       <div className="mt-4">
-      <h1 className="text-xl font-semibold text-gray-900">
-        Budget Progress
-        <BudgetProgressBar progress={progress} />
-      </h1>
+        <h1 className="text-xl font-semibold text-gray-900">
+          Budget Progress
+          <BudgetProgressBar progress={progress} />
+        </h1>
       </div>
     </div>
   );

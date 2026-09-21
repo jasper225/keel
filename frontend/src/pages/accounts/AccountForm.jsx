@@ -3,8 +3,7 @@ import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useCreateAccount, useUpdateAccount } from "../../hooks/useAccounts";
-
-const { ACCOUNT_TYPE_OPTIONS } = require('../../utils/constants');
+const { ACCOUNT_TYPE_OPTIONS } = require('../../utils/constants/selectOptions');
 
 const emptyForm = {
     name: '',

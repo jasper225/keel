@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
+import Header from "../../components/ui/Header";
 import AccountForm from "./AccountForm";
 import AccountList from "./AccountList";
+const { ACCOUNT_LABELS } = require("../../utils/constants/headerLabels");
 
 export default function Accounts() {
   const [modalState, setModalState] = useState({ open: false, account: null });
@@ -23,6 +25,9 @@ export default function Accounts() {
           onSuccess={() => setModalState({ open: false, account: null })}
         />
       </Modal>
+      <div>
+        <Header labels={ACCOUNT_LABELS}/>
+      </div>
       <div>
         <AccountList
           onEdit={(a) => setModalState({ open: false, account: a })}

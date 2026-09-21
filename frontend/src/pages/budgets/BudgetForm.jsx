@@ -4,8 +4,7 @@ import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useCreateBudget, useUpdateBudget } from "../../hooks/useBudgets";
 import { useCategories } from "../../hooks/useCategories";
-const { BUDGET_PERIOD_OPTIONS } = require("../../utils/constants");
-
+const { BUDGET_PERIOD_OPTIONS } = require("../../utils/constants/selectOptions");
 
 const emptyForm = {
   category: "",
@@ -24,8 +23,7 @@ export default function BudgetForm({ budget, onSuccess }) {
   const updateBudget = useUpdateBudget();
   const { data: categories } = useCategories();
 
-  const isSubmitting =
-    createBudget.isPending || updateBudget.isPending;
+  const isSubmitting = createBudget.isPending || updateBudget.isPending;
 
   const categoryOptions = [
     { value: "", label: "All categories" },

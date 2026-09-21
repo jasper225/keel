@@ -1,142 +1,162 @@
 # Keel
 
-Keel is a personal finance application for tracking accounts, transactions, budgets, categories, tags, and recurring transactions. It uses a React frontend, an Express API, and PostgreSQL for persistence.
+Keel is a personal finance app for tracking accounts, transactions, budgets, categories, tags, and recurring activities. It is built with a React + Vite frontend, an Express API, and PostgreSQL.
 
 ## Features
 
-- Email/password authentication with protected application routes
-- Optional Google OAuth authentication
-- Multiple account types, currencies, and opening balances
-- Income, expense, and account-transfer transactions
-- Hierarchical transaction categories
-- Budgets with weekly, monthly, and yearly periods
-- Tags for organizing transactions
-- Recurring transactions with pause, resume, and due-transaction processing
-- Dashboard, reports, net worth, and recent/upcoming transaction views
+- Email/password authentication with protected routes
+- JWT-based API auth and session handling
+- Multiple account types with balances and transaction history
+- Income, expense, and transfer transactions
+- Hierarchical categories and tagging
+- Budget tracking by period
+- Recurring transaction workflows
+- Dashboard and reporting views for overall financial health
+- Optional Google OAuth setup via Passport configuration
 
 ## Project Structure
 
 ```text
-backend/    Express API, PostgreSQL access, authentication, and recurring-transaction jobs
-frontend/   React/Vite single-page application
-docker-compose.yml
+backend/     Express API, PostgreSQL access, auth, and recurring-job logic
+frontend/    React + Vite single-page application
+README.md
+Docker Compose file at the repo root
 ```
+
+## Tech Stack
+
+- Frontend: React, Vite, React Query, React Router, Tailwind CSS
+- Backend: Node.js, Express, Passport, PostgreSQL, JWT
+- Database: PostgreSQL
+- Optional tooling: Docker Compose, recurring job processing
 
 ## Prerequisites
 
-- Node.js 18 or newer
-- PostgreSQL 14 or newer
+- Node.js 18+
 - npm
-- Docker and Docker Compose, if you want to run the app containers
+- PostgreSQL 14+
+- Docker and Docker Compose if you want the containerized setup
 
-## Local Setup
+## Local Development Setup
 
-1. Create the database and apply the schema:
-
-   ```bash
-   createdb keel
-   psql -d keel -f backend/src/db/schema.sql
-   ```
-
-2. Create `backend/.env`:
-
-   ```dotenv
-   PORT=5000
-   CLIENT_URL=http://localhost:3000
-
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=keel
-   DB_USER=postgres
-   DB_PASSWORD=your-postgres-password
-
-   JWT_SECRET=replace-with-a-long-random-secret
-
-   # Required only for Google OAuth
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
-   GOOGLE_CALLBACK_URL=http://localhost:5000/api/auth/google/callback
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   cd backend
-   npm install
-   cd ../frontend
-   npm install
-   ```
-
-4. Optionally create `frontend/.env` when the API is not running at its default URL:
-
-   ```dotenv
-   VITE_API_BASE_URL=http://localhost:5000/api
-   ```
-
-5. Start the backend and frontend in separate terminals:
-
-   ```bash
-   # Terminal 1
-   cd backend
-   npx nodemon src/index.js
-   ```
-
-   ```bash
-   # Terminal 2
-   cd frontend
-   npm run dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000) in a browser.
-
-## Docker Compose
-
-The Compose file builds and exposes the frontend on port `3000` and the backend on port `5000`. It does not provision PostgreSQL, so configure an accessible PostgreSQL instance and provide the backend environment variables through your container environment.
+### 1) Create a PostgreSQL database
 
 ```bash
-docker compose up --build
+createdb keel
+psql -d keel -f backend/src/db/schema.sql
 ```
+
+### 2) Create the backend environment file
+
+Create `backend/.env` with values similar to:
+
+```dotenv
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=keel
+DB_USER=postgres
+DB_PASSWORD=your-postgres-password
+
+JWT_SECRET=replace-with-a-long-random-secret
+JWT_REFRESH_SECRET=replace-with-another-random-secret
+
+CLIENT_URL=http://localhost:5173
+
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:5000/auth/google/callback
+
+NODE_ENV=development
+PORT=5000
+```
+
+### 3) Install dependencies
+
+```bash
+cd backend
+npm install
+
+cd ../frontend
+npm install
+```
+
+### 4) Configure the frontend API URL
+
+If the frontend is not using the default value, create `frontend/.env`:
+
+```dotenv
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+### 5) Run the app
+
+Start the backend in one terminal:
+
+```bash
+cd backend
+npx nodemon src/index.js
+```
+
+Start the frontend in another terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Open the app in the browser at:
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000/api
 
 ## API Overview
 
-The API is served under `/api`:
+The backend serves the app under `/api`.
 
-| Resource               | Base path                    |
-| ---------------------- | ---------------------------- |
-| Authentication         | `/api/auth`                  |
-| Accounts               | `/api/accounts`              |
-| Categories             | `/api/categories`            |
-| Transactions           | `/api/transactions`          |
-| Tags                   | `/api/tags`                  |
-| Budgets                | `/api/budgets`               |
+| Resource | Base path |
+| --- | --- |
+| Auth | `/api/auth` |
+| Accounts | `/api/accounts` |
+| Categories | `/api/categories` |
+| Transactions | `/api/transactions` |
+| Tags | `/api/tags` |
+| Budgets | `/api/budgets` |
 | Recurring transactions | `/api/recurringTransactions` |
 
-Most resource endpoints require authentication. The frontend stores the bearer token in local storage and sends it with API requests; cookies are also enabled for authentication flows.
+Most endpoints require authentication. The frontend stores the JWT in local storage and attaches it to requests via the Axios client.
 
 ## Available Commands
 
 ### Frontend
 
 ```bash
-npm run dev       # Start the Vite development server
-npm run build     # Create a production build
-npm run preview   # Preview the production build locally
+npm run dev      # Start Vite in development mode
+npm run build    # Build the production bundle
+npm run preview  # Preview the production build locally
 ```
 
 ### Backend
 
-From `backend/`:
-
 ```bash
-node src/index.js                 # Start the API
-npx nodemon src/index.js          # Start the API with automatic reloads
+node src/index.js        # Start the API directly
+npx nodemon src/index.js # Start the API with auto-reload
 ```
 
-The backend package scripts currently reference `index.js` at the package root, while the application entry point is `src/index.js`; the commands above use the actual entry point.
+> Note: the backend package scripts currently reference `index.js` at the package root, but the app entry point in this project is `src/index.js`.
 
-## Development Notes
+## Docker Setup
 
-- The backend exits during startup if PostgreSQL is unreachable.
-- CORS is restricted to the origin configured by `CLIENT_URL`.
-- Recurring transactions can be processed through the recurring-transaction API and the backend recurring-transaction job.
-- Never commit `.env` files or production credentials.
+The repo includes a Compose file that starts the frontend and backend services. It does not provision PostgreSQL, so you still need a reachable PostgreSQL instance and the required backend environment variables.
+
+```bash
+docker compose up --build
+```
+
+The default local frontend port for Vite is `5173`, while the backend listens on `5000`.
+
+## Notes
+
+- The backend fails at startup if PostgreSQL is unavailable.
+- CORS is configured for the frontend origin defined in `CLIENT_URL`.
+- Recurring transactions are supported by the backend job flow and API layer.
+- Do not commit `.env` files or production secrets to source control.

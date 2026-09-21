@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
+import Header from "../../components/ui/Header";
 import TransactionForm from "./TransactionForm";
 import TransactionList from "./TransactionList";
 import TransactionFilters from "./TransactionFilters";
 import TagSearch from "../tags/TagSearch";
+import { TRANSACTION_LABELS } from "../../utils/constants/headerLabels";
 
 export default function Transactions() {
   const [modalState, setModalState] = useState({
@@ -38,6 +40,9 @@ export default function Transactions() {
       <div className="flex flex-wrap items-end gap-3 mb-4">
         <TransactionFilters filters={filters} onChange={setFilters} />
         <TagSearch selectedTagIds={tagIds} onToggleIds={handleToggleTag} />
+      </div>
+      <div>
+        <Header labels={TRANSACTION_LABELS} />
       </div>
       <div>
         <TransactionList

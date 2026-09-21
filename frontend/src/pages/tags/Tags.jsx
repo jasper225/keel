@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
+import Header from "../../components/ui/Header";
 import TagForm from "./TagForm";
 import TagList from "./TagList";
-import TagSearch from "./TagSearch";
+import { TAG_LABELS } from "../../utils/constants/headerLabels";
 export default function Tags() {
     const [modalState, setModalState] = useState({
         open: false,
@@ -23,6 +24,9 @@ export default function Tags() {
               onSuccess={() => setModalState({ open: false, tag: null })}
             />
           </Modal>
+          <div>
+            <Header labels={TAG_LABELS} />
+          </div>
           <div>
             <TagList
               onEdit={(tag) => setModalState({ open: true, tag })}

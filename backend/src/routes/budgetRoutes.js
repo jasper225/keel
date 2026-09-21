@@ -8,11 +8,13 @@ const {
   deleteBudget,
   getBudgetProgressById,
   getBudgetProgressByUserId,
+  getBudgetsByCategory,
 } = require("../controllers/budgetController");
 
 router.post("/budgets", protect, createBudget);
 router.get("/budgets/:id", protect, getBudgetById);
 router.get("/budgets", protect, getBudgetsByUser);
+router.get('/budgets/:id/categories', protect, getBudgetsByCategory);
 router.get("/budgets/:id/progress", protect, getBudgetProgressById);
 router.get("/budgets/progress", protect, getBudgetProgressByUserId);
 router.put("/budgets/:id/update", protect, updateBudget);

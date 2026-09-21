@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
-import {
-  useTransaction,
-  useTransactionTags,
+import { useTransaction, useTransactionTags,
 } from "../../hooks/useTransactions";
 
 export default function TransactionDetail() {

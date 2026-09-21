@@ -31,7 +31,7 @@ const TransactionTag = {
     },
     async getTagTransactions(tagId) {
         const res = await pool.query(
-            `SELECT tt.* FROM transactions t
+            `SELECT t.* FROM transactions t
              JOIN transaction_tags tt
              ON tt.transaction_id = t.id
              WHERE tt.tag_id = $1

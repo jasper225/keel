@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
-import { useCreateRecurringTransaction } from "../../hooks/useRecurringTxn";
+import { useCreateRecurring, useUpdateRecurring } from "../../hooks/useRecurring";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
-const { TXN_TYPE_OPTIONS, INTERVAL_UNIT_OPTIONS } = require("../../utils/constants");
+const { TXN_TYPE_OPTIONS, INTERVAL_UNIT_OPTIONS } = require("../../utils/constants/selectOptions");
 
 const emptyForm = {
   account: "",
@@ -18,16 +18,17 @@ const emptyForm = {
   end_date: "",
 };
 
-export default function RecurringForm({ recurringTxn, onSuccess }) {
-  const isEditing = !!recurringTxn;
+export default function RecurringForm({ recurring, onSuccess }) {
+  const isEditing = !!recurring;
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState(false);
 
-  const createRecurringTxn = useCreateRecurringTransaction();
+  const createRecurring = useCreateRecurring();
+  const updateRecurring = useUpdateRecurring();
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
   const isSubmitting =
-    createRecurringTxn.isPending || updateTransaction.isPending;
+    createRecurring.isPending || updateRecurring.isPending;
 
   const accountOptions = [
     { value: "", label: "All accounts" },
@@ -40,21 +41,21 @@ export default function RecurringForm({ recurringTxn, onSuccess }) {
   ];
 
   useEffect(() => {
-    if (recurringTxn) {
+    if (recurring) {
       setForm({
-        account: recurringTxn.account,
-        category: recurringTxn.category,
-        type: recurringTxn.type,
-        amount: recurringTxn.amount,
-        interval_unit: recurringTxn.interval_unit,
-        interval_count: recurringTxn.interval_count,
-        next_occurence: recurringTxn.next_occurence,
-        end_date: recurringTxn.end_date,
+        account: recurring.account,
+        category: recurring.category,
+        type: recurring.type,
+        amount: recurring.amount,
+        interval_unit: recurring.interval_unit,
+        interval_count: recurring.interval_count,
+        next_occurence: recurring.next_occurence,
+        end_date: recurring.end_date,
       });
     } else {
       setForm(emptyForm);
     }
-  }, [recurringTxn]);
+  }, [recurring]);
 
   const handleChange = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
@@ -81,8 +82,8 @@ export default function RecurringForm({ recurringTxn, onSuccess }) {
     };
 
     const mutation = isEditing
-      ? updateTransaction.mutateAsync({ id: transaction.id, data: payload })
-      : createTransaction.mutateAsync(payload);
+      ? updateRecurring.mutateAsync({ id: recurring.id, data: payload })
+      : createRecurring.mutateAsync(payload);
 
     mutation
       .then(() => onSuccess?.())

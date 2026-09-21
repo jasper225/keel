@@ -26,6 +26,7 @@ export const queryKeys = {
         all: ['categories'],
         details: (id) => ['categories', id],
         children: (id) => ['categories', id, 'children'],
+        budgets: (id) => ['categories', id, 'budgets'],
     },
     tags: {
         all: ['tags'],

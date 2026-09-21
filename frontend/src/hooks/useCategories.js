@@ -24,6 +24,14 @@ export function useCategoryChildren(id) {
   });
 }
 
+export function useCategoryBudgets(id) {
+  return useQuery({
+    queryKey: queryKeys.categories.budgets(id),
+    queryFn: () => category.getCategoryBudgets(id),
+    enabled: !!id,
+  });
+}
+
 export function useCreateCategory() {
   const queryClient = useQueryClient();
 

@@ -18,7 +18,7 @@ export function useBudget(id) {
 }
 
 export function useBudgetProgress(id) {
-    return useQuery({
+  return useQuery({
     queryKey: queryKeys.budgets.progress(id),
     queryFn: () => budget.getBudgetProgress(id),
     enabled: !!id,
@@ -26,7 +26,7 @@ export function useBudgetProgress(id) {
 }
 
 export function useUserBudgetProgress() {
-    return useQuery({
+  return useQuery({
     queryKey: queryKeys.budgets.userProgress(),
     queryFn: () => budget.getUserBudgetProgress(),
     enabled: !!id,

@@ -24,7 +24,7 @@ app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/transactions', require('./routes/transactionRoutes'));
 app.use('/api/tags', require('./routes/tagRoutes'));
 app.use('/api/budgets', require('./routes/budgetRoutes'));
-app.use('/api/recurringTransactions', require('./routes/recurringTransactionRoutes'));
+app.use('/api/recurringTransactions', require('./routes/recurringRoutes'));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

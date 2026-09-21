@@ -39,14 +39,25 @@ const Category = {
     return res.rows;
   },
 
-  async update(id, { parentId, name, type }) {
+  async getBudgets(id) {
     const res = await pool.query(
-      `UPDATE categories SET parent_id = COALESCE($1, parent_id),
-             name = COALESCE($2, name),
-             type = COALESCE($3, type)
-             WHERE id = $4
+      `SELECT id FROM categories c
+       JOIN budgets b
+       ON b.category_id = c.id
+       WHERE c.id = $1`,
+      [id],
+    );
+    return res.rows;
+  },
+
+  async update(id, { name, type }) {
+    const res = await pool.query(
+      `UPDATE categories SET,
+             name = COALESCE($1, name),
+             type = COALESCE($2, type)
+             WHERE id = $3
              RETURNING *`,
-      [parentId, name, type, id],
+      [name, type, id],
     );
     return res.rows[0];
   },

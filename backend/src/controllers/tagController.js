@@ -40,7 +40,9 @@ exports.getTagsByUserId = async(req, res) => {
 
 exports.getTagTransactions = async (req, res) => {
     try {
-        const transactions = await TransactionTag.getTagTransactions(req.query.id);
+        const tag = await Tag.getById(req.params.id);
+        if (!tag) return res.status(404).json({ message: 'No tag found'});
+        const transactions = await TransactionTag.getTagTransactions(req.params.id);
         if (!transactions) return res.status(404).json({ message: 'No transactions for tag found'});
         res.json(transactions);
     } catch (error) {

@@ -1,4 +1,5 @@
 const Category = require("../models/Category");
+const Budget = require("../models/Budget");
 
 exports.createCategory = async (req, res) => {
 
@@ -38,27 +39,39 @@ exports.getCategoriesByUserId = async (req, res) => {
 
 exports.getChildrenCategories = async (req, res) => {
   try {
-    const categories = await Category.getChildren(req.params.id);
-    if (!categories)
-      return res.status(404).json({ error: "No categories found" });
-    res.json(categories);
+    const category = Category.getById(req.params.id);
+    if (!category) return res.status(404).json({ error: "Category not found" });
+    const children = await Category.getChildren(req.params.id);
+    res.json(category, children);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-exports.updateCategory = async (req, res) => {
-  const { parentId, name, type } = req.body;
+exports.getCategoryBudgets = async(req, res) => {
+  try {
+    const category = Category.getById(req.params.id);
+    if (!category) return res.status(404).json({ error: "Category not found" });
+    const budgets = await Budget.getBudgetsByCategory(req.params.id);
+    res.json(category, budgets);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
 
-  if (!parentId || !name || !type) {
+exports.updateCategory = async (req, res) => {
+  const { name, type } = req.body;
+
+  if (!name || !type) {
     return res
       .status(400)
       .json({ error: "At least one field must be selected" });
   }
 
   try {
-    const updatedCategory = await Category.update(req.params.id, { parentId, name, type });
+    const updatedCategory = await Category.update(req.params.id, { name, type });
     res.status(201).json(updatedCategory);
   } catch (err) {
     console.error(err);

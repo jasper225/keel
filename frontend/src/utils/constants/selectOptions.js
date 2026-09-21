@@ -27,9 +27,5 @@ const INTERVAL_UNIT_OPTIONS = [
   { value: "year", label: "Year" },
 ];
 
-const defaultRange = {
-  startDate: new Date(new Date().getFullYear(), new Date().getFullMonth(), 1),
-  endDate: new Date().toISOString().slice(0, 10),
-};
+module.exports = { ACCOUNT_TYPE_OPTIONS, TXN_TYPE_OPTIONS, BUDGET_PERIOD_OPTIONS, INTERVAL_UNIT_OPTIONS }
 
-module.exports = { ACCOUNT_TYPE_OPTIONS, TXN_TYPE_OPTIONS, BUDGET_PERIOD_OPTIONS, INTERVAL_UNIT_OPTIONS, defaultRange };

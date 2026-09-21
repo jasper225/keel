@@ -1,22 +1,22 @@
 import RecurringRow from '../recurring/RecurringRow';
-import { useRecurringTransactions } from '../../hooks/useRecurringTxn';
+import { useRecurrings } from '../../hooks/useRecurring';
 
 
 export default function RecurringList({ filters, onEdit}) {
-    const { data: recurringTxns, isLoading, error } = useRecurringTransactions(filters);
+    const { data: recurrings, isLoading, error } = useRecurrings(filters);
     if (isLoading) return <p>Loading transactions...</p>;
     if (error) return <p className='text-red-600'>Error loading transactions</p>;
 
     return (
       <div className="flex flex-col space-y-2">
-        {recurringTxns.length === 0 ? (
+        {recurrings.length === 0 ? (
           <p className="text-gray-500">No transactions yet — add one to get started.</p>
             ) : (
               <div className="space-y-2">
-              {recurringTxns.map((recurringTxn) => (
+              {recurrings.map((recurrings) => (
               <RecurringRow
-                key={recurringTxn.id}
-                recurringTxn={recurringTxn}
+                key={recurrings.id}
+                recurring={recurrings}
                 onEdit={onEdit}
               />
               ))}

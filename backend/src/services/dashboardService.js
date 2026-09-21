@@ -31,7 +31,7 @@ const DashboardService = {
     return res.rows;
   },
 
-  async getUpcomingRecurringTxn(userId) {
+  async getUpcomingRecurring(userId) {
     const res = await pool.query(
       `SELECT * FROM recurring_transactions
        WHERE user_id = $1

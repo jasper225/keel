@@ -50,6 +50,14 @@ const Budget = {
     );
     return res.rows;
   },
+    async getBudgetsByCategory(id) {
+    const res = await pool.query(
+      `SELECT * FROM budgets
+       WHERE category_id = $1`,
+      [id],
+    );
+    return res.rows;
+  },
   async update(id, { amountLimit, period, startDate, endDate }) {
     const res = await pool.query(
       `UPDATE budgets SET amount_limit = COALESCE($1, amount_limit),

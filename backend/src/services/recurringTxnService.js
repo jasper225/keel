@@ -1,4 +1,4 @@
-const RecurringTransaction = require("../models/RecurringTransaction");
+const RecurringTransaction = require("../models/Recurring");
 const { withTransaction } = require("../config/db");
 
 function nextDate(current, unit, count) {

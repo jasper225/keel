@@ -1,73 +1,73 @@
-const RecurringTransaction = require("../models/RecurringTransaction");
+const Recurring = require("../models/Recurring");
 const { RecurringTransactionService } = require("../services/recurringTxnService");
 const { DashboardService } = require("../services/dashboardService");
 
-exports.createRecurringTxn = async (req, res) => {
+exports.createRecurring = async (req, res) => {
   try {
-    const recurringTxn = await RecurringTransaction.create({
+    const recurring = await Recurring.create({
       userId: req.user.id,
       ...req.body,
     });
-    res.status(201).json(recurringTxn);
+    res.status(201).json(recurring);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-exports.getRecurringTxnById = async (req, res) => {
+exports.getRecurringById = async (req, res) => {
   try {
-    const recurringTxn = await RecurringTransaction.getById(req.params.id);
-    if (!recurringTxn)
+    const recurring = await Recurring.getById(req.params.id);
+    if (!recurring)
       return res.status(404).json({ error: "Recurring transaction not found" });
-    res.json(recurringTxn);
+    res.json(recurring);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-exports.getRecurringTxnByUserId = async (req, res) => {
+exports.getRecurringByUserId = async (req, res) => {
   try {
     const { before, after, accountId, categoryId } = req.body;
-    const recurringTxns = await RecurringTransaction.getByUserId(req.user.id, {
+    const recurrings = await Recurring.getByUserId(req.user.id, {
       before,
       after,
       accountId,
       categoryId,
     });
-    if (!recurringTxns)
+    if (!recurrings)
       return res.status(404).json({ error: "No recurring transactions found" });
-    res.json(recurringTxns);
+    res.json(recurrings);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-exports.getUpcomingRecurringTxn = async (req, res) => {
+exports.getUpcomingRecurring = async (req, res) => {
   try {
-    const upcomingRecurringTxn = await DashboardService.getUpcomingRecurringTxn(req.user.id);
-    res.json(upcomingRecurringTxn);
+    const upcomingRecurring = await DashboardService.getUpcomingRecurring(req.user.id);
+    res.json(upcomingRecurring);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-exports.runRecurringTxn = async (req, res) => {
+exports.runRecurring = async (req, res) => {
   try {
-    const runningTxn = await RecurringTransactionService.runDue(req.params.id);
-    res.json(runningTxn);
+    const running = await RecurringTransactionService.runDue(req.params.id);
+    res.json(running);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-exports.resumeTransaction = async (req, res) => {
+exports.resumeRecurring = async (req, res) => {
   try {
-    await RecurringTransaction.setActive(req.params.id, true);
+    await Recurring.setActive(req.params.id, true);
     res.status(204).end();
   } catch (err) {
     console.error(err);
@@ -75,9 +75,9 @@ exports.resumeTransaction = async (req, res) => {
   }
 };
 
-exports.pauseTransaction = async (req, res) => {
+exports.pauseRecurring = async (req, res) => {
   try {
-    await RecurringTransaction.setActive(req.params.id, false);
+    await Recurring.setActive(req.params.id, false);
     res.status(204).end();
   } catch (err) {
     console.error(err);
@@ -85,7 +85,7 @@ exports.pauseTransaction = async (req, res) => {
   }
 };
 
-exports.updateRecurringTxn = async (req, res) => {
+exports.updateRecurring = async (req, res) => {
   const {
     amount,
     intervalUnit,
@@ -95,14 +95,14 @@ exports.updateRecurringTxn = async (req, res) => {
   } = req.body;
 
   try {
-    const updatedRecurringTxn = await RecurringTransaction.update(req.params.id, {
+    const updatedRecurring = await Recurring.update(req.params.id, {
       amount,
       intervalUnit,
       intervalCt,
       nextOccurence,
       endDate,
     });
-    res.status(201).json(updatedRecurringTxn);
+    res.status(201).json(updatedRecurring);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
@@ -111,7 +111,7 @@ exports.updateRecurringTxn = async (req, res) => {
 
 exports.deleteRecurringTxn = async (req, res) => {
   try {
-    await RecurringTransaction.delete(req.params.id);
+    await Recurring.delete(req.params.id);
     res.status(204).end();
   } catch (err) {
     console.error(err);

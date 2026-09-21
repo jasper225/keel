@@ -1,58 +1,44 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import * as recurring from "../api/recurringTransactions";
+import * as recurring from "../api/recurring";
 import { queryKeys } from "../api/queryKeys";
 
-export function useRecurringTransactions(filters = {}) {
+export function useRecurrings(filters = {}) {
   return useQuery({
     queryKey: queryKeys.recurring.all,
-    queryFn: () => recurring.getRecurringTxnByUser(filters),
+    queryFn: () => recurring.getRecurringByUser(filters),
   });
 }
 
-export function useRecurringTransaction(id) {
+export function useRecurring(id) {
   return useQuery({
     queryKey: queryKeys.tags.detail(id),
-    queryFn: () => recurring.getRecurringTxnById(),
+    queryFn: () => recurring.getRecurringById(),
   });
 }
 
-export function useUpcomingRecurringTransactions() {
+export function useUpcomingRecurrings() {
   return useQuery({
     queryKey: queryKeys.recurring.upcoming(),
-    queryFn: () => recurring.getUpcomingRecurringTxn(),
+    queryFn: () => recurring.getUpcomingRecurring(),
   });
 }
 
-export function useCreateRecurringTransaction() {
+export function useCreateRecurring() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: recurring.createRecurringTxn,
+    mutationFn: recurring.createRecurring,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.recurring.all });
     },
   });
 }
 
-export function useRunRecurringTransaction() {
+export function useResumeRecurring() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: recurring.runRecurringTxn,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.recurring.all });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.recurring.detail(id),
-      });
-    },
-  });
-}
-
-export function useResumeRecurringTransaction() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: recurring.resumeRecurringTxn,
+    mutationFn: recurring.resumeRecurring,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.recurring.all });
       queryClient.invalidateQueries({
@@ -62,11 +48,11 @@ export function useResumeRecurringTransaction() {
   });
 }
 
-export function usePauseRecurringTransaction() {
+export function usePauseRecurring() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: recurring.pauseRecurringTxn,
+    mutationFn: recurring.pauseRecurring,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.recurring.all });
       queryClient.invalidateQueries({
@@ -76,11 +62,23 @@ export function usePauseRecurringTransaction() {
   });
 }
 
-export function useDeleteRecurringTransaction() {
+export function useUpdateRecurring() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: recurring.deleteRecurringTxn,
+    mutationFn: recurring.updateRecurring,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.recurring.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.recurring.detail(id) });
+    },
+  })
+}
+
+export function useDeleteRecurring() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: recurring.deleteRecurring,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.recurring.all });
     },

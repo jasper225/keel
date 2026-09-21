@@ -51,10 +51,12 @@ exports.getTransactionsByUserId = async (req, res) => {
 
 exports.getTransactionTags = async (req, res) => {
   try {
+    const transaction = await Transaction.getById(req.params.id);
+    if (!transaction) return res.status(404).json({ error: "Transaction not found" });
     const tags = await TransactionTag.getTagsForTransaction(req.params.id);
     if (!tags)
       return res.status(404).json({ error: "No tags for transaction found" });
-    res.json(tags);
+    res.json({ transaction, tags });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
