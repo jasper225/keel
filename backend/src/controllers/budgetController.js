@@ -27,12 +27,9 @@ exports.getBudgetById = async (req, res) => {
 
 exports.getBudgetsByUser = async (req, res) => {
   try {
-    const { startDate, endDate, categoryId, sortBy, sortDir } = req.query;
+    const { sortBy, sortDir } = req.query;
     const budgets = await Budget.getByUserId(
       req.userId,
-      startDate,
-      endDate,
-      categoryId,
       sortBy,
       sortDir
     );

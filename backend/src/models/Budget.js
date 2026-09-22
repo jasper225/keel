@@ -1,5 +1,5 @@
 const { pool } = require("../config/db");
-const { BUDGET_SORTABLE_COLUMNS } = require('../utils/constants/sortableColumns');
+const { BUDGET_SORTABLE_COLUMNS, } = require("../utils/constants/sortableColumns");
 
 const Budget = {
   async create({
@@ -26,35 +26,19 @@ const Budget = {
     );
     return res.rows[0];
   },
-  async getByUserId(userId, filters = {}) {
-    const conditions = ["b.user_id = $1"];
-    const params = [userId];
-
-    if (filters.startDate) {
-      params.push(filters.startDate);
-      conditions.push(`b.start_date = $${params.length}`);
-    }
-    if (filters.endDate) {
-      params.push(filters.endDate);
-      conditions.push(`b.end_date = $${params.length}`);
-    }
-    if (filters.categoryId) {
-      params.push(filters.categoryId);
-      conditions.push(`b.category_id = $${params.length}`);
-    }
-
+  async getByUserId(userId, sortBy = "b.amount_limit", sortDir = "asc") {
     const sortColumn = BUDGET_SORTABLE_COLUMNS[filters.sortBy] || sortBy.amountLimit;
-    const sortDirection = filters.sortDir === 'desc' ? 'DESC' : 'ASC';
+    const sortDirection = sortDir === "desc" ? "DESC" : "ASC";
 
     const res = await pool.query(
       `SELECT * FROM budgets
-             WHERE ${conditions.join(' AND ')}
-             ORDER BY ${sortColumn} ${sortDirection}`,
+       WHERE user_id = $1
+       ORDER BY ${sortColumn} ${sortDirection}`,
       [userId],
     );
     return res.rows;
   },
-    async getBudgetsByCategory(id) {
+  async getBudgetsByCategory(id) {
     const res = await pool.query(
       `SELECT * FROM budgets
        WHERE category_id = $1`,
