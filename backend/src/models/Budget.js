@@ -1,4 +1,5 @@
 const { pool } = require("../config/db");
+const { BUDGET_SORTABLE_COLUMNS } = require('../utils/constants/sortableColumns');
 
 const Budget = {
   async create({
@@ -42,10 +43,13 @@ const Budget = {
       conditions.push(`b.category_id = $${params.length}`);
     }
 
+    const sortColumn = BUDGET_SORTABLE_COLUMNS[filters.sortBy] || sortBy.amountLimit;
+    const sortDirection = filters.sortDir === 'desc' ? 'DESC' : 'ASC';
+
     const res = await pool.query(
-      `SELECT * FROM transactions
-             WHERE user_id = $1
-             ORDER BY occured_at DESC`,
+      `SELECT * FROM budgets
+             WHERE ${conditions.join(' AND ')}
+             ORDER BY ${sortColumn} ${sortDirection}`,
       [userId],
     );
     return res.rows;

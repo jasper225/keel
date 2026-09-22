@@ -1,4 +1,5 @@
 const { pool } = require("../config/db");
+const { RECURRING_SORTABLE_COLUMNS } = require("../utils/constants/sortableColumns")
 
 const RecurringTransaction = {
   async create({
@@ -62,10 +63,14 @@ const RecurringTransaction = {
       params.push(filters.categoryId);
       conditions.push(`rt.category_id = $${params.length}`);
     }
+
+    const sortColumn = RECURRING_SORTABLE_COLUMNS[filters.sortBy] || sortBy.nextOccurence;
+    const sortDirection = filters.sortDir === 'desc' ? 'DESC' : 'ASC';
+    
     const res = await pool.query(
       `SELECT * FROM recurring_transactions
-             WHERE user_id = $1 AND is_active = true
-             ORDER BY next_occurence`,
+             WHERE ${conditions.join(' AND ')}
+             ORDER BY ${sortColumn} ${sortDirection}`,
       [userId],
     );
     return res.rows;

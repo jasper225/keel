@@ -1,5 +1,7 @@
 const Recurring = require("../models/Recurring");
-const { RecurringTransactionService } = require("../services/recurringTxnService");
+const {
+  RecurringTransactionService,
+} = require("../services/recurringTxnService");
 const { DashboardService } = require("../services/dashboardService");
 
 exports.createRecurring = async (req, res) => {
@@ -29,13 +31,16 @@ exports.getRecurringById = async (req, res) => {
 
 exports.getRecurringByUserId = async (req, res) => {
   try {
-    const { before, after, accountId, categoryId } = req.body;
-    const recurrings = await Recurring.getByUserId(req.user.id, {
+    const { before, after, accountId, categoryId, sortBy, sortDir } = req.query;
+    const recurrings = await Recurring.getByUserId(
+      req.userId,
       before,
       after,
       accountId,
       categoryId,
-    });
+      sortBy,
+      sortDir,
+    );
     if (!recurrings)
       return res.status(404).json({ error: "No recurring transactions found" });
     res.json(recurrings);
@@ -47,7 +52,9 @@ exports.getRecurringByUserId = async (req, res) => {
 
 exports.getUpcomingRecurring = async (req, res) => {
   try {
-    const upcomingRecurring = await DashboardService.getUpcomingRecurring(req.user.id);
+    const upcomingRecurring = await DashboardService.getUpcomingRecurring(
+      req.user.id,
+    );
     res.json(upcomingRecurring);
   } catch (err) {
     console.error(err);
@@ -86,13 +93,7 @@ exports.pauseRecurring = async (req, res) => {
 };
 
 exports.updateRecurring = async (req, res) => {
-  const {
-    amount,
-    intervalUnit,
-    intervalCt,
-    nextOccurence,
-    endDate,
-  } = req.body;
+  const { amount, intervalUnit, intervalCt, nextOccurence, endDate } = req.body;
 
   try {
     const updatedRecurring = await Recurring.update(req.params.id, {

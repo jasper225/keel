@@ -1,4 +1,5 @@
 const { pool } = require("../config/db");
+const { TRANSACTION_SORTABLE_COLUMNS } = require("../utils/constants/sortableColumns");
 
 const Transaction = {
   async create({
@@ -72,10 +73,13 @@ const Transaction = {
       );
     }
 
+    const sortColumn = TRANSACTION_SORTABLE_COLUMNS[filters.sortBy] || sortBy.occuredAt;
+    const sortDirection = filters.sortDir === 'desc' ? 'DESC' : 'ASC';
+
     const res = await pool.query(
       `SELECT * FROM transactions
-             WHERE user_id = $1
-             ORDER BY occured_at DESC`,
+             WHERE ${conditions.join(' AND ')}
+             ORDER BY ${sortColumn} ${sortDirection}`,
       [userId],
     );
     return res.rows;

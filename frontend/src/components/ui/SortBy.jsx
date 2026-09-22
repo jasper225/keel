@@ -8,6 +8,7 @@ export default function SortBy({ data, value, onChange, options }) {
     };
     return (
     <div>
+      <form>
       <select
         value={value}
         onChange={onChange}
@@ -21,9 +22,10 @@ export default function SortBy({ data, value, onChange, options }) {
         ))}
       </select>
       <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3">
-        <button onClick={sortAscending}>Ascending</button>
-        <button onClick={sortDescending}>Descending</button>
+        <input type="radio" onClick={sortAscending}>Ascending</input>
+        <input type="radio" onClick={sortDescending}>Descending</input>
       </div>
+      </form>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 const { pool } = require("../config/db");
+const { ACCOUNT_SORTABLE_COLUMNS } = require("../utils/constants/sortableColumns");
 
 const Account = {
   async create({ userId, name, type, currency, openingBalance }) {
@@ -18,11 +19,13 @@ const Account = {
     );
     return res.rows[0];
   },
-  async getByUserId(userId) {
+  async getByUserId(userId, sortBy='a.name', sortDir='asc') {
+    const sortColumn = ACCOUNT_SORTABLE_COLUMNS[sortBy] || sortBy.name;
+    const sortDirection = sortDir === 'desc' ? 'DESC' : 'ASC';
     const res = await pool.query(
       `SELECT * FROM accounts
              WHERE user_id = $1
-             ORDER BY created_at`,
+             ORDER BY ${sortColumn}${sortDirection}`,
       [userId],
     );
     return res.rows;

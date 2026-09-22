@@ -30,16 +30,18 @@ exports.getTransactionById = async (req, res) => {
 
 exports.getTransactionsByUserId = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const { from, to, accountId, categoryId, tagId, type } = req.query;
-    const transactions = await Transaction.getByUserId(userId, {
+    const { from, to, accountId, categoryId, tagId, type, sortBy, sortDir } = req.query;
+    const transactions = await Transaction.getByUserId(
+      req.userId,
       from,
       to,
       accountId,
       categoryId,
       tagId,
       type,
-    });
+      sortBy,
+      sortDir
+    );
     if (!transactions)
       return res.status(404).json({ error: "No transactions found" });
     res.json(transactions);
@@ -52,7 +54,8 @@ exports.getTransactionsByUserId = async (req, res) => {
 exports.getTransactionTags = async (req, res) => {
   try {
     const transaction = await Transaction.getById(req.params.id);
-    if (!transaction) return res.status(404).json({ error: "Transaction not found" });
+    if (!transaction)
+      return res.status(404).json({ error: "Transaction not found" });
     const tags = await TransactionTag.getTagsForTransaction(req.params.id);
     if (!tags)
       return res.status(404).json({ error: "No tags for transaction found" });

@@ -27,9 +27,9 @@ exports.getTagById = async(req, res) => {
 }
 
 exports.getTagsByUserId = async(req, res) => {
-    const { userId } = req.body;
     try {
-        const tags = await Tag.getByUserId(userId);
+        const { sortBy, sortDir } = req.query;
+        const tags = await Tag.getByUserId(req.userId, sortBy, sortDir);
         if (!tags) return res.status(404).json({ error: 'No tags found' });
         res.json(tags);
     } catch (err) {

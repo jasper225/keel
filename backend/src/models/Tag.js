@@ -19,11 +19,12 @@ const Tag = {
     );
     return res.rows[0];
   },
-  async getByUserId(userId) {
+  async getByUserId(userId, sortDir='asc') {
+    const sortDirection = sortDir === 'desc' ? 'DESC' : 'ASC';
     const res = await pool.query(
       `SELECT * FROM tags
        WHERE user_id = $1
-       ORDER BY name ASC`,
+       ORDER BY name ${sortDirection}`,
       [userId],
     );
     return res.rows;
