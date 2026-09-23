@@ -5,7 +5,7 @@ import TransactionRow from "../../pages/transactions/TransactionRow";
 export default function TagDetail() {
   const { id } = useParams();
   const { data: tag, isLoading, error } = useTag(id);
-  const { data: transactions } = useTagTransactions(id);
+  const { data: transactions = [] } = useTagTransactions(id);
   if (isLoading) return <p>Loading tag...</p>;
   if (error) return <p className="text-red-600">Error loading tag</p>;
   return (
@@ -21,7 +21,6 @@ export default function TagDetail() {
               <TransactionRow
                 key={transaction.id}
                 transaction={transaction}
-                onEdit={onEdit}
               />
             ))}
           </div>

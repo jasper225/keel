@@ -1,8 +1,8 @@
 import BudgetRow from "./BudgetRow";
 import { useBudgets } from "../../hooks/useBudgets";
 
-export default function BudgetList({ filters, onEdit }) {
-  const { data: budgets, isLoading, error } = useBudgets(filters);
+export default function BudgetList(onEdit) {
+  const { data: budgets, isLoading, error } = useBudgets();
   if (isLoading) return <p>Loading budgets...</p>;
   if (error) return <p className="text-red-600">Error loading transactions</p>;
 

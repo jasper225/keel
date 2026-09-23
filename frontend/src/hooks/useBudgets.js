@@ -2,10 +2,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as budget from "../api/budgets";
 import { queryKeys } from "../api/queryKeys";
 
-export function useBudgets(filters = {}) {
+export function useBudgets(sortBy, sortDir) {
   return useQuery({
-    queryKey: queryKeys.budgets.all,
-    queryFn: () => budget.getUserBudgets(filters),
+    queryKey: queryKeys.budgets.user(sortBy, sortDir),
+    queryFn: () => budget.getUserBudgets(sortBy, sortDir),
   });
 }
 

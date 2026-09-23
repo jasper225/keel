@@ -1,111 +1,126 @@
-const Tag = require('../models/Tag');
-const TransactionTag = require('../models/TransactionTag');
+const Tag = require("../models/Tag");
+const TransactionTag = require("../models/TransactionTag");
 
-exports.createTag = async(req, res) => {
-    const { userId, name } = req.body;
-    
-    if (!userId || !name) return res.status(400).json({ error: 'User ID and name are required' });
+exports.createTag = async (req, res) => {
+  const { name } = req.body;
+  const userId = req.userId?.id ?? req.userId;
 
-    try {
-        const tag  = await Tag.create({ userId, name });
-        res.status(201).json(tag);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+  if (!userId || !name)
+    return res.status(400).json({ error: "User ID and name are required" });
 
-exports.getTagById = async(req, res) => {
-    try {
+  try {
+    const tag = await Tag.create({ userId, name });
+    res.status(201).json(tag);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.getTagById = async (req, res) => {
+  try {
     const tag = await Tag.getById(req.params.id);
     if (!tag) return res.status(404).json({ error: "Tag not found" });
     res.json(tag);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-exports.getTagsByUserId = async(req, res) => {
-    try {
-        const { sortBy, sortDir } = req.query;
-        const tags = await Tag.getByUserId(req.userId, sortBy, sortDir);
-        if (!tags) return res.status(404).json({ error: 'No tags found' });
-        res.json(tags);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error'});
-    }
-}
+exports.getTagsByUserId = async (req, res) => {
+  try {
+    const { sortBy, sortDir } = req.query;
+    const userId = req.userId?.id ?? req.userId;
+    const tags = await Tag.getByUserId(userId, sortBy, sortDir);
+    if (!tags) return res.status(404).json({ error: "No tags found" });
+    res.json(tags);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 exports.getTagTransactions = async (req, res) => {
-    try {
-        const tag = await Tag.getById(req.params.id);
-        if (!tag) return res.status(404).json({ message: 'No tag found'});
-        const transactions = await TransactionTag.getTagTransactions(req.params.id);
-        if (!transactions) return res.status(404).json({ message: 'No transactions for tag found'});
-        res.json(transactions);
-    } catch (error) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
+  try {
+    const tag = await Tag.getById(req.params.id);
+    if (!tag) return res.status(404).json({ message: "No tag found" });
+    const transactions = await TransactionTag.getTagTransactions(req.params.id);
+    if (!transactions)
+      return res.status(404).json({ message: "No transactions for tag found" });
+    res.json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
+exports.getTagCount = async (req, res) => {
+   try {
+    const tag = await Tag.getById(req.params.id);
+    if (!tag) return res.status(404).json({ message: "No tag found" });
+    const count = await TransactionTag.getTagCount(req.params.id);
+    if (!count)
+      return res.status(404).json({ message: "No transactions for tag found" });
+    res.json(count);
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-exports.renameTag = async(req, res) => {
-    const { id } = req.params;
-    const { name } = req.body;
+exports.renameTag = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
 
-    if (!id || !name) return res.status(400).json({ error: 'Tag ID and name are required' });
+  if (!id || !name)
+    return res.status(400).json({ error: "Tag ID and name are required" });
 
-    try {
-        const renamedTag = await Tag.renameTag({ id, name });
-        res.status(201).json(renamedTag);
-    } catch (err) {
-       console.error(err);
-       res.status(500).json({ error: 'Server error'}); 
-    }
-}
+  try {
+    const renamedTag = await Tag.renameTag({ id, newName: name });
+    res.status(201).json(renamedTag);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
-exports.deleteTag = async(req, res) => {    
-    const { id } = req.params;
-    try {
-        await Tag.delete(id);
-        res.status(204).end();
-    }
-    catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
+exports.deleteTag = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Tag.delete(id);
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-exports.attachTag = async(req, res) => {
-    const { id } = req.params;
-    const { tagId } = req.body;
-    if (!tagId || !id) return res.status(400).json({ error: 'Tag ID and transaction ID are required' });
+exports.attachTag = async (req, res) => {
+  const { id } = req.params;
+  const { tagId } = req.body;
+  if (!tagId || !id)
+    return res
+      .status(400)
+      .json({ error: "Tag ID and transaction ID are required" });
 
-    try {
-        await TransactionTag.attach({ tagId, id });
-        res.status(204).end();
-    } 
-    catch (err) {
-       console.error(err);
-       res.status(500).json({ message: 'Server error' }); 
-    }
-}
+  try {
+    await TransactionTag.attach({ tagId, id });
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-exports.detachTag = async(req, res) => {    
-    const { id, tagId } = req.params;
+exports.detachTag = async (req, res) => {
+  const { id, tagId } = req.params;
 
-    try {
-        await TransactionTag.detach(id, tagId);
-        res.status(204).end();
-    }
-    catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
-}
-
-
-
+  try {
+    await TransactionTag.detach(id, tagId);
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

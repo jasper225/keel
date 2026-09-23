@@ -1,16 +1,12 @@
 import Button from "../../components/ui/Button";
 import { useParams } from "react-router-dom";
-import { useAccount } from "../../hooks/useAccounts";
-import { useAccountBalance } from "../../hooks/useAccounts";
-
-function formatCurrency(amount, currency) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
-}
+import { useAccount, useAccountBalance } from "../../hooks/useAccounts";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 export default function AccountRow({ account, onEdit }) {
-    const { accountId } = useParams();
-    const { data: account } = useAccount(accountId);
-    const { data: balance, isLoading } = useAccountBalance(accountId);
+    const { id } = useParams();
+    const { data: account } = useAccount(id);
+    const { data: balance, isLoading } = useAccountBalance(id);
 
     return (
         <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3">

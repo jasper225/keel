@@ -40,7 +40,7 @@ const Transaction = {
     return res.rows[0];
   },
 
-  async getByUserId(userId, filters = {}) {
+  async getByUserId(userId, filters = {}, sortBy='t.occured_at', sortDir='desc') {
     const conditions = ["t.user_id = $1"];
     const params = [userId];
 
@@ -73,8 +73,8 @@ const Transaction = {
       );
     }
 
-    const sortColumn = TRANSACTION_SORTABLE_COLUMNS[filters.sortBy] || sortBy.occuredAt;
-    const sortDirection = filters.sortDir === 'desc' ? 'DESC' : 'ASC';
+    const sortColumn = TRANSACTION_SORTABLE_COLUMNS[sortBy] || sortBy.occuredAt;
+    const sortDirection = sortDir === 'desc' ? 'DESC' : 'ASC';
 
     const res = await pool.query(
       `SELECT * FROM transactions

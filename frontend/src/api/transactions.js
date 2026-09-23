@@ -2,7 +2,7 @@ import api from "./axios";
 
 export const createTransaction = (data) => api.post('/transactions/create', data);
 export const getTransaction = (id) => api.get(`/transactions/${id}`);
-export const getUserTransactions = (filters = {}) => api.get('/transactions', { params: filters });
+export const getUserTransactions = (filters = {}, sortBy, sortDir) => api.get('/transactions', { params: filters, sortBy, sortDir });
 export const getRecentTransactions = () => api.get('/transactions/recent');
 export const getIncomeVsExpense = () => api.get('/transactions/incomeVsExpense');
 export const getSpendingByCategory = () => api.get('/transactions/spendingByCategory');

@@ -2,10 +2,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as account from "../api/accounts";
 import { queryKeys } from "../api/queryKeys";
 
-export function useAccounts(includeArchived = false) {
+export function useAccounts(sortBy, sortDir) {
   return useQuery({
-    queryKey: queryKeys.accounts.all,
-    queryFn: () => account.getUserAccounts(includeArchived),
+    queryKey: queryKeys.accounts.user(sortBy, sortDir),
+    queryFn: () => account.getUserAccounts(sortBy, sortDir),
   });
 }
 
@@ -26,7 +26,7 @@ export function useAccountBalance(id) {
 }
 
 export function useNetWorth() {
-   return useQuery({
+  return useQuery({
     queryKey: queryKeys.accounts.netWorth(),
     queryFn: () => account.getNetWorth(),
   });

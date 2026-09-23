@@ -1,14 +1,15 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
 import Header from "../../components/ui/Header";
+import SortBy from "../../components/ui/SortBy";
 import BudgetForm from "./BudgetForm";
 import BudgetList from "./BudgetList";
-import BudgetFilters from "./BudgetFilters";
 import { BUDGET_LABELS } from "../../utils/constants/headerLabels";
+import { BUDGET_SORT_OPTIONS } from "../../utils/constants/sortOptions";
 
 export default function Budgets() {
   const [modalState, setModalState] = useState({ open: false, budget: null });
-  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState({ sortBy: "name", sortDir: "asc" });
   return (
     <div className="transactions-page">
       <div className="flex items-center justify-between mb-6">
@@ -25,15 +26,22 @@ export default function Budgets() {
         />
       </Modal>
       <div>
-        <BudgetFilters filters={filters} onChange={setFilters} />
-      </div>
-      <div>
         <Header labels={BUDGET_LABELS} />
+        <SortBy
+          sortBy={sort.sortBy}
+          sortDir={sort.sortDir}
+          onSortByChange={(e) =>
+            setSort((prev) => ({ ...prev, sortBy: e.target.value }))
+          }
+          onSortDirChange={(dir) =>
+            setSort((prev) => ({ ...prev, sortDir: dir }))
+          }
+          options={BUDGET_SORT_OPTIONS}
+        />
       </div>
       <div>
         <BudgetList
-          filters={filters}
-          onEdit={(b) => setModalState({ open: false, budget: b })}
+          onEdit={(b) => setModalState({ open: true, budget: b })}
         />
       </div>
     </div>

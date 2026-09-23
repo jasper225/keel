@@ -27,7 +27,7 @@ const Budget = {
     return res.rows[0];
   },
   async getByUserId(userId, sortBy = "b.amount_limit", sortDir = "asc") {
-    const sortColumn = BUDGET_SORTABLE_COLUMNS[filters.sortBy] || sortBy.amountLimit;
+    const sortColumn = BUDGET_SORTABLE_COLUMNS[sortBy] || sortBy.amountLimit;
     const sortDirection = sortDir === "desc" ? "DESC" : "ASC";
 
     const res = await pool.query(

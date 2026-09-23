@@ -2,8 +2,8 @@ import TransactionRow from "./TransactionRow";
 import { useTransactions } from '../../hooks/useTransactions';
 
 
-export default function TransactionList({ filters, onEdit}) {
-    const { data: transactions, isLoading, error } = useTransactions(filters);
+export default function TransactionList({ filters, sortBy, sortDir, onEdit}) {
+    const { data: transactions, isLoading, error } = useTransactions(filters, sortBy, sortDir);
     if (isLoading) return <p>Loading transactions...</p>;
     if (error) return <p className='text-red-600'>Error loading transactions</p>;
 

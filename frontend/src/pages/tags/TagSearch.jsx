@@ -34,7 +34,9 @@ export default function TagSearch({ selectedTagIds, onToggleIds }) {
                 ? "bg-blue-500 text-white"
                 : "bg-gray-100 text-gray-700"
             }`}
-          >#{tag.name}</Button>
+          >
+            #{tag.name}
+          </Button>
         );
       })}
     </div>

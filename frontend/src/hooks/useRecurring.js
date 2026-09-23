@@ -2,9 +2,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as recurring from "../api/recurring";
 import { queryKeys } from "../api/queryKeys";
 
-export function useRecurrings(filters = {}) {
+export function useRecurrings(sortBy, sortDir) {
   return useQuery({
-    queryKey: queryKeys.recurring.all,
+    queryKey: queryKeys.recurring.user(sortBy, sortDir),
     queryFn: () => recurring.getRecurringByUser(filters),
   });
 }

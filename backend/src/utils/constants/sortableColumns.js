@@ -1,23 +1,27 @@
 const ACCOUNT_SORTABLE_COLUMNS = {
-    name: 'a.name',
-    balance: 'a.balance'
+    name: 'name',
+    balance: 'balance'
 };
 
 const TRANSACTION_SORTABLE_COLUMNS = {
-    amount: 't.amount',
-    occuredAt: 't.occured_at',
+    amount: 'amount',
+    occuredAt: 'occured_at',
 };
 
 const BUDGET_SORTABLE_COLUMNS = {
-    amountLimit: 'b.amount_limit',
-    startDate: 'b.start_date',
-    endDate: 'b.end_date',
+    amountLimit: 'amount_limit',
+    startDate: 'start_date',
+    endDate: 'end_date',
 };
 
 const RECURRING_SORTABLE_COLUMNS = {
-    amount: 'rt.amount',
-    nextOccurence: 'rt.next_occurence',
-    endDate: 'rt.end_date',
+    amount: 'amount',
+    nextOccurence: 'next_occurence',
+    endDate: 'end_date',
 };
 
-module.exports = { ACCOUNT_SORTABLE_COLUMNS, TRANSACTION_SORTABLE_COLUMNS, BUDGET_SORTABLE_COLUMNS, RECURRING_SORTABLE_COLUMNS }
+const TAG_SORTABLE_COLUMNS = {
+    name: 'name',
+};
+
+module.exports = { ACCOUNT_SORTABLE_COLUMNS, TRANSACTION_SORTABLE_COLUMNS, BUDGET_SORTABLE_COLUMNS, RECURRING_SORTABLE_COLUMNS, TAG_SORTABLE_COLUMNS }

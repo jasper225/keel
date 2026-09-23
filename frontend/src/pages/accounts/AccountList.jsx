@@ -2,8 +2,8 @@ import AccountRow from "./AccountRow";
 import { useAccounts } from '../../hooks/useAccounts';
 
 
-export default function AccountList(onEdit) {
-    const { data: accounts, isLoading, error } = useAccounts();
+export default function AccountList({ sortBy, sortDir, onEdit}) {
+    const { data: accounts, isLoading, error } = useAccounts(sortBy, sortDir);
     if (isLoading) return <p>Loading accounts...</p>;
     if (error) return <p className='text-red-600'>Error loading accounts</p>;
 

@@ -1,4 +1,5 @@
 const { pool } = require("../config/db");
+const { TAG_SORTABLE_COLUMNS } = require("../utils/constants/sortableColumns");
 
 const Tag = {
   async create({ userId, name }) {
@@ -19,12 +20,13 @@ const Tag = {
     );
     return res.rows[0];
   },
-  async getByUserId(userId, sortDir='asc') {
+  async getByUserId(userId, sortBy='t.name', sortDir='asc') {
+    const sortColumn = TAG_SORTABLE_COLUMNS[sortBy] || TAG_SORTABLE_COLUMNS.name;
     const sortDirection = sortDir === 'desc' ? 'DESC' : 'ASC';
     const res = await pool.query(
       `SELECT * FROM tags
        WHERE user_id = $1
-       ORDER BY name ${sortDirection}`,
+       ORDER BY ${sortColumn} ${sortDirection}`,
       [userId],
     );
     return res.rows;

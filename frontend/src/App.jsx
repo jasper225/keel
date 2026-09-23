@@ -14,10 +14,12 @@ import Budgets from "./pages/budgets/Budgets";
 import BudgetDetail from "./pages/budgets/BudgetDetail";
 import Categories from "./pages/categories/Categories";
 import CategoryDetail from "./pages/categories/CategoryDetail";
-import RecurringTransactions from "./pages/recurring/RecurringTransactions";
+import Recurrings from "./pages/recurring/Recurrings";
 import RecurringDetail from "./pages/recurring/RecurringDetail";
 import Transactions from "./pages/transactions/Transactions";
 import TransactionDetail from "./pages/transactions/TransactionDetail";
+import Tags from "./pages/tags/Tags";
+import TagDetail from "./pages/tags/TagDetail";
 import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
@@ -38,11 +40,11 @@ export default function App() {
                         <Route path="/categories" element={<Categories />} />
                         <Route path="/categories:id" element={<CategoryDetail />} />
                         <Route path="/profile" element={<Profile />} />
-                        <Route path="/recurringTransactions" element={<RecurringTransactions />} />
+                        <Route path="/recurringTransactions" element={<Recurrings />} />
                         <Route path="/recurringTransactions:id" element={<RecurringDetail />} />
                         <Route path="/reports" element={<Reports />} />
                         <Route path="/tags" element={<Tags />} />
-                        <Route path="/tags:id" element={<TagDetail />} />
+                        <Route path="/tags/:id" element={<TagDetail />} />
                         <Route path="/transactions" element={<Transactions />} />
                         <Route path="/transactions:id" element={<TransactionDetail />} />
                     </Route>

@@ -39,37 +39,14 @@ const RecurringTransaction = {
     );
     return res.rows[0];
   },
-  async getByUserId(userId, filters = {}) {
-    const conditions = ["rt.user_id = $1"];
-    const params = [userId];
+  async getByUserId(userId, sortBy, sortDir) {
 
-    if (filters.before) {
-      params.push(filters.before);
-      conditions.push(`rt.next_occurence <= $${params.length}`);
-    }
-    if (filters.after) {
-      params.push(filters.after);
-      conditions.push(`rt.next_occurence >= $${params.length}`);
-    }
-    if (filters.type) {
-      params.push(filters.type);
-      conditions.push(`rt.type = $${params.length}`);
-    }
-    if (filters.accountId) {
-      params.push(filters.accountId);
-      conditions.push(`rt.account_id = $${params.length}`);
-    }
-    if (filters.categoryId) {
-      params.push(filters.categoryId);
-      conditions.push(`rt.category_id = $${params.length}`);
-    }
-
-    const sortColumn = RECURRING_SORTABLE_COLUMNS[filters.sortBy] || sortBy.nextOccurence;
-    const sortDirection = filters.sortDir === 'desc' ? 'DESC' : 'ASC';
+    const sortColumn = RECURRING_SORTABLE_COLUMNS[sortBy] || sortBy.nextOccurence;
+    const sortDirection = sortDir === 'desc' ? 'DESC' : 'ASC';
     
     const res = await pool.query(
       `SELECT * FROM recurring_transactions
-             WHERE ${conditions.join(' AND ')}
+             WHERE user_id = $1,
              ORDER BY ${sortColumn} ${sortDirection}`,
       [userId],
     );

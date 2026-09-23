@@ -39,6 +39,16 @@ const TransactionTag = {
              [tagId]
         );
         return res.rows;
+    },
+    async getTagCount(tagId) {
+        const res = await pool.query(
+            `SELECT COUNT(t.*) FROM tags t
+             JOIN transaction_tags tt
+             ON tt.tag_id = t.id
+             WHERE tt.tag_id = $1`,
+             [tagId]
+        );
+        return res.rows;
     }
 };
 

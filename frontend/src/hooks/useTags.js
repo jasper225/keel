@@ -4,22 +4,29 @@ import { queryKeys } from "../api/queryKeys";
 
 export function useTag(id) {
   return useQuery({
-    queryKey: queryKeys.tags.all,
+    queryKey: queryKeys.tags.detail(id),
     queryFn: () => tag.getTag(id),
     enabled: !!id,
   });
 }
 
-export function useTags() {
+export function useTags(sortBy, sortDir) {
   return useQuery({
-    queryKey: queryKeys.tags.all,
-    queryFn: () => tag.getUserTags(),
+    queryKey: queryKeys.tags.user(sortBy, sortDir),
+    queryFn: () => tag.getUserTags(sortBy, sortDir),
   });
 }
 
 export function useTagTransactions(id) {
   return useQuery({
-    queryKey: queryKeys.tags.tagTransactions,
+    queryKey: queryKeys.tags.tagTransactions(id),
+    queryFn: () => tag.getTagTransactions(id),
+  });
+}
+
+export function useTagCount(id) {
+  return useQuery({
+    queryKey: queryKeys.tags.count(id),
     queryFn: () => tag.getTagTransactions(id),
   });
 }
@@ -39,7 +46,7 @@ export function useRenameTag() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, name }) => tag.renameTag(id, name),
+    mutationFn: ({ id, data }) => tag.renameTag(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.tags.all });
     },
