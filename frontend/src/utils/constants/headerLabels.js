@@ -26,6 +26,7 @@ const RECURRING_LABELS = [
 
 const TAG_LABELS = [
     { value: 'name', label: 'Name'},
+    { value: 'count', label: 'Count'},
     { value: 'details', label: 'Details'},
 ];
 

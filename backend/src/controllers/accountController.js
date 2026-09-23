@@ -24,8 +24,9 @@ exports.getAccountById = async (req, res) => {
 
 exports.getAccountsByUserId = async (req, res) => {
   const { sortBy, sortDir } = req.query;
+  const userId = req.userId?.id ?? req.userId;
   try {
-    const user = await Account.getByUserId(req.userId, sortBy, sortDir);
+    const user = await Account.getByUserId(userId, sortBy, sortDir);
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (err) {

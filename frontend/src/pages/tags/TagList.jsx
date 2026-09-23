@@ -1,8 +1,11 @@
+import { useParams } from "react-router-dom";
 import TagRow from "./TagRow";
-import { useTags } from "../../hooks/useTags";
+import { useTags, useTagCount } from "../../hooks/useTags";
 
 export default function TagList({ sortBy, sortDir, onEdit }) {
+  const { id } = useParams();
   const { data: tags, isLoading, error } = useTags(sortBy, sortDir);
+  const { data: count } = useTagCount(id);
   if (isLoading) return <p>Loading tags...</p>;
   if (error) return <p className="text-red-600">Error loading tags</p>;
 
@@ -13,7 +16,7 @@ export default function TagList({ sortBy, sortDir, onEdit }) {
       ) : (
         <div className="space-y-2">
           {tags.map((tag) => (
-            <TagRow key={tag.id} tag={tag} onEdit={onEdit} />
+            <TagRow key={tag.id} tag={tag} count={count} onEdit={onEdit} />
           ))}
         </div>
       )}
