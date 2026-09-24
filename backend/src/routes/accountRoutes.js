@@ -11,12 +11,12 @@ const {
   getNetWorth,
 } = require("../controllers/accountController");
 
-router.post("/accounts", protect, createAccount);
-router.get("/accounts/:id", protect, getAccountById);
-router.get("/accounts", protect, getAccountsByUserId);
-router.get("/accounts/netWorth", protect, getNetWorth);
-router.get("/accounts/:id/balance", protect, getBalance);
-router.put("/accounts/:id/update", protect, updateAccount);
-router.delete("/accounts/:id/delete", protect, deleteAccount);
+router.post("/", protect, createAccount);
+router.get("/:id", protect, getAccountById);
+router.get("/", protect, getAccountsByUserId);
+router.get("/netWorth", protect, getNetWorth);
+router.get("/:id/balance", protect, getBalance);
+router.put("/:id/update", protect, updateAccount);
+router.delete("/:id/delete", protect, deleteAccount);
 
 module.exports = router;

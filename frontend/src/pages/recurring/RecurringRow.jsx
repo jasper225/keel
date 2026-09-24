@@ -16,7 +16,7 @@ export default function RecurringRow({ recurring, onEdit }) {
                 <p className="font-medium text-gray-500"> {recurring.type}</p>
                 <p className="font-medium text-gray-500"> {recurring.interval_unit}</p>
                 <p className="font-medium text-gray-500"> {recurring.next_occurence}</p>
-                <p className="font-medium text-gray-500"> <Link to="/recurringTransactions:id">Details</Link> </p>
+                <p className="font-medium text-gray-500"> <Link to={`/recurringTransactions/${recurring.id}`}>Details</Link> </p>
 
             </div>
             <div className="flex items-center gap-4">

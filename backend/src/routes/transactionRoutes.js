@@ -15,16 +15,16 @@ const {
 
 const { attachTag, detachTag } = require('../controllers/tagController');
 
-router.post("/transactions", protect, createTransaction);
-router.get("/transactions/:id", protect, getTransactionById);
-router.get("/transactions", protect, getTransactionsByUserId);
-router.get("/transactions/recent", protect, getRecentTransactions);
-router.get("/transactions/:id/tags", protect, getTransactionTags);
-router.get("/transactions/spendingByCategory", protect, getSpendingByCategory);
-router.get("/transactions/incomeVsExpense", protect, getIncomeVsExpense);
-router.post("/transactions/:id/tags", protect, attachTag);
-router.delete("/transactions/:id/tags/:tagId", protect, detachTag);
-router.put("/transactions/:id/update", protect, updateTransaction);
-router.delete("/transactions/:id/delete", protect, deleteTransaction);
+router.post("/", protect, createTransaction);
+router.get("/:id", protect, getTransactionById);
+router.get("/", protect, getTransactionsByUserId);
+router.get("/recent", protect, getRecentTransactions);
+router.get("/:id/tags", protect, getTransactionTags);
+router.get("/spendingByCategory", protect, getSpendingByCategory);
+router.get("/incomeVsExpense", protect, getIncomeVsExpense);
+router.post("/:id/tags", protect, attachTag);
+router.delete("/:id/tags/:tagId", protect, detachTag);
+router.put("/:id/update", protect, updateTransaction);
+router.delete("/:id/delete", protect, deleteTransaction);
 
 module.exports = router;

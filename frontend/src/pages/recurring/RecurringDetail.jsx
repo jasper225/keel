@@ -20,10 +20,10 @@ export default function RecurringDetail() {
         Recurring Transaction Details
       </h1>
       <h2 className="font-semibold text-gray-900">
-        Account: {recurring.account}
+        Account: {recurring.account_id}
       </h2>
       <h2 className="font-semibold text-gray-900">
-        Category: {recurring.category}
+        Category: {recurring.category_id}
       </h2>
       <h2 className="font-semibold text-gray-900">Type: {recurring.type}</h2>
       <h2 className="font-semibold text-gray-900">

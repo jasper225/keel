@@ -8,9 +8,9 @@ export default function AccountRow({ account, balance, onEdit }) {
       <div>
         <p className="font-medium text-gray-900">{account.name}</p>
         <p className="text-sm text-gray-500 capitalize">
-          {" "}
-          {account.type.replace("_", " ")} * {account.currency}
+          {account.type.replace("_", " ")}
         </p>
+        <p className="text-sm text-gray-500">{account.currency}</p>
         <span className="text-sm font-medium text-gray-900">
           {isLoading ? "..." : formatCurrency(balance, account.currency)}
         </span>

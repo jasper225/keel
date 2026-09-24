@@ -15,7 +15,7 @@ export default function TransactionRow({ transaction, onEdit }) {
                 <p className="font-medium text-gray-500"> {transaction.amount}</p>
                 <p className="font-medium text-gray-500"> {transaction.type}</p>
                 <p className="font-medium text-gray-500"> {transaction.occured_at}</p>
-                <p className="font-medium text-gray-500"> <Link to="/transactions:id">Details</Link> </p>
+                <p className="font-medium text-gray-500"> <Link to={`/transactions/${transaction.id}`}>Details</Link> </p>
 
 
             </div>

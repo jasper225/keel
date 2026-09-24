@@ -13,14 +13,14 @@ const {
   getUpcomingRecurring,
 } = require("../controllers/recurringController");
 
-router.post("recurringTransactions", protect, createRecurring);
-router.get("recurringTransactions/:id", protect, getRecurringById);
-router.get("recurringTransactions", protect, getRecurringByUserId);
-router.get("recurringTransactions/upcoming", protect, getUpcomingRecurring);
-router.post("recurringTransactions/run-due", protect, runRecurring);
-router.post("recurringTransactions/:id/resume", protect, resumeRecurring);
-router.post("recurringTransactions/:id/pause", protect, pauseRecurring);
-router.put("recurringTransactions/:id", protect, updateRecurring);
-router.delete("recurringTransactions/:id", protect, deleteRecurring);
+router.post("/", protect, createRecurring);
+router.get("/:id", protect, getRecurringById);
+router.get("/", protect, getRecurringByUserId);
+router.get("/upcoming", protect, getUpcomingRecurring);
+router.post("/run-due", protect, runRecurring);
+router.post("/:id/resume", protect, resumeRecurring);
+router.post("/:id/pause", protect, pauseRecurring);
+router.put("/:id", protect, updateRecurring);
+router.delete("/:id", protect, deleteRecurring);
 
 module.exports = router;
