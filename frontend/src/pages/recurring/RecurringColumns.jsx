@@ -1,6 +1,6 @@
 import { useRecurrings } from "../../hooks/useRecurring";
 
-export default function RecurringColumns({ sortBy, sortDir, onEdit }) {
+export default function RecurringColumns({ sortBy, sortDir }) {
   const { data: recurrings, isLoading, error } = useRecurrings(sortBy, sortDir);
   if (isLoading) return <p>Loading recurring transactions...</p>;
   if (error) return <p className="text-red-600">Error loading recurring transactions</p>;
