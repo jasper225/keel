@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useTags, useTagCount } from "../../hooks/useTags";
 
-export default function TagColumns({ sortBy, sortDir, onEdit }) {
+export default function TagColumns({ sortBy, sortDir }) {
   const { id } = useParams();
   const { data: tags, isLoading, error } = useTags(sortBy, sortDir);
   const { data: count } = useTagCount(id);
