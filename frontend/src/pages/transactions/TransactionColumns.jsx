@@ -1,7 +1,11 @@
 import { useTransactions } from "../../hooks/useTransactions";
+import { useAccounts } from "../../hooks/useAccounts";
+import { useCategories } from "../../hooks/useCategories";
 
-export default function TransactionColumns({ filters, sortBy, sortDir, onEdit }) {
+export default function TransactionColumns({ filters, sortBy, sortDir, onSort }) {
   const { data: transactions, isLoading, error } = useTransactions(filters, sortBy, sortDir);
+  const { data: accounts } = useAccounts();
+  const { data: categories } = useCategories();
   if (isLoading) return <p>Loading tags...</p>;
   if (error) return <p className="text-red-600">Error loading tags</p>;
 
