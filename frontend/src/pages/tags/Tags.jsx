@@ -1,11 +1,7 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
-import Header from "../../components/ui/Header";
-import SortBy from "../../components/ui/SortBy";
 import TagForm from "./TagForm";
-import TagList from "./TagList";
-import { TAG_LABELS } from "../../utils/constants/headerLabels";
-import { TAG_SORT_OPTIONS } from "../../utils/constants/sortOptions";
+import TagColumns from "./TagColumns";
 export default function Tags() {
   const [modalState, setModalState] = useState({
     open: false,
@@ -29,25 +25,7 @@ export default function Tags() {
         />
       </Modal>
       <div>
-        <Header labels={TAG_LABELS} />
-        <SortBy
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onSortByChange={(e) =>
-            setSort((prev) => ({ ...prev, sortBy: e.target.value }))
-          }
-          onSortDirChange={(dir) =>
-            setSort((prev) => ({ ...prev, sortDir: dir }))
-          }
-          options={TAG_SORT_OPTIONS}
-        />
-      </div>
-      <div>
-        <TagList
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onEdit={(tag) => setModalState({ open: true, tag })}
-        />
+        <TagColumns sortBy={sort.sortBy} sortDir={sort.sortDir} onSort={setSort} />
       </div>
     </div>
   );

@@ -1,12 +1,8 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
-import Header from "../../components/ui/Header";
-import SortBy from "../../components/ui/SortBy";
 import AccountForm from "./AccountForm";
-import AccountList from "./AccountList";
-const { ACCOUNT_LABELS } = require("../../utils/constants/headerLabels");
-const { ACCOUNT_SORT_OPTIONS } = require("../../utils/constants/sortOptions");
-
+import AccountColumns from "./AccountColumns";
+import "./Accounts.css";
 export default function Accounts() {
   const [modalState, setModalState] = useState({ open: false, account: null });
   const [sort, setSort] = useState({ sortBy: "name", sortDir: "asc" });
@@ -15,7 +11,7 @@ export default function Accounts() {
 
   return (
     <div className="account-page">
-      <div className="flex items-center justify-between mb-6">
+      <div className="account-heading">
         <h1 className="text-xl font-semibold text-gray-900">Accounts</h1>
       </div>
       <Modal
@@ -28,26 +24,8 @@ export default function Accounts() {
           onSuccess={() => setModalState({ open: false, account: null })}
         />
       </Modal>
-      <div className="flex items-center justify-between">
-        <Header labels={ACCOUNT_LABELS} />
-        <SortBy
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onSortByChange={(e) =>
-            setSort((prev) => ({ ...prev, sortBy: e.target.value }))
-          }
-          onSortDirChange={(dir) =>
-            setSort((prev) => ({ ...prev, sortDir: dir }))
-          }
-          options={ACCOUNT_SORT_OPTIONS}
-        />
-      </div>
       <div>
-        <AccountList
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onEdit={(a) => setModalState({ open: true, account: a })}
-        />
+      <AccountColumns sortBy={sort.sortBy} sortDir={sort.sortDir} onSort={setSort} />
       </div>
     </div>
   );

@@ -1,13 +1,9 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
-import Header from "../../components/ui/Header";
-import SortBy from "../../components/ui/SortBy";
 import TransactionForm from "./TransactionForm";
-import TransactionList from "./TransactionList";
+import TransactionColumns from "./TransactionColumns";
 import TransactionFilters from "./TransactionFilters";
 import TagSearch from "../tags/TagSearch";
-import { TRANSACTION_LABELS } from "../../utils/constants/headerLabels";
-import { TRANSACTION_SORT_OPTIONS } from "../../utils/constants/sortOptions";
 
 export default function Transactions() {
   const [modalState, setModalState] = useState({
@@ -45,26 +41,7 @@ export default function Transactions() {
         <TagSearch selectedTagIds={tagIds} onToggleIds={handleToggleTag} />
       </div>
       <div>
-        <Header labels={TRANSACTION_LABELS} />
-        <SortBy
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onSortByChange={(e) =>
-            setSort((prev) => ({ ...prev, sortBy: e.target.value }))
-          }
-          onSortDirChange={(dir) =>
-            setSort((prev) => ({ ...prev, sortDir: dir }))
-          }
-          options={TRANSACTION_SORT_OPTIONS}
-        />
-      </div>
-      <div>
-        <TransactionList
-          filters={filters}
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onEdit={(txn) => setModalState({ open: false, transaction: txn })}
-        />
+        <TransactionColumns filters={filters} sortBy={sort.sortBy} sortDir={sort.sortBy} onSort={setSort} />
       </div>
     </div>
   );

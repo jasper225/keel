@@ -1,43 +1,50 @@
+import { Link } from "react-router-dom";
 import { useBudgets } from "../../hooks/useBudgets";
-import Header from "../../components/ui/Header";
+import { BUDGET_LABELS } from "../../utils/constants/headerLabels";
 
-export default function BudgetColumns({ sortBy, sortDir }) {
-  const { data: budgets, isLoading, error } = useBudgets(sortBy, sortDir);
+export default function BudgetColumns({ sortBy, sortDir, onSort }) {
+  const { data: budgets } = useBudgets(sortBy, sortDir);
+
   if (isLoading) return <p>Loading budgets...</p>;
   if (error) return <p className="text-red-600">Error loading budgets</p>;
 
   return (
-    <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3">
-      <Header label={"Category"} />
-      <div className="flex flex-col space-y-2">
+    <table className="w-full border border-gray-200 bg-white rounded-md">
+      <thead>
+        <tr>
+          {BUDGET_LABELS.map((col) => (
+            <th
+              key={col.key}
+              onClick={() => onSort(col.key)}
+              className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:bg-gray-50"
+            >
+              {col.label}{" "}
+              {sortBy === col.key ? (sortDir === "asc" ? "▲" : "▼") : ""}
+            </th>
+          ))}
+          <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:bg-gray-50">
+            Details
+          </th>
+        </tr>
+      </thead>
+      <tbody>
         {budgets.map((budget) => (
-          <p className="font-medium text-gray-900">{budget.category_id}</p>
+          <tr key={budget.id} className="border-t border-gray-100">
+            <td className="px-4 py-3 text-sm text-gray-900">
+              {budget.amount_limit}
+            </td>
+            <td className="px-4 py-3 text-sm text-gray-900">
+              {budget.start_date}
+            </td>
+            <td className="px-4 py-3 text-sm text-gray-900">
+              {budget.end_date}
+            </td>
+            <td className="px-4 py-3 text-sm text-gray-900">
+              <Link to={`/budgets/${budget.id}`}>Details</Link>
+            </td>
+          </tr>
         ))}
-      </div>
-      <Header label={"Amount Limit"} />
-      <div className="flex flex-col space-y-2">
-        {budgets.map((budget) => (
-          <p className="font-medium text-gray-900">{budget.amount_limit}</p>
-        ))}
-      </div>
-      <Header label={"Period"} />
-      <div className="flex flex-col space-y-2">
-        {budgets.map((budget) => (
-          <p className="font-medium text-gray-900">{budget.period}</p>
-        ))}
-      </div>
-      <Header label={"Start Date"} />
-      <div className="flex flex-col space-y-2">
-        {budgets.map((budget) => (
-          <p className="font-medium text-gray-900">{budget.start_date}</p>
-        ))}
-      </div>
-      <Header label={"End Date"} />
-      <div className="flex flex-col space-y-2">
-        {budgets.map((budget) => (
-          <p className="font-medium text-gray-900">{budget.end_date}</p>
-        ))}
-      </div>
-    </div>
+      </tbody>
+    </table>
   );
 }

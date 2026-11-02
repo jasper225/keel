@@ -1,11 +1,7 @@
 import { useState } from "react";
 import Modal from "../../components/ui/Modal";
-import Header from "../../components/ui/Header";
-import SortBy from "../../components/ui/SortBy";
 import RecurringForm from "./RecurringForm";
-import RecurringList from "./RecurringList";
-import { RECURRING_LABELS } from "../../utils/constants/headerLabels";
-import { RECURRING_SORT_OPTIONS } from "../../utils/constants/sortOptions";
+import RecurringColumns from "./RecurringColumns";
 
 export default function RecurringTransactions() {
   const [modalState, setModalState] = useState({
@@ -36,22 +32,8 @@ export default function RecurringTransactions() {
         />
       </Modal>
       <div>
-        <Header labels={RECURRING_LABELS} />
-        <SortBy
-          sortBy={sort.sortBy}
-          sortDir={sort.sortDir}
-          onSortByChange={(e) =>
-            setSort((prev) => ({ ...prev, sortBy: e.target.value }))
-          }
-          onSortDirChange={(dir) =>
-            setSort((prev) => ({ ...prev, sortDir: dir }))
-          }
-          options={RECURRING_SORT_OPTIONS}
-        />
-      </div>
-      <div>
-        <RecurringList
-          onEdit={(txn) => setModalState({ open: false, recurring: txn })}
+        <RecurringColumns
+          sortBy={sort.sortBy} sortDir={sort.sortDir} onSort={setSort}
         />
       </div>
     </div>

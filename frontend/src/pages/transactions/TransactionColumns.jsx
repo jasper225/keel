@@ -1,45 +1,45 @@
+import { Link } from "react-router-dom";
 import { useTransactions } from "../../hooks/useTransactions";
-import Header from "../../components/ui/Header";
+import { useAccounts } from "../../hooks/useAccounts";
+import { useCategories } from "../../hooks/useCategories";
+import { TRANSACTION_LABELS } from "../../utils/constants/headerLabels";
 
-export default function TransactionColumns({ filters, sortBy, sortDir }) {
+export default function TransactionColumns({ filters, sortBy, sortDir, onSort }) {
   const { data: transactions, isLoading, error } = useTransactions(filters, sortBy, sortDir);
-  if (isLoading) return <p>Loading tags...</p>;
-  if (error) return <p className="text-red-600">Error loading tags</p>;
+  const { data: accounts } = useAccounts();
+  const { data: categories } = useCategories();
+  
+  if (isLoading) return <p>Loading transactions...</p>;
+  if (error) return <p className="text-red-600">Error loading transactions</p>;
+
+  /*const accountName = (id) => accounts?.find((a) => a.id === id)?.name ?? "Unknown";
+  const categoryName = (id) => (id ? categories?.find((c) => c.id === id)?.name ?? "Unknown" : "Uncategorized");*/
 
   return (
-    <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3">
-      <Header label={"Account"} />
-      <div className="flex flex-col space-y-2">
+    <table className="w-full border border-gray-200 bg-white rounded-md">
+      <thead>
+        <tr>
+          {TRANSACTION_LABELS.map((col) => (
+            <th
+              key={col.key}
+              onClick={() => onSort(col.key)}
+              className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:bg-gray-50"
+            >
+              {col.label} {sortBy === col.key ? (sortDir === "asc" ? "▲" : "▼") : ""}
+            </th>
+          ))}
+          <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:bg-gray-50">Details</th>
+        </tr>
+      </thead>
+      <tbody>
         {transactions.map((transaction) => (
-          <p key={transaction.id} className="font-medium text-gray-900">
-            {transaction.account_id}
-          </p>
+          <tr key={transaction.id} className="border-t border-gray-100">
+            <td className="px-4 py-3 text-sm text-gray-900">{transaction.amount}</td>
+            <td className="px-4 py-3 text-sm text-gray-900">{transaction.occurred_at}</td>
+            <td className="px-4 py-3 text-sm text-gray-900"><Link to={`/transactions/${transaction.id}`}> View Details</Link></td>
+          </tr>
         ))}
-      </div>
-      <Header label={"Category"} />
-      <div className="flex flex-col space-y-2">
-        {transactions.map((transaction) => (
-          <p key={transaction.id} className="font-medium text-gray-900">
-            {transaction.category_id}
-          </p>
-        ))}
-      </div>
-      <Header label={"Amount"} />
-      <div className="flex flex-col space-y-2">
-        {transactions.map((transaction) => (
-          <p key={transaction.id} className="font-medium text-gray-900">
-            {transaction.amount}
-          </p>
-        ))}
-      </div>
-      <Header label={"Occured At"} />
-      <div className="flex flex-col space-y-2">
-        {transactions.map((transaction) => (
-          <p key={transaction.id} className="font-medium text-gray-900">
-            {transaction.occured_at}
-          </p>
-        ))}
-      </div>
-    </div>
+      </tbody>
+    </table>
   );
 }
