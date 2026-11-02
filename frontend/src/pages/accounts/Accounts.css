@@ -1,6 +1,17 @@
+.error {
+    color: rgb(220 38 38);
+}
+
 .account-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
 }

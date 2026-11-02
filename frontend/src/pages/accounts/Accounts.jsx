@@ -3,11 +3,12 @@ import Modal from "../../components/ui/Modal";
 import AccountForm from "./AccountForm";
 import AccountColumns from "./AccountColumns";
 import "./Accounts.css";
+
 export default function Accounts() {
   const [modalState, setModalState] = useState({ open: false, account: null });
   const [sort, setSort] = useState({ sortBy: "name", sortDir: "asc" });
   if (isLoading) return <p>Loading accounts ...</p>;
-  if (error) return <p className="text-red-600">Error loading accounts</p>;
+  if (error) return <p className="error">Error loading accounts</p>;
 
   return (
     <div className="account-page">
