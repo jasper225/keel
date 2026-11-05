@@ -20,6 +20,7 @@
         "zustand": "^4.4.7"
     },
     "devDependencies": {
+        "@tailwindcss/cli": "^4.3.4",
         "@types/react": "^18.2.0",
         "@vitejs/plugin-react": "^5.2.0",
         "autoprefixer": "^10.4.16",

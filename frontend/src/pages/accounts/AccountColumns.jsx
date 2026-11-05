@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useAccounts, useAccountBalance } from "../../hooks/useAccounts";
 import { ACCOUNT_LABELS } from "../../utils/constants/headerLabels";
+import "../styles/Columns.css";
 
 export default function AccountColumns({ sortBy, sortDir, onSort }) {
   const { id } = useParams();

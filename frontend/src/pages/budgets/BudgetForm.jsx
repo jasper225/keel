@@ -5,6 +5,7 @@ import Button from "../../components/ui/Button";
 import { useCreateBudget, useUpdateBudget } from "../../hooks/useBudgets";
 import { useCategories } from "../../hooks/useCategories";
 const { BUDGET_PERIOD_OPTIONS } = require("../../utils/constants/selectOptions");
+import "../styles/Form.css";
 
 const emptyForm = {
   category: "",
@@ -141,7 +142,7 @@ export default function BudgetForm({ budget, onSuccess }) {
           className="w-full"
         />
       </div>
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="submit-btn">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? "Saving"

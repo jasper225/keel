@@ -4,6 +4,8 @@ import Button from "../../components/ui/Button";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
 const { TXN_TYPE_OPTIONS } = require("../../utils/constants");
+import "../styles/Form.css";
+
 
 export default function TransactionFilters({ filters, onChange }) {
   const { data: accounts } = useAccounts();

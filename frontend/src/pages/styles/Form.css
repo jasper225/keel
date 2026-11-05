@@ -1,0 +1,43 @@
+.space-y-4 {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1rem /* 16px */ * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1rem /* 16px */ * var(--tw-space-y-reverse));
+}
+
+p {
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
+    --tw-text-opacity: 1;
+    color: rgb(220 38 38 / var(--tw-text-opacity, 1)) /* #dc2626 */;
+    --tw-bg-opacity: 1;
+    background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
+    border-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: rgb(254 202 202 / var(--tw-border-opacity, 1));
+    border-radius: 0.375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+label {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgb(55 65 81 / var(--tw-text-opacity, 1));  
+}
+
+.w-full {
+    width: 100%;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+}
+

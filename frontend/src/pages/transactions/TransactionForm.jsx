@@ -3,10 +3,17 @@ import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import TagSearch from "../tags/TagSearch";
-import { useCreateTransaction, useUpdateTransaction, useTransactionTags, useAttachTag, useDetachTag } from "../../hooks/useTransactions";
+import {
+  useCreateTransaction,
+  useUpdateTransaction,
+  useTransactionTags,
+  useAttachTag,
+  useDetachTag,
+} from "../../hooks/useTransactions";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
 const { TXN_TYPE_OPTIONS } = require("../../utils/constants/selectOptions");
+import "../styles/Form.css";
 
 const emptyForm = {
   account: "",
@@ -29,7 +36,8 @@ export default function TransactionForm({ transaction, onSuccess }) {
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
   const { data: existingTags } = useTransactionTags(transaction?.id);
-  const isSubmitting = createTransaction.isPending || updateTransaction.isPending;
+  const isSubmitting =
+    createTransaction.isPending || updateTransaction.isPending;
 
   const accountOptions = [
     { value: "", label: "All accounts" },
@@ -51,8 +59,7 @@ export default function TransactionForm({ transaction, onSuccess }) {
         occured_at: transaction.occured_at,
       });
     } else {
-      setForm(emptyForm),
-      setSelectedTags([]);
+      (setForm(emptyForm), setSelectedTags([]));
     }
   }, [transaction]);
 
@@ -63,21 +70,25 @@ export default function TransactionForm({ transaction, onSuccess }) {
   }, [existingTags]);
 
   const handleToggleTag = (tagId) => {
-    setSelectedTags((prev) => prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId])
+    setSelectedTags((prev) =>
+      prev.includes(tagId)
+        ? prev.filter((id) => id !== tagId)
+        : [...prev, tagId],
+    );
   };
-  
+
   const handleChange = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const syncTags = async(transactionId, previousTags = []) => {
+  const syncTags = async (transactionId, previousTags = []) => {
     const toAttach = selectedTags.filter((id) => !previousTags.includes(id));
     const toDetach = selectedTags.filter((id) => selectedTags.includes(id));
 
     await Promise.all([
-      ...toAttach.map((tagId) => attachTag({transactionId, tagId })),
-      ...toDetach.map((tagId) => detachTag({transactionId, tagId })),  
-    ])
+      ...toAttach.map((tagId) => attachTag({ transactionId, tagId })),
+      ...toDetach.map((tagId) => detachTag({ transactionId, tagId })),
+    ]);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,19 +101,22 @@ export default function TransactionForm({ transaction, onSuccess }) {
 
     const payload = { ...form, amount: Number(form.amount) };
 
-      try {
-        if (isEditing) {
-          await updateTransaction.mutateAsync({ id: transaction.id, data: payload });
-          const previousTagIds = (existingTags ?? []).map((t) => t.id);
-          await syncTags(transaction.id, previousTagIds);
-        } else {
-          const created = await createTransaction.mutateAsync(payload);
-          await syncTags(created.id, []);
-        }
-        onSuccess?.();
-      } catch {
-        setError('Something went wrong. Please try again.');
+    try {
+      if (isEditing) {
+        await updateTransaction.mutateAsync({
+          id: transaction.id,
+          data: payload,
+        });
+        const previousTagIds = (existingTags ?? []).map((t) => t.id);
+        await syncTags(transaction.id, previousTagIds);
+      } else {
+        const created = await createTransaction.mutateAsync(payload);
+        await syncTags(created.id, []);
       }
+      onSuccess?.();
+    } catch {
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -176,9 +190,12 @@ export default function TransactionForm({ transaction, onSuccess }) {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Tags
         </label>
-        <TagSearch selectedTagIds={selectedTags} onToggleIds={handleToggleTag}/>
+        <TagSearch
+          selectedTagIds={selectedTags}
+          onToggleIds={handleToggleTag}
+        />
       </div>
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="submit-btn">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? "Saving"

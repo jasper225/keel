@@ -2,7 +2,7 @@
     color: rgb(220 38 38);
 }
 
-.account-heading {
+.page-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;

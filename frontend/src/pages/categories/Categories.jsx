@@ -2,15 +2,19 @@ import Modal from "../../components/ui/Modal";
 import CategoryForm from "../categories/CategoryForm";
 import CategoryTree from "../categories/CategoryTree";
 import { useCategories } from "../../hooks/useCategories";
+import "../styles/MainPage.css";
+
 
 export default function Categories() {
   const [modalState, setModalState] = useState({ open: false, category: null });
   const categories = useCategories();
+  if (isLoading) return <p>Loading category tree ...</p>;
+  if (error) return <p className="error">Error loading category tree</p>;
 
   return (
     <div className="category-page">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Categories</h1>
+      <div className="page-heading">
+        <h1>Categories</h1>
       </div>
       <Modal
         isOpen={modalState.open}

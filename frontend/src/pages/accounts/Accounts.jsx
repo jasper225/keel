@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "../../components/ui/Modal";
 import AccountForm from "./AccountForm";
 import AccountColumns from "./AccountColumns";
-import "./Accounts.css";
+import "../styles/MainPage.css";
 
 export default function Accounts() {
   const [modalState, setModalState] = useState({ open: false, account: null });
@@ -12,8 +12,8 @@ export default function Accounts() {
 
   return (
     <div className="account-page">
-      <div className="account-heading">
-        <h1 className="text-xl font-semibold text-gray-900">Accounts</h1>
+      <div className="page-heading">
+        <h1>Accounts</h1>
       </div>
       <Modal
         isOpen={modalState.open}

@@ -2,15 +2,18 @@ import { useState } from "react";
 import Modal from "../../components/ui/Modal";
 import BudgetForm from "./BudgetForm";
 import BudgetColumns from "./BudgetColumns";
+import "../styles/MainPage.css";
 
 
 export default function Budgets() {
   const [modalState, setModalState] = useState({ open: false, budget: null });
   const [sort, setSort] = useState({ sortBy: "name", sortDir: "asc" });
+  if (isLoading) return <p>Loading budgets ...</p>;
+  if (error) return <p className="error">Error loading budgets</p>;
   return (
     <div className="transactions-page">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Budgets</h1>
+      <div className="page-heading">
+        <h1>Budgets</h1>
       </div>
       <Modal
         isOpen={modalState.open}

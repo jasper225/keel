@@ -4,6 +4,7 @@ import TransactionForm from "./TransactionForm";
 import TransactionColumns from "./TransactionColumns";
 import TransactionFilters from "./TransactionFilters";
 import TagSearch from "../tags/TagSearch";
+import "../styles/MainPage.css";
 
 export default function Transactions() {
   const [modalState, setModalState] = useState({
@@ -13,6 +14,8 @@ export default function Transactions() {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState({ sortBy: "name", sortDir: "asc" });
   const [tagIds, setTagIds] = useState([]);
+  if (isLoading) return <p>Loading accounts ...</p>;
+  if (error) return <p className="error">Error loading accounts</p>;
 
   const handleToggleTag = (tagId) => {
     setTagIds((prev) => {
@@ -23,8 +26,8 @@ export default function Transactions() {
   };
   return (
     <div className="transactions-page">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Transactions</h1>
+      <div className="page-heading">
+        <h1>Transactions</h1>
       </div>
       <Modal
         isOpen={modalState.open}

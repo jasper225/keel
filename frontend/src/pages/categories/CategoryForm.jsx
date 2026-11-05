@@ -4,6 +4,8 @@ import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useCategories, useCreateCategory, useUpdateCategory } from "../../hooks/useCategories";
 const { CATEGORY_TYPE_OPTIONS } = require('../../utils/constants/selectOptions');
+import "../styles/Form.css";
+
 
 const emptyForm = {
   name: "",
@@ -109,7 +111,7 @@ export default function CategoryForm({ category, parentId, onSuccess }) {
           className="w-full"
         />
       </div>
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="submit-btn">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? "Saving"

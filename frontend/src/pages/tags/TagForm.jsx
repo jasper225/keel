@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import { useCreateTag, useRenameTag } from "../../hooks/useTags";
+import "../styles/Form.css";
 
 const emptyForm = {
   name: "",
@@ -70,7 +71,7 @@ export default function TagForm({ tag, onSuccess }) {
           className="w-full"
         />
       </div>
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="submit-btn">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Saving" : isEditing ? "Save changes" : "Create Tag"}
         </Button>

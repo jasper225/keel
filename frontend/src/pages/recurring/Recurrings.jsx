@@ -2,6 +2,8 @@ import { useState } from "react";
 import Modal from "../../components/ui/Modal";
 import RecurringForm from "./RecurringForm";
 import RecurringColumns from "./RecurringColumns";
+import "../styles/MainPage.css";
+
 
 export default function RecurringTransactions() {
   const [modalState, setModalState] = useState({
@@ -9,11 +11,13 @@ export default function RecurringTransactions() {
     recurring: null,
   });
   const [sort, setSort] = useState({ sortBy: "name", sortDir: "asc" });
+  if (isLoading) return <p>Loading accounts ...</p>;
+  if (error) return <p className="error">Error loading accounts</p>;
 
   return (
     <div className="recurring-transactions-page">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">
+      <div className="page-heading">
+        <h1>
           Recurring Transactions
         </h1>
       </div>

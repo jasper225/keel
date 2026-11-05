@@ -4,6 +4,7 @@ import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
 import { useCreateAccount, useUpdateAccount } from "../../hooks/useAccounts";
 const { ACCOUNT_TYPE_OPTIONS } = require('../../utils/constants/selectOptions');
+import "../styles/Form.css";
 
 const emptyForm = {
     name: '',
@@ -97,7 +98,7 @@ export default function AccountForm({ account, onSuccess }) {
                 placeholder="Currency"
                 value={form.currency}
                 onChange={handleChange}
-                className="w-full uppercase"
+                className="w-full"
             />
             </div>
             <div>
@@ -112,7 +113,7 @@ export default function AccountForm({ account, onSuccess }) {
                 className="w-full"
             />
             </div>
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="submit-btn">
                 <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Saving" : isEditing ? "Save changes" : "Create Account"}
                 </Button>

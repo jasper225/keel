@@ -2,10 +2,17 @@ import { useState, useEffect } from "react";
 import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
 import Button from "../../components/ui/Button";
-import { useCreateRecurring, useUpdateRecurring } from "../../hooks/useRecurring";
+import {
+  useCreateRecurring,
+  useUpdateRecurring,
+} from "../../hooks/useRecurring";
 import { useAccounts } from "../../hooks/useAccounts";
 import { useCategories } from "../../hooks/useCategories";
-const { TXN_TYPE_OPTIONS, INTERVAL_UNIT_OPTIONS } = require("../../utils/constants/selectOptions");
+const {
+  TXN_TYPE_OPTIONS,
+  INTERVAL_UNIT_OPTIONS,
+} = require("../../utils/constants/selectOptions");
+import "../styles/Form.css";
 
 const emptyForm = {
   account: "",
@@ -27,8 +34,7 @@ export default function RecurringForm({ recurring, onSuccess }) {
   const updateRecurring = useUpdateRecurring();
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
-  const isSubmitting =
-    createRecurring.isPending || updateRecurring.isPending;
+  const isSubmitting = createRecurring.isPending || updateRecurring.isPending;
 
   const accountOptions = [
     { value: "", label: "All accounts" },
@@ -145,11 +151,11 @@ export default function RecurringForm({ recurring, onSuccess }) {
           className="w-full"
         />
       </div>
-       <div>
+      <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Interval Unit
         </label>
-         <Select
+        <Select
           placeholder="Interval Unit"
           value={form.interval_unit}
           onChange={handleChange}
@@ -157,7 +163,7 @@ export default function RecurringForm({ recurring, onSuccess }) {
           className="w-full"
         />
       </div>
-       <div>
+      <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Interval Count
         </label>
@@ -193,7 +199,7 @@ export default function RecurringForm({ recurring, onSuccess }) {
           className="w-full"
         />
       </div>
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="submit-btn">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? "Saving"
