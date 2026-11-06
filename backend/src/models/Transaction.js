@@ -84,6 +84,14 @@ const Transaction = {
     );
     return res.rows;
   },
+  async getAccountTransactions(id) {
+    const res = await pool.query(
+      `SELECT * FROM transactions
+       WHERE account_id = $1`,
+      [id],
+    );
+    return res.rows;
+  },
   async update(
     id,
     { accountId, categoryId, type, amount, transferAccountId, occuredAt },

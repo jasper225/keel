@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import { formatCurrency } from "../../utils/formatCurrency";
+import "../styles/Row.css";
 
 export default function AccountRow({ account, balance, onEdit }) {
   return (
@@ -18,7 +19,7 @@ export default function AccountRow({ account, balance, onEdit }) {
           <Link to={`/accounts/${account.id}`}>Details</Link>
         </p>{" "}
       </div>
-      <div className="flex items-center gap-4">
+      <div className="edit-btn">
         <Button onClick={() => onEdit(account)}>Edit</Button>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {
   usePauseRecurring,
 } from "../../hooks/useRecurring";
 import Button from "../../components/ui/Button";
+import "../styles/Detail.css";
 
 export default function RecurringDetail() {
   const { id } = useParams();

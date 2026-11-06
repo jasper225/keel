@@ -32,6 +32,14 @@ export function useNetWorth() {
   });
 }
 
+export function useAccountTransactions(id) {
+  return useQuery({
+    queryKey: queryKeys.accounts.transactions(id),
+    queryFn: () => account.getAccountTransactions(id),
+    enabled: !!id,
+  });
+}
+
 export function useCreateAccount() {
   const queryClient = useQueryClient();
 

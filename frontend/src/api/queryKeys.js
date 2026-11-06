@@ -8,6 +8,7 @@ export const queryKeys = {
         details: (id) => ['accounts', id],
         balance: (id) => ['accounts', id, 'balance'],
         netWorth: () => ['accounts', 'netWorth'],
+        transactions: (id) => ['accounts', 'transactions'],
     },
     transactions: {
         all: ['transactions'],

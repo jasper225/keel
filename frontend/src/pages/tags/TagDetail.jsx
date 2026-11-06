@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useTag, useTagTransactions } from "../../hooks/useTags";
 import TransactionRow from "../../pages/transactions/TransactionRow";
+import "../styles/Detail.css";
 
 export default function TagDetail() {
   const { id } = useParams();

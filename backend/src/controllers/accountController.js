@@ -1,4 +1,5 @@
 const Account = require("../models/Account");
+const Transaction = require("../models/Transaction");
 const { DashboardService } = require("../services/dashboardService");
 
 exports.createAccount = async (req, res) => {
@@ -55,6 +56,18 @@ exports.getNetWorth = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.getAccountTransactions = async(req, res) => {
+  try {
+    const account = Account.getById(req.params.id);
+    if (!account) return res.status(404).json({ error: "Account not found" });
+    const transactions = await Transaction.getAccountTransactions(req.params.id);
+    res.json(account, transactions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+}
 
 
 exports.updateAccount = async (req, res) => {

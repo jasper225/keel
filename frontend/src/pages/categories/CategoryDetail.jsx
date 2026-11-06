@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useCategory, useCategories, useCategoryBudgets, useCategoryChildren } from "../../hooks/useCategories";
 import BudgetRow from "../../pages/budgets/BudgetRow";
+import "../styles/Detail.css";
 
 export default function CategoryDetail() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export default function CategoryDetail() {
       <h2 className="font-semibold text-gray-900">Parent Category: {parent ? parent.name : "N/A"}</h2>
       <h2 className="font-semibold text-gray-900">Subcategories</h2>
       {children.map((child) => (
-        <p className="font-medium text-gray-500"><Link to="/categories:id">{child.name}</Link></p>
+        <p className="child-category"><Link to="/categories:id">{child.name}</Link></p>
       ))}
     </div>
   );

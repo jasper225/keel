@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useBudget, useBudgetProgress } from "../../hooks/useBudgets";
 import { formatDate } from "../../utils/formatDate";
 import BudgetProgressBar from "./BudgetProgressBar";
+import "../styles/Detail.css";
 
 export default function BudgetDetail() {
   const { id } = useParams();
