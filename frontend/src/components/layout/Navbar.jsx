@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { LogOut, Settings } from 'lucide-react';
 import { useCurrentUser, useLogout } from "../../hooks/useAuth";
+import "../layout/styles/Navbar.css";
 
 export default function Navbar() { 
     const { data: user } = useCurrentUser();

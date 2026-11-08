@@ -1,12 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard,
-  Wallet,
-  ArrowLeftRight,
-  PiggyBank,
-  Repeat,
-  Tag,
-  FolderTree,
-  BarChart3, } from 'lucide-react';
+import { LayoutDashboard, Wallet, ArrowLeftRight, PiggyBank,
+         Repeat, Tag, FolderTree, BarChart3, } from 'lucide-react';
+import "../layout/styles/Sidebar.css";
 
   const navItems = [
     {to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true},
@@ -32,10 +27,10 @@ export function Sidebar() {
             to={to}
             end={end}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              `sidebar-link ${
                 isActive
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'active'
+                  : ''
               }`
             }
           >

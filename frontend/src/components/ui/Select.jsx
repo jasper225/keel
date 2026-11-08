@@ -1,3 +1,5 @@
+import "../ui/styles/Select.css";
+
 export default function Select({ value, options, placeholder, onChange, className }) {
     return (
         <select
