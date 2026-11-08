@@ -1,3 +1,5 @@
+import "../ui/styles/Input.css";
+
 export default function Input({ value, onChange, placeholder, className = '', type = 'text' }){
     return (
         <input
