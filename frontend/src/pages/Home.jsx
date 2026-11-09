@@ -1,12 +1,14 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const navigate = useNavigate();
     
     return (
-        <div className="home-page">
-            <h1>Keel</h1>
+        <div 
+         className="flex"
+         id="home-page">
+            <h1 className="">Keel</h1>
             <p>Keep easy track of your finances</p>
             <div className="buttons">
                 <button onClick={() => navigate('/login')}>Login</button>
