@@ -5,7 +5,7 @@ export default function NetWorthCard() {
     return (
         <div>
             <h1 className='text-xl font-semibold text-gray-900'>Net Worth</h1>
-            <h2 className='font-semibold text-gray-900'>${netWorth}</h2>
+            <h2 className='font-semibold text-gray-900' id="net-worth">${netWorth}</h2>
         </div>
     )
 }

@@ -5,15 +5,9 @@ import UpcomingRecurring from "../dashboard/UpcomingRecurring";
 export default function Dashboard() {
   return (
     <div className="dashboard-page">
-      <div>
         <NetWorthCard />
-      </div>
-      <div>
         <RecentTransactions />
-      </div>
-      <div>
         <UpcomingRecurring />
-      </div>
     </div>
   );
 }
