@@ -1,4 +1,4 @@
-.row {
+#row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -12,4 +12,16 @@
     padding-right: 1rem;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
+}
+
+p {
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgb(107 114 128 / var(--tw-text-opacity, 1));
+}
+
+#edit {
+    display: flex;
+    align-items: center;
+    gap: 1rem;   
 }

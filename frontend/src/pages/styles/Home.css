@@ -55,9 +55,4 @@ p {
     }
 }
 
-@media (min-width: 640px) {
-    #login-register {
-        flex-direction: row;
-    }
-}
 
