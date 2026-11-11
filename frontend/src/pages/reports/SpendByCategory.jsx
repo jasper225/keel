@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import "../styles/Reports.css";
 
 export default function SpendByCategory({
   spendByCategory,
@@ -20,35 +21,34 @@ export default function SpendByCategory({
     onDateRangeChange({ ...prev, [field]: e.target.value });
   };
   return (
-    <div className="spend-by-category-page">
+    <div className="col-span-full m-0 min-w-0 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <h1 className="text-xl font-semibold text-gray-900">
         Spending By Category
       </h1>
-      <div className="flex items-end gap-3 my-4">
-        <div>
+      <div className="flex items-end gap-3 my-4" id="start-end">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Start Date
           </label>
           <Input
             type="date"
+            id="date"
             value={dateRange.startDate}
             onChange={handleChange("startDate")}
             className="w-full"
           />
-        </div>
-        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             End Date
           </label>
           <Input
             type="date"
+            id="date"
             value={dateRange.endDate}
             onChange={handleChange("endDate")}
             className="w-full"
           />
-        </div>
       </div>
-      <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3 mb-2">
+
+      <div className="flex items-center justify-between rounded-md border border-gray-200 bg-white px-4 py-3 mb-2" id="from-to">
         <p className="font-medium text-gray-900">
           {" "}
           From: {formatDate(dateRange.startDate)}{" "}
